@@ -89,6 +89,12 @@
             <artifactId>derby</artifactId>
             <version>10.10.2.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
 
     <properties>
