@@ -24,8 +24,7 @@ public class Album {
     @Column(nullable = false, length = 128)
     private String title;
 
-    @NotNull
-    @Column(nullable = false)
+    @ManyToOne
     private Musician musician;
 
     @NotNull
@@ -35,8 +34,8 @@ public class Album {
     @Column(length = 2048)
     private String commentary;
 
-    @NotNull
-    @Column(nullable = false)
+
+    @ManyToOne
     private Genre genre;
 
     @OneToMany
