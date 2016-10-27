@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cz.muni.fi.pa165.JPA;
+package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.dao.SongDao;
 import cz.muni.fi.pa165.entity.Song;
@@ -15,33 +15,33 @@ import javax.persistence.PersistenceContext;
  *
  * @author david
  */
-public class SongDAOImplJPA implements SongDao{
+public class SongDaoImpl implements SongDao{
 
     @PersistenceContext
     private EntityManager em;
     
     @Override
-    public void createSong(Song song) {
+    public void create(Song song) {
         em.persist(song);
     }
 
     @Override
-    public void updateSong(Song song) {
+    public void update(Song song) {
         em.merge(song);
     }
 
     @Override
-    public void deleteSong(Song song) {
+    public void delete(Song song) {
         em.remove(song);
     }
 
     @Override
-    public void findSongById(Long id) {
+    public void findById(Long id) {
         em.find(Song.class, id);
     }
 
     @Override
-    public List<Song> getAllSongs() {
+    public List<Song> findAll() {
         return em.createQuery("SELECT s FROM SONG s", Song.class).getResultList();
     }
     
