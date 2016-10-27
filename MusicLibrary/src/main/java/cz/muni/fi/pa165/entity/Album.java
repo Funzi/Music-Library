@@ -5,7 +5,6 @@ package cz.muni.fi.pa165.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,11 +41,11 @@ public class Album {
     private List<Song> songs;
 
 
-    Album() {
+    public Album() {
 
     }
 
-    Album(Long id) {
+    public Album(Long id) {
         this.id = id;
     }
 
