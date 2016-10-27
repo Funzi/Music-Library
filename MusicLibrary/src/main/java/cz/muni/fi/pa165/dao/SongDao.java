@@ -11,11 +11,11 @@ public interface SongDao {
 
     void create(Song song);
     
-    void update(Song song);
+    Song update(Song song);
     
     void delete(Song song);
     
-    void findById(Long id);
+    Song findById(Long id);
     
     List<Song> findAll();
 }

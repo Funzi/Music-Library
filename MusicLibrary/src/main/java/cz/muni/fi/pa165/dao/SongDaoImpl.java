@@ -10,11 +10,15 @@ import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author david
  */
+@Repository
+@Transactional
 public class SongDaoImpl implements SongDao{
 
     @PersistenceContext
@@ -26,8 +30,8 @@ public class SongDaoImpl implements SongDao{
     }
 
     @Override
-    public void update(Song song) {
-        em.merge(song);
+    public Song update(Song song) {
+        return em.merge(song);
     }
 
     @Override
@@ -36,8 +40,8 @@ public class SongDaoImpl implements SongDao{
     }
 
     @Override
-    public void findById(Long id) {
-        em.find(Song.class, id);
+    public Song findById(Long id) {
+        return em.find(Song.class, id);
     }
 
     @Override
