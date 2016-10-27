@@ -26,8 +26,8 @@ public class SongDaoImpl implements SongDao{
     }
 
     @Override
-    public void update(Song song) {
-        em.merge(song);
+    public Song update(Song song) {
+        return em.merge(song);
     }
 
     @Override
@@ -36,8 +36,8 @@ public class SongDaoImpl implements SongDao{
     }
 
     @Override
-    public void findById(Long id) {
-        em.find(Song.class, id);
+    public Song findById(Long id) {
+        return em.find(Song.class, id);
     }
 
     @Override
