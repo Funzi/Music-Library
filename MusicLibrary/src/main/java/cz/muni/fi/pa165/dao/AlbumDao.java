@@ -10,11 +10,11 @@ import java.util.List;
 public interface AlbumDao {
     public Album findById(Long id);
 
-    public void createAlbum(Album album);
+    public void create(Album album);
 
-    public Album updateAlbum(Album album);
+    public Album update(Album album);
 
-    public void deleteAlbum(Album album);
+    public void delete(Album album);
 
     public List<Album> findAll();
 }

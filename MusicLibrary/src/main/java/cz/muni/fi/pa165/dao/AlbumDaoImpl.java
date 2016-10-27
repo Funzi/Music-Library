@@ -24,17 +24,17 @@ public class AlbumDaoImpl implements AlbumDao {
     }
 
     @Override
-    public void createAlbum(Album album) {
+    public void create(Album album) {
         em.persist(album);
     }
 
     @Override
-    public Album updateAlbum(Album album) {
+    public Album update(Album album) {
         return em.merge(album);
     }
 
     @Override
-    public void deleteAlbum(Album album) {
+    public void delete(Album album) {
         em.remove(em.merge(album));
     }
 
