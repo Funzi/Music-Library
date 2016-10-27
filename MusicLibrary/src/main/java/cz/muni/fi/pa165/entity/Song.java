@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.entity;
 
+import cz.muni.fi.pa165.utils.Constants;
+
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -15,7 +17,7 @@ public class Song {
     @Column(updatable = false, nullable = false, name = "id")
     private Long id;
     
-    @Column(nullable=false, length = 64)
+    @Column(nullable=false, length = Constants.INT_LENGTH_SMALL)
     private String title;
     
     @ManyToOne
@@ -29,7 +31,7 @@ public class Song {
     
     private int bitrate;
         
-    @Column(length = 2048)
+    @Column(length = Constants.INT_LENGTH_HUGE)
     private String commentary;
            
     public Song() {

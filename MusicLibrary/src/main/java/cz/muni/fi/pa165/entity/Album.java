@@ -2,8 +2,11 @@ package cz.muni.fi.pa165.entity;
 
 
 
+import cz.muni.fi.pa165.utils.Constants;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.lang.invoke.ConstantCallSite;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +23,7 @@ public class Album {
     private Long id;
 
     @NotNull
-    @Column(nullable = false, length = 128)
+    @Column(nullable = false, length = Constants.INT_LENGTH_SMALL)
     private String title;
 
     @ManyToOne
@@ -30,7 +33,7 @@ public class Album {
     @Column(nullable = false)
     private LocalDate releaseDate;
 
-    @Column(length = 2048)
+    @Column(length = Constants.INT_LENGTH_HUGE)
     private String commentary;
 
 
