@@ -11,11 +11,11 @@ public interface MusicianDao {
 
 	public Musician findById(Long id);
 
-	public void create(Musician c);
+	public void create(Musician musician);
 
-	public Musician update(Musician c);
+	public Musician update(Musician musician);
 
-	public void delete(Musician c);
+	public void delete(Musician musician);
 
 	public List<Musician> findAll();
 }

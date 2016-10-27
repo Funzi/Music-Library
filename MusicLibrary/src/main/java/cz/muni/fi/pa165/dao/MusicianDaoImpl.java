@@ -35,13 +35,13 @@ public class MusicianDaoImpl implements MusicianDao {
 	}
 
 	@Override
-	public void create(Musician c) {
-		em.persist(c);
+	public void create(Musician musician) {
+		em.persist(musician);
 	}
 
 	@Override
-	public void delete(Musician c) {
-		em.remove(em.merge(c));
+	public void delete(Musician musician) {
+		em.remove(em.merge(musician));
 	}
 
 }
