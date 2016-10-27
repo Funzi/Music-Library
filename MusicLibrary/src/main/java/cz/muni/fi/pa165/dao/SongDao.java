@@ -9,13 +9,13 @@ import java.util.List;
  */
 public interface SongDao {
 
-    void createSong(Song song);
+    void create(Song song);
     
-    void updateSong(Song song);
+    void update(Song song);
     
-    void deleteSong(Song song);
+    void delete(Song song);
     
-    void findSongById(Long id);
+    void findById(Long id);
     
-    List<Song> getAllSongs();
+    List<Song> findAll();
 }
