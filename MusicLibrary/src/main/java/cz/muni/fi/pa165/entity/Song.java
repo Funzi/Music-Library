@@ -31,7 +31,21 @@ public class Song {
         
     @Column(length = 2048)
     private String commentary;
+           
+    public Song() {
         
+    }
+
+    public Song(Long id, String title, Album album, int position, Genre genre, int bitrate, String commentary) {
+        this.id = id;
+        this.title = title;
+        this.album = album;
+        this.position = position;
+        this.genre = genre;
+        this.bitrate = bitrate;
+        this.commentary = commentary;
+    }
+    
     public Long getId() {
         return id;
     }
