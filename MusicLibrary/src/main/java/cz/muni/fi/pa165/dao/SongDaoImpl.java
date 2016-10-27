@@ -5,7 +5,6 @@
  */
 package cz.muni.fi.pa165.dao;
 
-import cz.muni.fi.pa165.dao.SongDao;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -36,7 +35,7 @@ public class SongDaoImpl implements SongDao{
 
     @Override
     public void delete(Song song) {
-        em.remove(song);
+        em.remove(em.merge(song));
     }
 
     @Override
@@ -46,7 +45,7 @@ public class SongDaoImpl implements SongDao{
 
     @Override
     public List<Song> findAll() {
-        return em.createQuery("SELECT s FROM SONG s", Song.class).getResultList();
+        return em.createQuery("SELECT s FROM Song s", Song.class).getResultList();
     }
     
 }
