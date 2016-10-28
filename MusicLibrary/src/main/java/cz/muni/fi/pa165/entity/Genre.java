@@ -1,9 +1,12 @@
 package cz.muni.fi.pa165.entity;
 
+import cz.muni.fi.pa165.utils.Constants;
+import java.util.Objects;
 import javax.persistence.*;
 
 /**
- * Created by olda on 26.10.2016.
+ * An entity class representing a music genre. Genre has its name and a short description.
+ * @author Martin Kulisek
  */
 @Entity
 @Table(name = "GENRE")
@@ -14,8 +17,11 @@ public class Genre {
     @Column(updatable = false, nullable = false, name = "id")
     private Long id;
 
+    @Column(nullable = false, length = Constants.INT_LENGTH_SMALL)
+    private String name;
 
-
+    @Column(length = Constants.INT_LENGTH_LONG)
+    private String description;
 
     public Long getId() {
         return id;
@@ -24,4 +30,59 @@ public class Genre {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.name);
+        hash = 47 * hash + Objects.hashCode(this.description);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Genre other = (Genre) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Genre{" + "id=" + id + ", name=" + name + ", description=" + description + '}';
+    }
+
 }
