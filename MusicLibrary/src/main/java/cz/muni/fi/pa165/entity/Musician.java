@@ -100,21 +100,17 @@ public class Musician {
 		if (this == obj) {
 			return true;
 		}
+
 		if (obj == null) {
 			return false;
 		}
+
 		if (!(obj instanceof Musician)) {
 			return false;
 		}
-		Musician other = (Musician) obj;
-		if (name == null) {
-			if (other.getName() != null) {
-				return false;
-			}
-		} else if (!name.equals(other.getName())) {
-			return false;
-		}
-		return true;
+
+		final Musician other = (Musician) obj;
+		return Objects.equals(name, other.name);
 	}
 
 	@Override
