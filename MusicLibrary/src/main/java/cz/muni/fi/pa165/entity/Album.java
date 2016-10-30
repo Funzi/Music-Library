@@ -105,28 +105,47 @@ public class Album {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Album album = (Album) o;
-
-		return title.equals(album.title)
-				&& Objects.equals(musicians, album.musicians)
-				&& Objects.equals(releaseDate, album.releaseDate)
-				&& Objects.equals(commentary, album.commentary)
-				&& Objects.equals(songs, album.songs);
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + Objects.hashCode(this.title);
+        hash = 17 * hash + Objects.hashCode(this.musicians);
+        hash = 17 * hash + Objects.hashCode(this.releaseDate);
+        hash = 17 * hash + Objects.hashCode(this.commentary);
+        hash = 17 * hash + Objects.hashCode(this.songs);
+        return hash;
     }
 
     @Override
-    public int hashCode() {
-        int result = title.hashCode();
-        result = 31 * result + Objects.hashCode(musicians);
-        result = 31 * result + Objects.hashCode(releaseDate);
-        result = 31 * result + Objects.hashCode(commentary);
-        result = 31 * result + Objects.hashCode(songs);
-        return result;
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Album other = (Album) obj;
+        if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (!Objects.equals(this.commentary, other.commentary)) {
+            return false;
+        }
+        if (!Objects.equals(this.musicians, other.musicians)) {
+            return false;
+        }
+        if (!Objects.equals(this.releaseDate, other.releaseDate)) {
+            return false;
+        }
+        if (!Objects.equals(this.songs, other.songs)) {
+            return false;
+        }
+        return true;
     }
+
+    
 
     @Override
     public String toString() {
