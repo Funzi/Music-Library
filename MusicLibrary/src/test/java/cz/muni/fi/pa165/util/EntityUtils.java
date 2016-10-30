@@ -4,9 +4,6 @@ import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -17,6 +14,7 @@ public class EntityUtils {
 
 	public static Genre getValidGenre() {
 		Genre genre = new Genre();
+		genre.setName("Rock");
 		return genre;
 	}
 
@@ -41,10 +39,7 @@ public class EntityUtils {
 	public static Album getValidAlbum(Musician musician) {
 		Album album = new Album();
 		album.setTitle("Testing album");
-		List<Musician> list = new ArrayList<>();
-		list.add(musician);
-		album.setMusicians(list);
-		album.setReleaseDate(LocalDate.now());
+		album.addMusician(musician);
 		return album;
 	}
 

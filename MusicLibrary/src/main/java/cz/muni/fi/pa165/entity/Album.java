@@ -3,12 +3,13 @@ package cz.muni.fi.pa165.entity;
 
 
 import cz.muni.fi.pa165.utils.Constants;
-
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.lang.invoke.ConstantCallSite;
-import java.time.LocalDate;
-import java.util.List;
 
 /**
  * Created by olda on 26.10.2016.
@@ -27,8 +28,7 @@ public class Album {
     private String title;
 
     @ManyToMany
-    private List<Musician> musicians;
-
+    private Set<Musician> musicians = new HashSet<>();
 
     @Column(nullable = true)
     private LocalDate releaseDate;
@@ -37,7 +37,7 @@ public class Album {
     private String commentary;
 
     @OneToMany
-    private List<Song> songs;
+    private Set<Song> songs = new HashSet<>();
 
 
     public Album() {
@@ -64,12 +64,16 @@ public class Album {
         this.title = title;
     }
 
-    public List<Musician> getMusicians() {
+    public Set<Musician> getMusicians() {
         return musicians;
     }
 
-    public void setMusicians(List<Musician> musicians) {
-        this.musicians = musicians;
+    public void addMusician(Musician musician) {
+        this.musicians.add(musician);
+    }
+
+	public void addMusicians(Collection<Musician> musicians) {
+        this.musicians.addAll(musicians);
     }
 
     public LocalDate getReleaseDate() {
@@ -88,12 +92,16 @@ public class Album {
         this.commentary = commentary;
     }
 
-    public List<Song> getSongs() {
+    public Set<Song> getSongs() {
         return songs;
     }
 
-    public void setSongs(List<Song> songs) {
-        this.songs = songs;
+    public void addSong(Song song) {
+        this.songs.add(song);
+    }
+
+	public void addSongs(Collection<Song> songs) {
+        this.songs.addAll(songs);
     }
 
     @Override
@@ -103,21 +111,20 @@ public class Album {
 
         Album album = (Album) o;
 
-        if (!title.equals(album.title)) return false;
-        if (musicians != null ? !musicians.equals(album.musicians) : album.musicians != null) return false;
-        if (!releaseDate.equals(album.releaseDate)) return false;
-        if (commentary != null ? !commentary.equals(album.commentary) : album.commentary != null) return false;
-        return songs != null ? songs.equals(album.songs) : album.songs == null;
-
+		return title.equals(album.title)
+				&& Objects.equals(musicians, album.musicians)
+				&& Objects.equals(releaseDate, album.releaseDate)
+				&& Objects.equals(commentary, album.commentary)
+				&& Objects.equals(songs, album.songs);
     }
 
     @Override
     public int hashCode() {
         int result = title.hashCode();
-        result = 31 * result + (musicians != null ? musicians.hashCode() : 0);
-        result = 31 * result + releaseDate.hashCode();
-        result = 31 * result + (commentary != null ? commentary.hashCode() : 0);
-        result = 31 * result + (songs != null ? songs.hashCode() : 0);
+        result = 31 * result + Objects.hashCode(musicians);
+        result = 31 * result + Objects.hashCode(releaseDate);
+        result = 31 * result + Objects.hashCode(commentary);
+        result = 31 * result + Objects.hashCode(songs);
         return result;
     }
 

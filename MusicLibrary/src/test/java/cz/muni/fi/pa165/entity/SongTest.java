@@ -121,7 +121,7 @@ public class SongTest extends AbstractTestNGSpringContextTests {
 		assertEquals(song2.getPosition(), 0);
 	}
 
-	//@Test()
+	@Test()
 	public void testGenre() {
 		Genre genre = EntityUtils.getPersistedValidGenre(emf);
 		Song song = createMinimalValidSong();
