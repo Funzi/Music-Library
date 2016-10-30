@@ -19,8 +19,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
+ * Unit tests for Song DAO.
  *
  * @author Jan Stourac
+ * @see SongDao
  */
 @ContextConfiguration(classes = AppContext.class)
 public class SongDaoTest extends AbstractTestNGSpringContextTests {
