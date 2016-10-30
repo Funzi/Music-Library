@@ -26,8 +26,8 @@ public class Album {
     @Column(nullable = false, length = Constants.INT_LENGTH_SMALL)
     private String title;
 
-    @ManyToOne
-    private Musician musician;
+    @ManyToMany
+    private List<Musician> musicians;
 
     @NotNull
     @Column(nullable = false)
@@ -35,10 +35,6 @@ public class Album {
 
     @Column(length = Constants.INT_LENGTH_HUGE)
     private String commentary;
-
-
-    @ManyToOne
-    private Genre genre;
 
     @OneToMany
     private List<Song> songs;
@@ -68,12 +64,12 @@ public class Album {
         this.title = title;
     }
 
-    public Musician getMusician() {
-        return musician;
+    public List<Musician> getMusicians() {
+        return musicians;
     }
 
-    public void setMusician(Musician musician) {
-        this.musician = musician;
+    public void setMusicians(List<Musician> musicians) {
+        this.musicians = musicians;
     }
 
     public LocalDate getReleaseDate() {
@@ -92,14 +88,6 @@ public class Album {
         this.commentary = commentary;
     }
 
-    public Genre getGenre() {
-        return genre;
-    }
-
-    public void setGenre(Genre genre) {
-        this.genre = genre;
-    }
-
     public List<Song> getSongs() {
         return songs;
     }
@@ -116,18 +104,20 @@ public class Album {
         Album album = (Album) o;
 
         if (!title.equals(album.title)) return false;
-        if (!musician.equals(album.musician)) return false;
+        if (musicians != null ? !musicians.equals(album.musicians) : album.musicians != null) return false;
         if (!releaseDate.equals(album.releaseDate)) return false;
-        return genre.equals(album.genre);
+        if (commentary != null ? !commentary.equals(album.commentary) : album.commentary != null) return false;
+        return songs != null ? songs.equals(album.songs) : album.songs == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = title.hashCode();
-        result = 31 * result + musician.hashCode();
+        result = 31 * result + (musicians != null ? musicians.hashCode() : 0);
         result = 31 * result + releaseDate.hashCode();
-        result = 31 * result + genre.hashCode();
+        result = 31 * result + (commentary != null ? commentary.hashCode() : 0);
+        result = 31 * result + (songs != null ? songs.hashCode() : 0);
         return result;
     }
 
@@ -136,10 +126,9 @@ public class Album {
         return "Album{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", musician=" + musician +
+                ", musicians=" + musicians +
                 ", releaseDate=" + releaseDate +
                 ", commentary='" + commentary + '\'' +
-                ", genre=" + genre +
                 ", songs=" + songs +
                 '}';
     }

@@ -5,6 +5,8 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -36,26 +38,26 @@ public class EntityUtils {
 		return musician;
 	}
 
-	public static Album getValidAlbum(Musician musician, Genre genre) {
+	public static Album getValidAlbum(Musician musician) {
 		Album album = new Album();
 		album.setTitle("Testing album");
-		album.setMusician(musician);
-		album.setGenre(genre);
+		List<Musician> list = new ArrayList<>();
+		list.add(musician);
+		album.setMusicians(list);
 		album.setReleaseDate(LocalDate.now());
 		return album;
 	}
 
 	public static Album getPersistedValidAlbum(EntityManagerFactory emf) {
 		Musician musician = getValidMusician();
-		Genre genre = getValidGenre();
-		Album album = getValidAlbum(musician, genre);
-		TestUtils.persistObjects(emf, musician, genre, album);
+		Album album = getValidAlbum(musician);
+		TestUtils.persistObjects(emf, musician, album);
 		return album;
 	}
 
 	public static Song getValidSong() {
 		Song song = new Song();
-		song.setTitle("Testing album");
+		song.setTitle("Testing song");
 		return song;
 	}
 
