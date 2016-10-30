@@ -122,49 +122,32 @@ public class Album {
     public void setArt(Art art) {
         this.art = art;
     }
+    
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Album album = (Album) o;
+
+        if (title != null ? !title.equals(album.title) : album.title != null) return false;
+        if (musicians != null ? !musicians.equals(album.musicians) : album.musicians != null) return false;
+        if (releaseDate != null ? !releaseDate.equals(album.releaseDate) : album.releaseDate != null) return false;
+        if (commentary != null ? !commentary.equals(album.commentary) : album.commentary != null) return false;
+        return songs != null ? songs.equals(album.songs) : album.songs == null;
+
+    }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 17 * hash + Objects.hashCode(this.title);
-        hash = 17 * hash + Objects.hashCode(this.musicians);
-        hash = 17 * hash + Objects.hashCode(this.releaseDate);
-        hash = 17 * hash + Objects.hashCode(this.commentary);
-        hash = 17 * hash + Objects.hashCode(this.songs);
-        return hash;
+        int result = title != null ? title.hashCode() : 0;
+        result = 31 * result + (musicians != null ? musicians.hashCode() : 0);
+        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + (commentary != null ? commentary.hashCode() : 0);
+        result = 31 * result + (songs != null ? songs.hashCode() : 0);
+        return result;
     }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Album other = (Album) obj;
-        if (!Objects.equals(this.title, other.title)) {
-            return false;
-        }
-        if (!Objects.equals(this.commentary, other.commentary)) {
-            return false;
-        }
-        if (!Objects.equals(this.musicians, other.musicians)) {
-            return false;
-        }
-        if (!Objects.equals(this.releaseDate, other.releaseDate)) {
-            return false;
-        }
-        if (!Objects.equals(this.songs, other.songs)) {
-            return false;
-        }
-        return true;
-    }
-
-    
 
     @Override
     public String toString() {
