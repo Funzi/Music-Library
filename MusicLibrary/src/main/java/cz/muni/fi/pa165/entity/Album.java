@@ -12,6 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
+ * Entity class representing one Music Album
  * Created by olda on 26.10.2016.
  */
 @Entity
@@ -39,6 +40,8 @@ public class Album {
     @OneToMany
     private Set<Song> songs = new HashSet<>();
 
+    @OneToOne
+    private Art art;
 
     public Album() {
 
@@ -96,12 +99,28 @@ public class Album {
         return songs;
     }
 
+    public void setMusicians(Set<Musician> musicians) {
+        this.musicians = musicians;
+    }
+
+    public void setSongs(Set<Song> songs) {
+        this.songs = songs;
+    }
+
     public void addSong(Song song) {
         this.songs.add(song);
     }
 
 	public void addSongs(Collection<Song> songs) {
         this.songs.addAll(songs);
+    }
+
+    public Art getArt() {
+        return art;
+    }
+
+    public void setArt(Art art) {
+        this.art = art;
     }
 
     @Override
