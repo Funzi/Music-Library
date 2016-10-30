@@ -1,8 +1,9 @@
-package cz.muni.fi.pa165;
+package cz.muni.fi.pa165.entity;
 
 /**
  * Created by olda on 26.10.2016.
  */
+import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Musician;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
