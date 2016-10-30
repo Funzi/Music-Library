@@ -5,7 +5,9 @@ import java.util.Objects;
 import javax.persistence.*;
 
 /**
- * An entity class representing a music genre. Genre has its name and a short description.
+ * An entity class representing a music genre. Genre has its name and a short
+ * description.
+ *
  * @author Martin Kulisek
  */
 @Entity
@@ -17,7 +19,7 @@ public class Genre {
     @Column(updatable = false, nullable = false, name = "id")
     private Long id;
 
-    @Column(nullable = false, length = Constants.INT_LENGTH_SMALL)
+    @Column(nullable = false, unique = true, length = Constants.INT_LENGTH_SMALL)
     private String name;
 
     @Column(length = Constants.INT_LENGTH_LONG)
@@ -49,10 +51,9 @@ public class Genre {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + Objects.hashCode(this.id);
-        hash = 47 * hash + Objects.hashCode(this.name);
-        hash = 47 * hash + Objects.hashCode(this.description);
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.name);
+        hash = 67 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
@@ -72,9 +73,6 @@ public class Genre {
             return false;
         }
         if (!Objects.equals(this.description, other.description)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
