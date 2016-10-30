@@ -90,8 +90,8 @@ public class Musician {
 
 	@Override
 	public int hashCode() {
-		int hash = 1;
-		hash = 13 * hash + Objects.hashCode(this.name);
+		int hash = 5;
+		hash = 29 * hash + Objects.hashCode(this.name);
 		return hash;
 	}
 
@@ -100,17 +100,17 @@ public class Musician {
 		if (this == obj) {
 			return true;
 		}
-
 		if (obj == null) {
 			return false;
 		}
-
-		if (!(obj instanceof Musician)) {
+		if (getClass() != obj.getClass()) {
 			return false;
 		}
-
 		final Musician other = (Musician) obj;
-		return Objects.equals(name, other.name);
+		if (!Objects.equals(this.name, other.name)) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override
