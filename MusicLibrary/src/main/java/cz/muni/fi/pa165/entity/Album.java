@@ -29,8 +29,8 @@ public class Album {
     @ManyToMany
     private List<Musician> musicians;
 
-    @NotNull
-    @Column(nullable = false)
+
+    @Column(nullable = true)
     private LocalDate releaseDate;
 
     @Column(length = Constants.INT_LENGTH_HUGE)
