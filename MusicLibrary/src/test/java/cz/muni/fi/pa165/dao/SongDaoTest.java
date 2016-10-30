@@ -19,8 +19,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
+ * Unit tests for Song DAO.
  *
  * @author Jan Stourac
+ * @see SongDao
  */
 @ContextConfiguration(classes = AppContext.class)
 public class SongDaoTest extends AbstractTestNGSpringContextTests {
@@ -59,9 +61,19 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
 		songDao.create(song);
 	}
 
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void createNullTest() {
+		songDao.create(null);
+	}
+
 	@Test
 	public void findNoneTest() {
 		assertNull(songDao.findById(10L));
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void findNullTest() {
+		songDao.findById(null);
 	}
 
 	@Test
@@ -83,6 +95,11 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
 
 		assertEquals(songDao.findById(song.getId()), song);
 		assertEquals(songDao.findById(song2.getId()), song2);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void findAllNullTest() {
+		songDao.findById(null);
 	}
 
 	@Test
@@ -121,6 +138,11 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
 		songDao.create(song2);
 		songDao.delete(song);
 		assertEquals(songDao.findById(song2.getId()), song2);
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void deleteNullTest() {
+		songDao.delete(null);
 	}
 
 	@Test
@@ -163,6 +185,11 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
 		song.setTitle("random");
 		songDao.update(song);
 		assertEquals(songDao.findById(song2.getId()).getTitle(), song2.getTitle());
+	}
+
+	@Test(expectedExceptions = IllegalArgumentException.class)
+	public void updateNullTest() {
+		songDao.update(null);
 	}
 
 	@AfterMethod

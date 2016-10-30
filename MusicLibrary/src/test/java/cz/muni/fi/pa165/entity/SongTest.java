@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.entity;
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.util.EntityUtils;
 import cz.muni.fi.pa165.util.TestUtils;
+import cz.muni.fi.pa165.utils.Constants;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
@@ -10,13 +11,17 @@ import javax.persistence.PersistenceUnit;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNotSame;
 import static org.testng.Assert.assertNull;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
+ * Unit tests for Song entity.
  *
  * @author Jan Stourac
+ * @see Song
  */
 @ContextConfiguration(classes = AppContext.class)
 public class SongTest extends AbstractTestNGSpringContextTests {
@@ -25,7 +30,35 @@ public class SongTest extends AbstractTestNGSpringContextTests {
 	private EntityManagerFactory emf;
 
 	@Test
-	public void testEquals() {
+	public void testSimpleEquals() {
+		Song song1 = createMinimalValidSong();
+		Song song2 = createMinimalValidSong();
+
+		assertNotSame(song1, song2, "Instances for this test cannot be the same!");
+		assertEquals(song1, song2);
+	}
+
+	@Test
+	public void testSimpleNotEquals() {
+		Song song1 = createMinimalValidSong();
+		Song song2 = createMinimalValidSong();
+		song2.setTitle("not equals");
+
+		assertNotSame(song1, song2, "Instances for this test cannot be the same!");
+		assertNotEquals(song1, song2);
+	}
+
+	@Test
+	public void testComplexEquals() {
+		Song song1 = createComplexValidSong();
+		Song song2 = createComplexValidSong();
+
+		assertNotSame(song1, song2, "Instances for this test cannot be the same!");
+		assertEquals(song1, song2);
+	}
+
+	@Test
+	public void testSimplePersistenceEquals() {
 		Song song = createMinimalValidSong();
 		TestUtils.persistObjects(emf, song);
 
@@ -35,7 +68,35 @@ public class SongTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test
-	public void testHashCode() {
+	public void testSimpleHashCode() {
+		Song song1 = createMinimalValidSong();
+		Song song2 = createMinimalValidSong();
+
+		assertNotSame(song1, song2, "Instances for this test cannot be the same!");
+		assertEquals(song1.hashCode(), song2.hashCode());
+	}
+
+	@Test
+	public void testSimpleDifferentHashCode() {
+		Song song1 = createMinimalValidSong();
+		Song song2 = createMinimalValidSong();
+		song2.setTitle("not same");
+
+		assertNotSame(song1, song2, "Instances for this test cannot be the same!");
+		assertNotEquals(song1.hashCode(), song2.hashCode());
+	}
+
+	@Test
+	public void testComplexHashCode() {
+		Song song1 = createComplexValidSong();
+		Song song2 = createComplexValidSong();
+
+		assertNotSame(song1, song2, "Instances for this test cannot be the same!");
+		assertEquals(song1.hashCode(), song2.hashCode());
+	}
+
+	@Test
+	public void testSimplePersistenceHashCode() {
 		Song song = createMinimalValidSong();
 		TestUtils.persistObjects(emf, song);
 
@@ -76,14 +137,14 @@ public class SongTest extends AbstractTestNGSpringContextTests {
 	@Test()
 	public void testMaxTitleLength() {
 		Song song = createMinimalValidSong();
-		song.setTitle(TestUtils.generateString(64));
+		song.setTitle(TestUtils.generateString(Constants.INT_LENGTH_SMALL));
 		TestUtils.persistObjects(emf, song);
 	}
 
 	@Test(expectedExceptions = PersistenceException.class)
 	public void throwIfTitleIsTooLong() {
 		Song song = createMinimalValidSong();
-		song.setTitle(TestUtils.generateString(65));
+		song.setTitle(TestUtils.generateString(Constants.INT_LENGTH_SMALL + 1));
 		TestUtils.persistObjects(emf, song);
 	}
 
@@ -211,7 +272,7 @@ public class SongTest extends AbstractTestNGSpringContextTests {
 
 	@Test
 	public void testCommentaryMaxLength() {
-		String com = TestUtils.generateString(2048);
+		String com = TestUtils.generateString(Constants.INT_LENGTH_HUGE);
 		Song song = createMinimalValidSong();
 		song.setCommentary(com);
 		TestUtils.persistObjects(emf, song);
@@ -224,7 +285,7 @@ public class SongTest extends AbstractTestNGSpringContextTests {
 	@Test(expectedExceptions = PersistenceException.class)
 	public void throwIfCommentaryIsTooLong() {
 		Song song = createMinimalValidSong();
-		song.setCommentary(TestUtils.generateString(2049));
+		song.setCommentary(TestUtils.generateString(Constants.INT_LENGTH_HUGE + 1));
 		TestUtils.persistObjects(emf, song);
 	}
 
@@ -236,6 +297,23 @@ public class SongTest extends AbstractTestNGSpringContextTests {
 	private Song createMinimalValidSong() {
 		Song song = new Song();
 		song.setTitle("song");
+		return song;
+	}
+
+	private Song createComplexValidSong() {
+		Musician musician = EntityUtils.getValidMusician();
+		Album album = EntityUtils.getValidAlbum(musician);
+		int position = 10;
+		Genre genre = EntityUtils.getValidGenre();
+		int bitrate = 192;
+		String commentary = "some comment";
+
+		Song song = createMinimalValidSong();
+		song.setAlbum(album);
+		song.setPosition(position);
+		song.setGenre(genre);
+		song.setBitrate(bitrate);
+		song.setCommentary(commentary);
 		return song;
 	}
 
