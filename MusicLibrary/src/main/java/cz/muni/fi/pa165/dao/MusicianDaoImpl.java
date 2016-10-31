@@ -15,33 +15,33 @@ import org.springframework.stereotype.Repository;
 @Transactional
 public class MusicianDaoImpl implements MusicianDao {
 
-	@PersistenceContext
-	private EntityManager em;
+    @PersistenceContext
+    private EntityManager em;
 
-	@Override
-	public Musician findById(Long id) {
-		return em.find(Musician.class, id);
-	}
+    @Override
+    public Musician findById(Long id) {
+        return em.find(Musician.class, id);
+    }
 
-	@Override
-	public List<Musician> findAll() {
-		return em.createQuery("select m from Musician m", Musician.class)
-				.getResultList();
-	}
+    @Override
+    public List<Musician> findAll() {
+        return em.createQuery("select m from Musician m", Musician.class)
+                .getResultList();
+    }
 
-	@Override
-	public Musician update(Musician musician) {
-		return em.merge(musician);
-	}
+    @Override
+    public Musician update(Musician musician) {
+        return em.merge(musician);
+    }
 
-	@Override
-	public void create(Musician musician) {
-		em.persist(musician);
-	}
+    @Override
+    public void create(Musician musician) {
+        em.persist(musician);
+    }
 
-	@Override
-	public void delete(Musician musician) {
-		em.remove(em.merge(musician));
-	}
+    @Override
+    public void delete(Musician musician) {
+        em.remove(em.merge(musician));
+    }
 
 }

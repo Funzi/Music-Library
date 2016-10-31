@@ -94,7 +94,7 @@ public class MusicianTest extends AbstractTestNGSpringContextTests {
     @Test(expectedExceptions = PersistenceException.class)
     public void testTooLongName() {
         Musician musician = createMinimalValidMusiscian();
-        musician.setName(TestUtils.generateString(Constants.INT_LENGTH_SMALL+1));
+        musician.setName(TestUtils.generateString(Constants.INT_LENGTH_SMALL + 1));
         TestUtils.persistObjects(emf, musician);
     }
 
@@ -137,7 +137,6 @@ public class MusicianTest extends AbstractTestNGSpringContextTests {
         TestUtils.persistObjects(emf, album);
         return album;
     }
-
 
     @AfterMethod
     public void deleteData() {

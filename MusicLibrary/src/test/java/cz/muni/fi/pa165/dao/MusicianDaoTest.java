@@ -171,4 +171,3 @@ public class MusicianDaoTest extends AbstractTestNGSpringContextTests {
         return musician;
     }
 }
-

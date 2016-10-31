@@ -16,26 +16,26 @@ public class Song {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(updatable = false, nullable = false, name = "id")
     private Long id;
-    
-    @Column(nullable=false, length = Constants.INT_LENGTH_SMALL)
+
+    @Column(nullable = false, length = Constants.INT_LENGTH_SMALL)
     private String title;
-    
+
     @ManyToOne
     private Album album;
-    
+
     @Column(nullable = false)
     private int position;
-    
+
     @ManyToOne
     private Genre genre;
-    
+
     private int bitrate;
-        
+
     @Column(length = Constants.INT_LENGTH_HUGE)
     private String commentary;
-           
+
     public Song() {
-        
+
     }
 
     public Song(Long id, String title, Album album, int position, Genre genre, int bitrate, String commentary) {
@@ -47,7 +47,7 @@ public class Song {
         this.bitrate = bitrate;
         this.commentary = commentary;
     }
-    
+
     public Long getId() {
         return id;
     }

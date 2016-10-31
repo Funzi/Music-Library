@@ -3,8 +3,7 @@ package cz.muni.fi.pa165.entity;
 import javax.persistence.*;
 
 /**
- * Entity Class representing one Album Image
- * Created by olda on 30.10.2016.
+ * Entity Class representing one Album Image Created by olda on 30.10.2016.
  */
 @Entity
 @Table(name = "ART")
@@ -16,8 +15,6 @@ public class Art {
     private Long id;
 
     //TODO find out best way to represent and save Images and implement that shit!
-
-
     public Art() {
 
     }
@@ -32,8 +29,12 @@ public class Art {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Art art = (Art) o;
 

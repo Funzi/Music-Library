@@ -8,6 +8,7 @@ import java.util.List;
  * Created by olda on 26.10.2016.
  */
 public interface AlbumDao {
+
     public Album findById(Long id);
 
     public void create(Album album);

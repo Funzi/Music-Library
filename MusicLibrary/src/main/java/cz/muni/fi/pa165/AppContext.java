@@ -27,40 +27,40 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @ComponentScan(basePackageClasses = {SongDao.class})
 public class AppContext {
 
-	@Bean
-	public JpaTransactionManager transactionManager() {
-		return new JpaTransactionManager(entityManagerFactory().getObject());
-	}
+    @Bean
+    public JpaTransactionManager transactionManager() {
+        return new JpaTransactionManager(entityManagerFactory().getObject());
+    }
 
-	/**
-	 * Starts up a container that emulates behavior prescribed in JPA spec for
-	 * container-managed EntityManager
-	 *
-	 * @return
-	 */
-	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean();
-		jpaFactoryBean.setDataSource(db());
-		jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
-		jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-		return jpaFactoryBean;
-	}
+    /**
+     * Starts up a container that emulates behavior prescribed in JPA spec for
+     * container-managed EntityManager
+     *
+     * @return
+     */
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+        LocalContainerEntityManagerFactoryBean jpaFactoryBean = new LocalContainerEntityManagerFactoryBean();
+        jpaFactoryBean.setDataSource(db());
+        jpaFactoryBean.setLoadTimeWeaver(instrumentationLoadTimeWeaver());
+        jpaFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+        return jpaFactoryBean;
+    }
 
-	@Bean
-	public LocalValidatorFactoryBean localValidatorFactoryBean() {
-		return new LocalValidatorFactoryBean();
-	}
+    @Bean
+    public LocalValidatorFactoryBean localValidatorFactoryBean() {
+        return new LocalValidatorFactoryBean();
+    }
 
-	@Bean
-	public LoadTimeWeaver instrumentationLoadTimeWeaver() {
-		return new InstrumentationLoadTimeWeaver();
-	}
+    @Bean
+    public LoadTimeWeaver instrumentationLoadTimeWeaver() {
+        return new InstrumentationLoadTimeWeaver();
+    }
 
-	@Bean
-	public DataSource db() {
-		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-		EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).build();
-		return db;
-	}
+    @Bean
+    public DataSource db() {
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+        EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.DERBY).build();
+        return db;
+    }
 }

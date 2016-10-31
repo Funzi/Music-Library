@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entity.Song;
@@ -18,11 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class SongDaoImpl implements SongDao{
+public class SongDaoImpl implements SongDao {
 
     @PersistenceContext
     private EntityManager em;
-    
+
     @Override
     public void create(Song song) {
         em.persist(song);
@@ -47,5 +42,5 @@ public class SongDaoImpl implements SongDao{
     public List<Song> findAll() {
         return em.createQuery("SELECT s FROM Song s", Song.class).getResultList();
     }
-    
+
 }

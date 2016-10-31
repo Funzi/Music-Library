@@ -1,7 +1,5 @@
 package cz.muni.fi.pa165.entity;
 
-
-
 import cz.muni.fi.pa165.utils.Constants;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -12,8 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
- * Entity class representing one Music Album
- * Created by olda on 26.10.2016.
+ * Entity class representing one Music Album Created by olda on 26.10.2016.
  */
 @Entity
 @Table(name = "ALBUM")
@@ -75,7 +72,7 @@ public class Album {
         this.musicians.add(musician);
     }
 
-	public void addMusicians(Collection<Musician> musicians) {
+    public void addMusicians(Collection<Musician> musicians) {
         this.musicians.addAll(musicians);
     }
 
@@ -111,7 +108,7 @@ public class Album {
         this.songs.add(song);
     }
 
-	public void addSongs(Collection<Song> songs) {
+    public void addSongs(Collection<Song> songs) {
         this.songs.addAll(songs);
     }
 
@@ -122,19 +119,30 @@ public class Album {
     public void setArt(Art art) {
         this.art = art;
     }
-    
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Album album = (Album) o;
 
-        if (title != null ? !title.equals(album.title) : album.title != null) return false;
-        if (musicians != null ? !musicians.equals(album.musicians) : album.musicians != null) return false;
-        if (releaseDate != null ? !releaseDate.equals(album.releaseDate) : album.releaseDate != null) return false;
-        if (commentary != null ? !commentary.equals(album.commentary) : album.commentary != null) return false;
+        if (title != null ? !title.equals(album.title) : album.title != null) {
+            return false;
+        }
+        if (musicians != null ? !musicians.equals(album.musicians) : album.musicians != null) {
+            return false;
+        }
+        if (releaseDate != null ? !releaseDate.equals(album.releaseDate) : album.releaseDate != null) {
+            return false;
+        }
+        if (commentary != null ? !commentary.equals(album.commentary) : album.commentary != null) {
+            return false;
+        }
         return songs != null ? songs.equals(album.songs) : album.songs == null;
 
     }
@@ -151,13 +159,13 @@ public class Album {
 
     @Override
     public String toString() {
-        return "Album{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", musicians=" + musicians +
-                ", releaseDate=" + releaseDate +
-                ", commentary='" + commentary + '\'' +
-                ", songs=" + songs +
-                '}';
+        return "Album{"
+                + "id=" + id
+                + ", title='" + title + '\''
+                + ", musicians=" + musicians
+                + ", releaseDate=" + releaseDate
+                + ", commentary='" + commentary + '\''
+                + ", songs=" + songs
+                + '}';
     }
 }

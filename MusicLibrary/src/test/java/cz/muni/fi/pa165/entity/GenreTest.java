@@ -20,81 +20,81 @@ import org.testng.annotations.Test;
  * @author David Pribula
  */
 @ContextConfiguration(classes = AppContext.class)
-public class GenreTest extends AbstractTestNGSpringContextTests{
-    
+public class GenreTest extends AbstractTestNGSpringContextTests {
+
     @PersistenceUnit
     private EntityManagerFactory emf;
-    
-    @Test 
+
+    @Test
     public void testGenresWithSameDataAreEqual() {
         Genre genre1 = getValidGenre();
         Genre genre2 = getValidGenre();
-        
+
         assertEquals(genre1, genre2);
     }
-    
-    @Test 
+
+    @Test
     public void testGenresWithDifferentDataAreNotEqual() {
         Genre genre1 = getValidGenre();
         Genre genre2 = getValidGenre();
         genre2.setName("Jazz");
-        
+
         assertNotEquals(genre1, genre2);
     }
-    
+
     @Test
     public void persitingGenreDoesntChangeEqual() {
         Genre genre1 = getValidGenre();
         TestUtils.persistObjects(emf, genre1);
-        
+
         EntityManager em = emf.createEntityManager();
         Genre genre2 = em.find(Genre.class, genre1.getId());
         assertEquals(genre1, genre2);
     }
-    
-    @Test 
+
+    @Test
     public void genresWithDifferentDataHaveDifferentHash() {
         Genre genre1 = getValidGenre();
         Genre genre2 = getValidGenre();
         genre2.setName("Jazz");
-        
+
         assertNotEquals(genre1.hashCode(), genre2.hashCode());
     }
-    
-    @Test 
-    public void genresWithDifferentDataHaveSameHash() {
+
+    @Test
+    public void genresWithSameDataHaveSameHash() {
         Genre genre1 = getValidGenre();
         Genre genre2 = getValidGenre();
-               
+
         assertEquals(genre1.hashCode(), genre2.hashCode());
     }
-    
+
     @Test
     public void persitingGenreDoesntChangeHash() {
         Genre genre1 = getValidGenre();
         TestUtils.persistObjects(emf, genre1);
-        
+
         EntityManager em = emf.createEntityManager();
         Genre genre2 = em.find(Genre.class, genre1.getId());
         assertEquals(genre1.hashCode(), genre2.hashCode());
     }
-    
+
     @Test(expectedExceptions = PersistenceException.class)
     public void persitingDescriptionLongerThanMaxShouldRaiseException() {
         Genre genre = getValidGenre();
         genre.setDescription(TestUtils.generateString(Constants.INT_LENGTH_HUGE + 1));
         TestUtils.persistObjects(emf, genre);
     }
-    
+
     @Test(expectedExceptions = PersistenceException.class)
     public void persistingWithNullNameShouldRaiseException() {
         Genre genre = getValidGenre();
         genre.setName(null);
         TestUtils.persistObjects(emf, genre);
     }
-    
+
     @AfterMethod
     public void deleteData() {
-	TestUtils.deleteAllData(emf);
+        TestUtils.deleteAllData(emf);
     }
 }

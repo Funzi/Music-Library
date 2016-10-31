@@ -5,7 +5,6 @@ import javax.persistence.Converter;
 import java.sql.Date;
 import java.time.LocalDate;
 
-
 /**
  * Created by olda on 26.10.2016.
  */

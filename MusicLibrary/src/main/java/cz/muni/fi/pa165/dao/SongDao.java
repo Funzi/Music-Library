@@ -10,12 +10,12 @@ import java.util.List;
 public interface SongDao {
 
     void create(Song song);
-    
+
     Song update(Song song);
-    
+
     void delete(Song song);
-    
+
     Song findById(Long id);
-    
+
     List<Song> findAll();
 }
