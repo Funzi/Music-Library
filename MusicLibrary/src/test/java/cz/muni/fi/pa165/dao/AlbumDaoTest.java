@@ -25,7 +25,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
- *
+ * 
  * @author Martin Kulisek
  */
 @ContextConfiguration(classes = AppContext.class)
@@ -46,17 +46,18 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(album, album2);
     }
 
-    /*@Test
+    @Test
     public void multiCreateTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Musician musician = EntityUtils.getPersistedValidMusician(emf);
+        Album album = EntityUtils.getValidAlbum(musician);
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album2 = EntityUtils.getValidAlbum(musician);
         albumDao.create(album2);
 
         assertEquals(albumDao.findById(album.getId()), album);
         assertEquals(albumDao.findById(album2.getId()), album2);
-    }*/
+    }
 
     @Test(expectedExceptions = PersistenceException.class)
     public void doubleCreateTest() {
@@ -85,12 +86,13 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
         assertTrue(albumDao.findAll().isEmpty());
     }
 
-    /*@Test
+    @Test
     public void findAllTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Musician musician = EntityUtils.getPersistedValidMusician(emf);
+        Album album = EntityUtils.getValidAlbum(musician);
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album2 = EntityUtils.getValidAlbum(musician);
         albumDao.create(album2);
 
         List<Album> albums = albumDao.findAll();
@@ -99,7 +101,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
         assertEquals(albumDao.findById(album.getId()), album);
         assertEquals(albumDao.findById(album2.getId()), album2);
-    }*/
+    }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void findAllNullTest() {
@@ -116,12 +118,13 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
         assertNull(albumDao.findById(album.getId()));
     }
 
-    /*@Test
+    @Test
     public void multiDeleteTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Musician musician = EntityUtils.getPersistedValidMusician(emf);
+        Album album = EntityUtils.getValidAlbum(musician);
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album2 = EntityUtils.getValidAlbum(musician);
         albumDao.create(album2);
 
         assertEquals(albumDao.findAll().size(), 2);
@@ -132,7 +135,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
         albumDao.delete(album2);
         assertEquals(albumDao.findAll().size(), 0);
-    }*/
+    }
 
     @Test()
     public void deleteInvalidTest() {
@@ -164,12 +167,13 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(albumDao.findById(album.getId()).getTitle(), album.getTitle());
     }
 
-    /*@Test
+    @Test
     public void multiUpdateTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Musician musician = EntityUtils.getPersistedValidMusician(emf);
+        Album album = EntityUtils.getValidAlbum(musician);
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album2 = EntityUtils.getValidAlbum(musician);
         albumDao.create(album2);
 
         album.setTitle("random");
@@ -181,18 +185,19 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
         albumDao.update(album2);
         assertEquals(albumDao.findById(album.getId()).getTitle(), album.getTitle());
         assertEquals(albumDao.findById(album2.getId()).getTitle(), album2.getTitle());
-    }*/
+    }
 
-    /*@Test
+    @Test
     public void updateInvalidTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
-        Album album2 = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Musician musician = EntityUtils.getPersistedValidMusician(emf);
+        Album album = EntityUtils.getValidAlbum(musician);
+        Album album2 = EntityUtils.getValidAlbum(musician);
         albumDao.create(album2);
 
         album.setTitle("random");
         albumDao.update(album);
         assertEquals(albumDao.findById(album2.getId()).getTitle(), album2.getTitle());
-    }*/
+    }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void updateNullTest() {
@@ -201,6 +206,6 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @AfterMethod
     public void deleteData() {
-        TestUtils.deleteData(emf, "Album","Musician"); 
+        TestUtils.deleteData(emf, "Album", "Musician");
     }
 }
