@@ -81,7 +81,6 @@ public class Genre {
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Objects.hashCode(this.name);
-        hash = 67 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
@@ -98,9 +97,6 @@ public class Genre {
         }
         final Genre other = (Genre) obj;
         if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.description, other.description)) {
             return false;
         }
         return true;
