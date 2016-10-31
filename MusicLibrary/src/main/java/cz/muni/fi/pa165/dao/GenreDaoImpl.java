@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 /**
+ * Implementation of data access layer for Genre entity.
  *
  * @author Martin Kulisek
  */

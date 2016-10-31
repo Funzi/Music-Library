@@ -25,6 +25,12 @@ public class Genre {
     @Column(length = Constants.INT_LENGTH_LONG)
     private String description;
 
+    /**
+     * Returns unique identifier of genre. <strong>Warning:</strong> relevant
+     * identifier is provided only when the object is persisted!
+     *
+     * @return unique identifier
+     */
     public Long getId() {
         return id;
     }
@@ -33,18 +39,40 @@ public class Genre {
         this.id = id;
     }
 
+    /**
+     * Returns genre name.
+     *
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns genre description
+     *
+     * @return description
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Sets genre name. Maximal name length is limited to
+     * {@link Constants#INT_LENGTH_SMALL}.
+     *
+     * @param name name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Sets genre description. Maximal description length is limited to
+     * {@link Constants#INT_LENGTH_LONG}.
+     *
+     * @param description description
+     */
     public void setDescription(String description) {
         this.description = description;
     }

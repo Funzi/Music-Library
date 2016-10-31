@@ -10,12 +10,14 @@ import java.util.List;
 
 /**
  * Data access object layer interface for Genre entity.
+ *
  * @author Martin Kulisek
  */
 public interface GenreDao {
 
     /**
      * Finds genre by given id
+     *
      * @param id
      * @return genre object with given id
      */
@@ -23,12 +25,14 @@ public interface GenreDao {
 
     /**
      * Stores given genre in database
+     *
      * @param genre genre object to store
      */
     public void create(Genre genre);
 
     /**
      * Updates given genre in database
+     *
      * @param genre genre object to update
      * @return updated genre object
      */
@@ -36,12 +40,14 @@ public interface GenreDao {
 
     /**
      * Deletes given genre from database
+     *
      * @param genre genre object to delete
      */
     public void delete(Genre genre);
 
     /**
      * Finds all genres in database
+     *
      * @return list of all genres in database
      */
     public List<Genre> findAll();
