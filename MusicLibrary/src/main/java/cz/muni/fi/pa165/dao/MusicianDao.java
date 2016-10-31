@@ -43,7 +43,7 @@ public interface MusicianDao {
     /**
      * Returns all musicians from database.
      *
-     * @return list with all musicians
+     * @return list containing all musicians
      */
     public List<Musician> findAll();
 }

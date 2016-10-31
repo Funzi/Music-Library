@@ -8,7 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * Implementation of data access layer for Musician entity.
+ * 
  * @author Jan Stourac
  */
 @Repository
