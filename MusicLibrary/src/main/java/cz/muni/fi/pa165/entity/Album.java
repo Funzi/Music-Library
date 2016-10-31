@@ -4,13 +4,12 @@ import cz.muni.fi.pa165.utils.Constants;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
- * Entity class representing one Music Album
+ * Entity class representing one music Album.
  *
  * @author Oldrich Konecny
  */
@@ -61,16 +60,16 @@ public class Album {
     }
 
     /**
-     * Set id of song
+     * Set id of song.
      *
-     * @return unique identifier
+     * @param id unique identifier
      */
     public void setId(Long id) {
         this.id = id;
     }
 
     /**
-     * Returns title of album
+     * Returns title of album.
      *
      * @return title
      */
@@ -79,7 +78,7 @@ public class Album {
     }
 
     /**
-     * Set title of song Maximal title length is limited to
+     * Set title of song. Maximal title length is limited to
      * {@link Constants#INT_LENGTH_SMALL}.
      *
      * @param title title
@@ -89,16 +88,16 @@ public class Album {
     }
 
     /**
-     * Returns set of musicians
+     * Returns set of musicians.
      *
-     * @return Set<Musician>
+     * @return musicians
      */
     public Set<Musician> getMusicians() {
         return musicians;
     }
 
     /**
-     * Add musician to album
+     * Add musician to album.
      *
      * @param musician musician
      */
@@ -107,7 +106,7 @@ public class Album {
     }
 
     /**
-     * Add musicians to album and not delete current one
+     * Add musicians to album (NOT rewriting original data).
      *
      * @param musicians musicians
      */
@@ -116,18 +115,18 @@ public class Album {
     }
 
     /**
-     * Returns releaseDate of album
+     * Returns release date of album.
      *
-     * @return releaseDate
+     * @return release date
      */
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
     /**
-     * Set releaseDate of album
+     * Set release date of album.
      *
-     * @param releaseDate Localdate
+     * @param releaseDate release date
      */
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
@@ -153,34 +152,34 @@ public class Album {
     }
 
     /**
-     * Set songs to album
+     * Returns songs from album.
      *
-     * @param Set<song> songs
+     * @return songs
      */
     public Set<Song> getSongs() {
         return songs;
     }
 
     /**
-     * Set musicians to album and rewrite current one
+     * Set musicians to album (rewriting original data).
      *
-     * @param Set<musician> musicians
+     * @param musicians musicians
      */
     public void setMusicians(Set<Musician> musicians) {
         this.musicians = musicians;
     }
 
     /**
-     * Set songs to album and delete current ones
+     * Set songs to album and delete current ones.
      *
-     * @param Set<song> songs
+     * @param songs songs
      */
     public void setSongs(Set<Song> songs) {
         this.songs = songs;
     }
 
     /**
-     * Set song to album
+     * Set song to album.
      *
      * @param song song
      */
@@ -189,27 +188,27 @@ public class Album {
     }
 
     /**
-     * Add songs to album and NOT delete current ones
+     * Add songs to album (NOT rewriting original data).
      *
-     * @param Set<song> songs
+     * @param songs songs
      */
     public void addSongs(Collection<Song> songs) {
         this.songs.addAll(songs);
     }
 
     /**
-     * get picture of album
+     * Get picture of album.
      *
-     * @return Art art
+     * @return album picture
      */
     public Art getArt() {
         return art;
     }
 
     /**
-     * Set picture of album
+     * Set picture of album.
      *
-     * @param Art art
+     * @param art album picture
      */
     public void setArt(Art art) {
         this.art = art;
