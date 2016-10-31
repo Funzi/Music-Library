@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
- * @author david
+ * JPA implementation of SongDao interface
+ * @author David Pribula
  */
 @Repository
 @Transactional

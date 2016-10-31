@@ -6,7 +6,8 @@ import java.util.Objects;
 import javax.persistence.*;
 
 /**
- * Created David Pribula
+ * Class representing song entity.
+ * @author David Pribula
  */
 @Entity
 @Table(name = "SONG")
@@ -61,7 +62,7 @@ public class Song {
     /**
      * Set id of song
      *
-     * @return unique identifier
+     * @param id unique identifier
      */
     public void setId(Long id) {
         this.id = id;
