@@ -47,59 +47,132 @@ public class Song {
         this.bitrate = bitrate;
         this.commentary = commentary;
     }
-
+    /**
+     * Returns unique identifier of song. <strong>Warning:</strong> relevant
+     * identifier is provided only when the object is persisted!
+     *
+     * @return unique identifier
+     */
     public Long getId() {
         return id;
     }
-
+    /**
+     * Set id of song
+     *
+     * @return unique identifier
+     */
     public void setId(Long id) {
         this.id = id;
     }
 
+    /**
+     * Returns title of song
+     *
+     * @return title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Set title of song
+     * Maximal title length is limited to
+     * {@link Constants#INT_LENGTH_SMALL}.
+     *
+     * @param title title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * Returns album of song
+     *
+     * @return album
+     */
     public Album getAlbum() {
         return album;
     }
 
+    /**
+     * Set album of song
+     *
+     * @param album album
+     */
     public void setAlbum(Album album) {
         this.album = album;
     }
 
+    /**
+     * Returns position of song in album
+     *
+     * @return position
+     */
     public int getPosition() {
         return position;
     }
 
+    /**
+     * Set position of song in album.
+     *
+     * @param position position
+     */
     public void setPosition(int position) {
         this.position = position;
     }
 
+    /**
+     * Returns genre of song.
+     *
+     * @return genre
+     */
     public Genre getGenre() {
         return genre;
     }
 
+    /**
+     * Set genre of song
+     *
+     * @param genre genre
+     */
     public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
+    /**
+     * Returns bitrate of song
+     *
+     * @return bitrate
+     */
     public int getBitrate() {
         return bitrate;
     }
 
+    /**
+     * Set bitrate of song
+     *
+     * @param bitrate bitrate
+     */
     public void setBitrate(int bitrate) {
         this.bitrate = bitrate;
     }
 
+    /**
+     * Returns commentary of song.
+     *
+     * @return commentary
+     */
     public String getCommentary() {
         return commentary;
     }
 
+    /**
+     * Set commentary of song.
+     * Maximal commentary length is limited to
+     * {@link Constants#INT_LENGTH_Huge}.
+     *
+     * @param commentary commentary
+     */
     public void setCommentary(String commentary) {
         this.commentary = commentary;
     }
