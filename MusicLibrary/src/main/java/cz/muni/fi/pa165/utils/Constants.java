@@ -1,7 +1,7 @@
 package cz.muni.fi.pa165.utils;
 
 /**
- * Created by olda on 27.10.2016.
+ * Constants
  */
 public class Constants {
 

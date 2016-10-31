@@ -16,8 +16,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
- *
+ * Unit tests for Genre entity.
+ * 
  * @author David Pribula
+ * @see Genre
  */
 @ContextConfiguration(classes = AppContext.class)
 public class GenreTest extends AbstractTestNGSpringContextTests {

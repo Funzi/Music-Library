@@ -1,8 +1,5 @@
 package cz.muni.fi.pa165.entity;
 
-/**
- * Created by olda on 26.10.2016.
- */
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Musician;
 import javax.persistence.EntityManager;
@@ -27,6 +24,12 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Unit tests for Musician entity.
+ * 
+ * @author Oldrich Konecny
+ * @see Musician
+ */
 @ContextConfiguration(classes = AppContext.class)
 public class MusicianTest extends AbstractTestNGSpringContextTests {
 

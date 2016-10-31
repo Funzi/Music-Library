@@ -1,8 +1,5 @@
 package cz.muni.fi.pa165.dao;
 
-/**
- * Created by olda on 26.10.2016.
- */
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.dao.MusicianDao;
 import cz.muni.fi.pa165.entity.Musician;
@@ -26,6 +23,12 @@ import javax.validation.ConstraintViolationException;
 
 import static org.testng.Assert.*;
 
+/**
+ * Unit tests for Musician DAO.
+ * 
+ * @author Oldrich Konecny
+ * @see MusicianDao
+ */
 @ContextConfiguration(classes = AppContext.class)
 public class MusicianDaoTest extends AbstractTestNGSpringContextTests {
 

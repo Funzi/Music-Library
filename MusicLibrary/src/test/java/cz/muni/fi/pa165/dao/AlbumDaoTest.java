@@ -25,8 +25,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
+ * Unit tests for Album DAO.
  * 
  * @author Martin Kulisek
+ * @see SongDao
  */
 @ContextConfiguration(classes = AppContext.class)
 public class AlbumDaoTest extends AbstractTestNGSpringContextTests {

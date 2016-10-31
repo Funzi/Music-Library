@@ -25,8 +25,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
- *
+ * Unit tests for Album entity.
+ * 
  * @author Martin Kulisek
+ * @see Album
  */
 @ContextConfiguration(classes = AppContext.class)
 public class AlbumTest extends AbstractTestNGSpringContextTests {

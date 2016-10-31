@@ -18,8 +18,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
- *
- * @author david
+ * Unit tests for Genre DAO.
+ * 
+ * @author David Pribula
+ * @see GenreDao
  */
 @ContextConfiguration(classes = AppContext.class)
 public class GenreDaoTest extends AbstractTestNGSpringContextTests {
