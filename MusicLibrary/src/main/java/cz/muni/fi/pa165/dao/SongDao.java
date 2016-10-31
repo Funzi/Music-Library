@@ -5,10 +5,11 @@ import java.util.List;
 
 /**
  * Data access object layer interface for Song entity.
+ *
  * @author David Pribula
  */
 public interface SongDao {
-    
+
     /**
      * Stores given song in database.
      *

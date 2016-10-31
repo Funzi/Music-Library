@@ -47,6 +47,7 @@ public class Song {
         this.bitrate = bitrate;
         this.commentary = commentary;
     }
+
     /**
      * Returns unique identifier of song. <strong>Warning:</strong> relevant
      * identifier is provided only when the object is persisted!
@@ -56,6 +57,7 @@ public class Song {
     public Long getId() {
         return id;
     }
+
     /**
      * Set id of song
      *
@@ -75,8 +77,7 @@ public class Song {
     }
 
     /**
-     * Set title of song
-     * Maximal title length is limited to
+     * Set title of song Maximal title length is limited to
      * {@link Constants#INT_LENGTH_SMALL}.
      *
      * @param title title
@@ -167,8 +168,7 @@ public class Song {
     }
 
     /**
-     * Set commentary of song.
-     * Maximal commentary length is limited to
+     * Set commentary of song. Maximal commentary length is limited to
      * {@link Constants#INT_LENGTH_Huge}.
      *
      * @param commentary commentary
