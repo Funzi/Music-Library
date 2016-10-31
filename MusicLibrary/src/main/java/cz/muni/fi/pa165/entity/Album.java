@@ -28,7 +28,7 @@ public class Album {
     @Column(nullable = false, length = Constants.INT_LENGTH_SMALL)
     private String title;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Musician> musicians = new HashSet<>();
 
     @Column(nullable = true)
@@ -37,7 +37,7 @@ public class Album {
     @Column(length = Constants.INT_LENGTH_HUGE)
     private String commentary;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Song> songs = new HashSet<>();
 
     @OneToOne

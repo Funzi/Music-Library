@@ -40,6 +40,6 @@ public class AlbumDaoImpl implements AlbumDao {
 
     @Override
     public List<Album> findAll() {
-        return em.createQuery("select a from ALBUM a ", Album.class).getResultList();
+        return em.createQuery("select a from Album a ", Album.class).getResultList();
     }
 }
