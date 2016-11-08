@@ -3,4 +3,4 @@ language: java
 jdk:
   - oraclejdk8
 
-script: cd MusicLibrary && mvn clean test
+script: mvn clean test
