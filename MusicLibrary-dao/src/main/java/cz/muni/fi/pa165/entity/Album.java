@@ -45,10 +45,6 @@ public class Album {
 
     }
 
-    public Album(Long id) {
-        this.id = id;
-    }
-
     /**
      * Returns unique identifier of album. <strong>Warning:</strong> relevant
      * identifier is provided only when the object is persisted!
@@ -60,13 +56,13 @@ public class Album {
     }
 
     /**
-     * Set id of song.
-     *
-     * @param id unique identifier
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+	 * Set id of song.
+	 *
+	 * @param id unique identifier
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
     /**
      * Returns title of album.
