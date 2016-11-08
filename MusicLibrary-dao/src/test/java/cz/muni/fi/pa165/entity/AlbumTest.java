@@ -100,18 +100,6 @@ public class AlbumTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test
-    public void testMusician() {
-        Musician musician = EntityUtils.getPersistedValidMusician(emf);
-        Album album = EntityUtils.getValidAlbum(musician);
-        TestUtils.persistObjects(emf, album);
-
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertTrue(album2.getMusicians().contains(musician)
-                && album2.getMusicians().size() == 1);
-    }
-
-    @Test
     public void testReleaseDate() {
         LocalDate date = LocalDate.now();
         Album album = createMinimalValidAlbum();
@@ -125,17 +113,20 @@ public class AlbumTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void testSongs() {
+        Album album = createMinimalValidAlbum();
+
         Song song1 = EntityUtils.getValidSong();
-        TestUtils.persistObjects(emf, song1);
+        song1.setTitle("super cool title");
+        song1.setAlbum(album);
+
         Song song2 = EntityUtils.getValidSong();
-        TestUtils.persistObjects(emf, song2);
+        song2.setAlbum(album);
         Set songs = new HashSet();
         songs.add(song1);
         songs.add(song2);
-
-        Album album = createMinimalValidAlbum();
         album.addSongs(songs);
-        TestUtils.persistObjects(emf, album);
+
+        TestUtils.persistObjects(emf, album, song1, song2);
 
         EntityManager em2 = emf.createEntityManager();
         Album album2 = em2.find(Album.class, album.getId());
@@ -196,7 +187,7 @@ public class AlbumTest extends AbstractTestNGSpringContextTests {
 
     @AfterMethod
     public void deleteData() {
-        TestUtils.deleteData(emf, "Album","Musician", "Song");
+        TestUtils.deleteData(emf, "Song", "Album","Musician");
     }
 
     private Album createMinimalValidAlbum() {

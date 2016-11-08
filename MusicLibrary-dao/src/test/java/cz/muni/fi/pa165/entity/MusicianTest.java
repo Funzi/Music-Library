@@ -122,17 +122,6 @@ public class MusicianTest extends AbstractTestNGSpringContextTests {
         assertTrue(musician2.getName().isEmpty());
     }
 
-    @Test
-    public void testAlbums() {
-        Album album = createMinimalPersistedAlbum(emf);
-        Musician musician = createMinimalValidMusiscian();
-        musician.addAlbum(album);
-        TestUtils.persistObjects(emf, musician);
-
-        EntityManager em = emf.createEntityManager();
-        Musician musician2 = em.find(Musician.class, musician.getId());
-        assertTrue(musician2.getAlbums().contains(album));
-    }
 
     private Album createMinimalPersistedAlbum(EntityManagerFactory emf) {
         Album album = new Album();

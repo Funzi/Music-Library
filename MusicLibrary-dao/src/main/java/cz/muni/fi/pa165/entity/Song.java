@@ -24,6 +24,9 @@ public class Song {
 	@ManyToOne
 	private Album album;
 
+	@ManyToOne
+	private Musician musician;
+
 	@Column(nullable = false)
 	private int position;
 
@@ -160,7 +163,7 @@ public class Song {
 
 	/**
 	 * Set commentary of song. Maximal commentary length is limited to
-	 * {@link Constants#INT_LENGTH_Huge}.
+	 * {@link Constants#INT_LENGTH_HUGE}.
 	 *
 	 * @param commentary commentary
 	 */
@@ -168,41 +171,54 @@ public class Song {
 		this.commentary = commentary;
 	}
 
-	@Override
-	public int hashCode() {
-		int hash = 3;
-		hash = 23 * hash + Objects.hashCode(this.title);
-		hash = 23 * hash + Objects.hashCode(this.album);
-		hash = 23 * hash + this.position;
-		hash = 23 * hash + Objects.hashCode(this.genre);
-		hash = 23 * hash + this.bitrate;
-		return hash;
+	public Musician getMusician() {
+		return musician;
+	}
+
+	public void setMusician(Musician musician) {
+		this.musician = musician;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final Song other = (Song) obj;
-		if (this.position != other.position) {
-			return false;
-		}
-		if (this.bitrate != other.bitrate) {
-			return false;
-		}
-		if (!Objects.equals(this.title, other.title)) {
-			return false;
-		}
-		if (!Objects.equals(this.album, other.album)) {
-			return false;
-		}
-		return Objects.equals(this.genre, other.genre);
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Song song = (Song) o;
+
+		if (position != song.position) return false;
+		if (bitrate != song.bitrate) return false;
+		if (title != null ? !title.equals(song.title) : song.title != null) return false;
+		if (album != null ? !album.equals(song.album) : song.album != null) return false;
+		if (musician != null ? !musician.equals(song.musician) : song.musician != null) return false;
+		if (genre != null ? !genre.equals(song.genre) : song.genre != null) return false;
+		return commentary != null ? commentary.equals(song.commentary) : song.commentary == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = title != null ? title.hashCode() : 0;
+		result = 31 * result + (album != null ? album.hashCode() : 0);
+		result = 31 * result + (musician != null ? musician.hashCode() : 0);
+		result = 31 * result + position;
+		result = 31 * result + (genre != null ? genre.hashCode() : 0);
+		result = 31 * result + bitrate;
+		result = 31 * result + (commentary != null ? commentary.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Song{" +
+				"id=" + id +
+				", title='" + title + '\'' +
+				", album=" + album +
+				", musician=" + musician +
+				", position=" + position +
+				", genre=" + genre +
+				", bitrate=" + bitrate +
+				", commentary='" + commentary + '\'' +
+				'}';
 	}
 }

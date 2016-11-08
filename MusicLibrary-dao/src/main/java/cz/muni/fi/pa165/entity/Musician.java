@@ -31,9 +31,6 @@ public class Musician {
 	@Column(nullable = false, unique = true, length = Constants.INT_LENGTH_SMALL)
 	private String name;
 
-	@ManyToMany
-	private Set<Album> albums = new HashSet<>();
-
 	public Musician() {
 
 	}
@@ -76,24 +73,6 @@ public class Musician {
 		this.name = name;
 	}
 
-	/**
-	 * Adds album associated to this musician.
-	 *
-	 * @param album album
-	 */
-	public void addAlbum(Album album) {
-		this.albums.add(album);
-	}
-
-	/**
-	 * Returns all albums associated to this musician.
-	 *
-	 * @return albums
-	 */
-	public Set<Album> getAlbums() {
-		return albums;
-	}
-
 	@Override
 	public int hashCode() {
 		int hash = 5;
@@ -121,6 +100,9 @@ public class Musician {
 
 	@Override
 	public String toString() {
-		return "Musician{" + "id=" + id + ", name=" + name + ", albums=" + albums + '}';
+		return "Musician{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				'}';
 	}
 }

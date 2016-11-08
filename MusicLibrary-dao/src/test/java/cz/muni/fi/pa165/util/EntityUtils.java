@@ -39,7 +39,7 @@ public class EntityUtils {
     public static Album getValidAlbum(Musician musician) {
         Album album = new Album();
         album.setTitle("Testing album");
-        album.addMusician(musician);
+
         return album;
     }
 
