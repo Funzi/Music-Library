@@ -97,7 +97,7 @@ public class Art {
     public String toString() {
         String albumID;
         if (album == null) {
-          albumID = "album je null"; 
+          albumID = "album is null";
         }else {
             albumID = album.getId().toString();
         }
