@@ -7,11 +7,13 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.entity.Genre;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author David Pribula
  */
+@Service
 public interface GenreService {
     
     public List<Genre>findAll();
