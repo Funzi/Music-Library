@@ -16,7 +16,6 @@ public interface GenreService {
     
     public List<Genre>findAll();
     public Genre findById(Long id);
-    void create(Genre genre);
-    void remove(Genre genre);
-    Genre findByName(String name);
+    public void create(Genre genre);
+    public void delete(Genre genre);
 }

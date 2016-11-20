@@ -11,9 +11,9 @@ import java.util.List;
 public interface GenreFacade {
     
     
-    List<GenreDTO> getAllGenres();
+    public List<GenreDTO> getAllGenres();
     
-    //List<SongDTO> getAllSongsByGenre();
+    //public List<SongDTO> getAllSongsByGenre();
     
-    GenreDTO getGenreById(Long id);
+    public GenreDTO getGenreById(Long id);
 }

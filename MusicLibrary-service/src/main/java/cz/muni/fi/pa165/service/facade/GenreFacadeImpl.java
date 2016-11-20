@@ -39,5 +39,4 @@ public class GenreFacadeImpl implements GenreFacade {
         Genre genre = genreService.findById(id);
         return (genre == null) ? null : beanMappingService.mapTo(genre, GenreDTO.class);
     }
-    
 }
