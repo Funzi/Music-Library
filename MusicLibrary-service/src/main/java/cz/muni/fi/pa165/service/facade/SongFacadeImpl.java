@@ -9,7 +9,10 @@ import cz.muni.fi.pa165.api.SongFacade;
 import cz.muni.fi.pa165.api.dto.SongCreateDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.entity.Song;
+import cz.muni.fi.pa165.service.AlbumService;
 import cz.muni.fi.pa165.service.BeanMappingService;
+import cz.muni.fi.pa165.service.GenreService;
+import cz.muni.fi.pa165.service.MusicianService;
 import cz.muni.fi.pa165.service.SongService;
 import java.util.List;
 import javax.inject.Inject;
@@ -31,6 +34,15 @@ public class SongFacadeImpl implements SongFacade {
 
     @Inject
     private SongService songService;
+    
+    @Inject
+    private AlbumService albumService;
+    
+    @Inject
+    private MusicianService musicianService;
+    
+    @Inject
+    private GenreService genreService;
 
     @Autowired
     private BeanMappingService beanMappingService;
@@ -38,15 +50,15 @@ public class SongFacadeImpl implements SongFacade {
     @Override
     public Long createSong(SongCreateDTO s) {
         Song mappedSong = beanMappingService.mapTo(s, Song.class);
-        //mappedSong.setAlbum(s.getAlbumId());
+        mappedSong.setAlbum(albumService.findAlbumById(s.getAlbumId()));
         mappedSong.setBitrate(s.getBitrate());
         mappedSong.setCommentary(s.getCommentary());
-        //mappedSong.setGenre(s.getGenreId());
-        //mappedSong.setMusician(s.getMusicianId());
+        mappedSong.setGenre(genreService.findById(s.getGenreId()));
+        mappedSong.setMusician(musicianService.findById(s.getMusicianId()));
         mappedSong.setPosition(s.getPosition());
         mappedSong.setTitle(s.getTitle());
         Song newSong = songService.create(mappedSong);
-		return newSong.getId();
+        return newSong.getId();
     }
 
     @Override
