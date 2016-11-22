@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entity.Album;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -46,4 +48,10 @@ public interface AlbumDao {
 	 * @return list containing all albums
 	 */
 	public List<Album> findAll();
+
+	public List<Album> findAlbumByMusicianId(Long id);
+
+	List<Album> findAlbumsByReleaseDates(LocalDate from, LocalDate to);
+
+	List<Album> findAlbumsByPartialTitle(String partialTitle);
 }
