@@ -3,7 +3,9 @@ package cz.muni.fi.pa165.util;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
+import cz.muni.fi.pa165.entity.Role;
 import cz.muni.fi.pa165.entity.Song;
+import cz.muni.fi.pa165.entity.User;
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -60,5 +62,30 @@ public class EntityUtils {
         Song song = getValidSong();
         TestUtils.persistObjects(emf, song);
         return song;
+    }
+
+	public static User getValidUser() {
+        User user = new User();
+        user.setUsername("user");
+		user.setPassword("password");
+        return user;
+    }
+
+    public static User getPersistedValidUser(EntityManagerFactory emf) {
+        User user = getValidUser();
+        TestUtils.persistObjects(emf, user);
+        return user;
+    }
+
+	public static Role getValidRole() {
+        Role role = new Role();
+        role.setName("role");
+        return role;
+    }
+
+    public static Role getPersistedValidRole(EntityManagerFactory emf) {
+        Role role = getValidRole();
+        TestUtils.persistObjects(emf, role);
+        return role;
     }
 }

@@ -130,7 +130,7 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
         assertEquals(songDao.findAll().size(), 0);
     }
 
-    @Test()
+    @Test
     public void deleteInvalidTest() {
         Song song = EntityUtils.getValidSong();
         Song song2 = EntityUtils.getValidSong();
