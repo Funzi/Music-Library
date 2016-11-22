@@ -23,8 +23,6 @@ public class AlbumServiceImpl implements AlbumService {
     @Inject
     SongDao songDao;
 
-
-
     @Override
     public Album findAlbumById(Long id) {
         return albumDao.findById(id);
@@ -37,11 +35,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public Album createAlbum(Album album) {
-        Set<Song> songsToPersist = album.getSongs();
         albumDao.create(album);
-        for (Song s : songsToPersist) {
-            songDao.create(s);
-        }
         return album;
     }
 

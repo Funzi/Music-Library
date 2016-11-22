@@ -50,15 +50,16 @@ public class AlbumDaoImpl implements AlbumDao {
 
 	@Override
 	public List<Album> findAlbumByMusicianId(Long id) {
-		return null;
-		//em.createQuery("select a from Album a where ",Album.class).getResultList();
+		TypedQuery<Album> typedQuery = em.createQuery("SELECT a from Album a where a.songs.musician.id = :id", Album.class);
+		typedQuery.setParameter("id", id);
+		return typedQuery.getResultList();
 	}
 
 	@Override
 	public List<Album> findAlbumsByReleaseDates(LocalDate from, LocalDate to) {
-		TypedQuery<Album> typedQuery = em.createQuery("SELECT a from Album a where a.releaseDate BETWEEN :from AND :to", Album.class);
-		typedQuery.setParameter("from", from);
-		typedQuery.setParameter("to", to);
+		TypedQuery<Album> typedQuery = em.createQuery("SELECT a from Album a where a.releaseDate BETWEEN :fromDate AND :toDate", Album.class);
+		typedQuery.setParameter("fromDate", from);
+		typedQuery.setParameter("toDate", to);
 		return typedQuery.getResultList();
 	}
 
