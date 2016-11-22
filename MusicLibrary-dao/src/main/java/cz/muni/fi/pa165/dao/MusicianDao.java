@@ -18,6 +18,14 @@ public interface MusicianDao {
      */
     public Musician findById(Long id);
 
+	/**
+     * Returns musician with given name or null.
+     *
+     * @param name musician name
+     * @return musician with given name
+     */
+    public Musician findByName(String name);
+
     /**
      * Stores given musician in database.
      *
