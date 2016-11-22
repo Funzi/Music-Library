@@ -41,6 +41,26 @@ public class MusicianDaoTest extends AbstractTestNGSpringContextTests {
 		assertEquals(musician, musician2);
 	}
 
+	@Test
+	public void testFindByName() {
+		Musician musician = createValidMusiscian();
+		musicianDao.create(musician);
+
+		Musician musician2 = musicianDao.findByName(musician.getName());
+
+		assertEquals(musician, musician2);
+	}
+
+	@Test
+	public void testFindByNameNoExisting() {
+		Musician musician = createValidMusiscian();
+		musicianDao.create(musician);
+
+		Musician musician2 = musicianDao.findByName(musician.getName() + "aa");
+
+		assertNull(musician2);
+	}
+
 	@Test(expectedExceptions = ConstraintViolationException.class)
 	public void testCreateWithoutName() {
 		Musician musician = new Musician();
