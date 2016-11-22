@@ -9,6 +9,10 @@ package cz.muni.fi.pa165.api.dto;
  *
  * @author 
  */
-class MusicianDTO {
+public class MusicianDTO {
+
+    public Long getId() {
+        return null;
+    }
     
 }

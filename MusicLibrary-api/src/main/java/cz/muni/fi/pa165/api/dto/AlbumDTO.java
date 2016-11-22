@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package cz.muni.fi.pa165.api.dto;
 
 import java.time.LocalDate;
