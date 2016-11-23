@@ -40,7 +40,7 @@ public class TestUtils {
     }
 
     public static void deleteAllData(EntityManager em) {
-        deleteData(em, "Song", "Album", "Musician", "Genre", "User", "Role");
+        deleteData(em, "Song", "AlbumRating", "Album", "Musician", "Genre", "User", "Role");
     }
 
     public static void deleteData(EntityManagerFactory emf, String... schemas) {

@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.util;
 
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.AlbumRating;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Role;
@@ -88,4 +89,21 @@ public class EntityUtils {
         TestUtils.persistObjects(emf, role);
         return role;
     }
+
+	public static AlbumRating getValidAlbumRating(Album album, User user) {
+		AlbumRating rating = new AlbumRating();
+		rating.setAlbum(album);
+		rating.setUser(user);
+		rating.setRvalue(0.35f);
+		return rating;
+	}
+
+	public static AlbumRating getPersistedValidAlbumRating(EntityManagerFactory emf) {
+		Musician musician = getValidMusician();
+		Album album = getValidAlbum(musician);
+		User user = getValidUser();
+		AlbumRating rating = getValidAlbumRating(album, user);
+		TestUtils.persistObjects(emf, musician, album, user, rating);
+		return rating;
+	}
 }
