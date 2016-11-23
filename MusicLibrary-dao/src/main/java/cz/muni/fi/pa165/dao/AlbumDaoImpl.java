@@ -50,7 +50,7 @@ public class AlbumDaoImpl implements AlbumDao {
 
 	@Override
 	public List<Album> findAlbumByMusicianId(Long id) {
-		TypedQuery<Album> typedQuery = em.createQuery("SELECT a from Album a where a.songs.musician.id = :id", Album.class);
+		TypedQuery<Album> typedQuery = em.createQuery("SELECT a from Album a inner join a.songs s inner join s.musician m where m.id = :id", Album.class);
 		typedQuery.setParameter("id", id);
 		return typedQuery.getResultList();
 	}

@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Musician;
+import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.util.EntityUtils;
 import cz.muni.fi.pa165.util.TestUtils;
 import java.util.List;
@@ -206,8 +207,49 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
         albumDao.update(null);
     }
 
+    @Test
+    public void getAlbumByMusician() {
+        Musician musician = EntityUtils.getPersistedValidMusician(emf);
+        Song song1 = new Song();
+        Song song2 = new Song();
+        Album album1 = new Album();
+        Album album2 = new Album();
+
+        song1.setAlbum(album1);
+        song1.setTitle("songWithMusician");
+        song1.setBitrate(1);
+        song1.setCommentary("qwe");
+        song1.setMusician(musician);
+
+        album1.setTitle("albumWithMusician");
+        album1.setCommentary("qwe");
+        album1.addSong(song1);
+
+        TestUtils.persistObjects(emf, album1, song1);
+
+        song2.setAlbum(album2);
+        song2.setTitle("songWithOUTmusician");
+        song2.setCommentary("asd");
+        song2.setBitrate(1);
+
+        album2.setTitle("albumWITHOUTMusician");
+        album2.addSong(song2);
+        TestUtils.persistObjects(emf, album2, song2);
+
+        assertTrue(this.albumDao.findAlbumByMusicianId(musician.getId()).get(0).equals(album1));
+
+    }
+
+
+
+
     @AfterMethod
     public void deleteData() {
-        TestUtils.deleteData(emf, "Album", "Musician");
+        TestUtils.deleteData(emf, "Song", "Album", "Musician");
     }
+
+
+
+
+
 }

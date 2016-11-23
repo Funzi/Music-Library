@@ -20,9 +20,6 @@ public class AlbumServiceImpl implements AlbumService {
     @Inject
     AlbumDao albumDao;
 
-    @Inject
-    SongDao songDao;
-
     @Override
     public Album findAlbumById(Long id) {
         return albumDao.findById(id);
