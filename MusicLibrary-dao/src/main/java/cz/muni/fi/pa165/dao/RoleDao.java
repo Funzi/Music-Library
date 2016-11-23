@@ -10,47 +10,47 @@ import java.util.List;
 public interface RoleDao {
 
 	/**
-	 * Stores given song in database.
+	 * Stores given role in database.
 	 *
-	 * @param song song to store
+	 * @param role role to store
 	 */
 	void create(Role role);
 
 	/**
-	 * Updates given song in database.
+	 * Updates given role in database.
 	 *
-	 * @param song song to update
-	 * @return song updated instance
+	 * @param role role to update
+	 * @return role updated instance
 	 */
 	Role update(Role role);
 
 	/**
-	 * Deletes given song from database.
+	 * Deletes given role from database.
 	 *
-	 * @param song song to delete
+	 * @param role role to delete
 	 */
 	void delete(Role role);
 
 	/**
-	 * Returns song with given id or null.
+	 * Returns role with given id or null.
 	 *
-	 * @param id song id
-	 * @return song with given id
+	 * @param id role id
+	 * @return role with given id
 	 */
 	Role findById(Long id);
 
 	/**
-	 * Returns song with given id or null.
+	 * Returns role with given name or null.
 	 *
-	 * @param id song id
-	 * @return song with given id
+	 * @param name role name
+	 * @return role with given name
 	 */
 	Role findByName(String name);
 
 	/**
-	 * Returns all songs from database.
+	 * Returns all roles from database.
 	 *
-	 * @return list containing all songs
+	 * @return list containing all roles
 	 */
 	List<Role> findAll();
 }

@@ -10,47 +10,47 @@ import java.util.List;
 public interface UserDao {
 
 	/**
-	 * Stores given song in database.
+	 * Stores given user in database.
 	 *
-	 * @param song song to store
+	 * @param user user to store
 	 */
 	void create(User user);
 
 	/**
-	 * Updates given song in database.
+	 * Updates given user in database.
 	 *
-	 * @param song song to update
-	 * @return song updated instance
+	 * @param user user to update
+	 * @return user updated instance
 	 */
 	User update(User user);
 
 	/**
-	 * Deletes given song from database.
+	 * Deletes given user from database.
 	 *
-	 * @param song song to delete
+	 * @param user user to delete
 	 */
 	void delete(User user);
 
 	/**
-	 * Returns song with given id or null.
+	 * Returns user with given id or null.
 	 *
-	 * @param id song id
-	 * @return song with given id
+	 * @param id user id
+	 * @return user with given id
 	 */
 	User findById(Long id);
 
 	/**
-	 * Returns song with given id or null.
+	 * Returns user with given username or null.
 	 *
-	 * @param id song id
-	 * @return song with given id
+	 * @param username username
+	 * @return user with given username
 	 */
 	User findByUsername(String username);
 
 	/**
-	 * Returns all songs from database.
+	 * Returns all users from database.
 	 *
-	 * @return list containing all songs
+	 * @return list containing all users
 	 */
 	List<User> findAll();
 }
