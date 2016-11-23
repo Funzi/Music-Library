@@ -25,8 +25,7 @@ public class Art {
     @Column(length = Constants.INT_LENGTH_MEDIUM)
     private String imageName;
 
-    @OneToOne(mappedBy = "art", cascade = CascadeType.ALL)
-    private Album album;
+
 
     public Art() {
 
@@ -64,13 +63,6 @@ public class Art {
         this.imageName = imageName;
     }
 
-    public Album getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(Album album) {
-        this.album = album;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -95,18 +87,10 @@ public class Art {
 
     @Override
     public String toString() {
-        String albumID;
-        if (album == null) {
-          albumID = "album is null";
-        }else {
-            albumID = album.getId().toString();
-        }
-
         return "Art{" +
                 "id=" + id +
                 ", imageType='" + imageType + '\'' +
                 ", imageName='" + imageName + '\'' +
-                ", albumId='" + albumID + '\'' +
                 '}';
     }
 }
