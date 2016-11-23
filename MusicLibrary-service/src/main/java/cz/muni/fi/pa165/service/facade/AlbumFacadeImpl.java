@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.api.ArtFacade;
+import cz.muni.fi.pa165.api.SongFacade;
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.api.AlbumFacade;
@@ -7,7 +9,9 @@ import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.service.AlbumService;
+import cz.muni.fi.pa165.service.ArtService;
 import cz.muni.fi.pa165.service.BeanMappingService;
+import cz.muni.fi.pa165.service.SongService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -28,26 +33,40 @@ public class AlbumFacadeImpl implements AlbumFacade {
 
     final static Logger LOG = LoggerFactory.getLogger(AlbumFacadeImpl.class);
 
-    @Autowired
+    @Inject
     private BeanMappingService beanMappingService;
 
     @Inject
     private AlbumService albumService;
 
+    @Inject
+    private ArtService artService;
+
     @Override
     public Long createAlbum(AlbumDTO albumDTO) {
-        Album mappedAlbum = beanMappingService.mapTo(albumDTO, Album.class);
+        Album mappedAlbum = new Album();
+        mappedAlbum.setReleaseDate(albumDTO.getReleaseDate());
+        mappedAlbum.setCommentary(albumDTO.getCommentary());
+        mappedAlbum.setTitle(albumDTO.getTitle());
 
-        //Set<Song> songs = beanMappingService.mapTo(albumDTO.getSongs(), Song.class);
-        //mappedAlbum.setSongs(songs);
+        mappedAlbum.setArt(artService.findArtById(albumDTO.getArt().getId()));
+
+        Set<Song> songs = new HashSet<>();
+        for (SongDTO s : albumDTO.getSongs()) {
+            Song newSong = new Song();
+            newSong.setId(s.getId());
+            songs.add(newSong);
+        }
+        mappedAlbum.setSongs(songs);
+
         Album newAlbum = albumService.createAlbum(mappedAlbum);
         return newAlbum.getId();
     }
 
     @Override
-    public void deleteAlbum(Long id) {
+    public void deleteAlbum(AlbumDTO albumDTO) {
         Album album = new Album();
-        album.setId(id);
+        album.setId(albumDTO.getId());
         albumService.deleteAlbum(album);
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface AlbumFacade {
     Long createAlbum(AlbumDTO albumDTO);
-    void deleteAlbum(Long id);
+    void deleteAlbum(AlbumDTO albumDTO);
     void changeCommentary(Long albumId, String commentary);
     AlbumDTO getAlbumById(Long id);
     List<AlbumDTO> getAlbumByMusician(MusicianDTO musicianDto);
