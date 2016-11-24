@@ -18,6 +18,6 @@ public interface GenreService {
     
     public List<Genre>findAll();
     public Genre findById(Long id);
-    public void create(Genre genre);
+    public Genre create(Genre genre);
     public void delete(Genre genre);
 }

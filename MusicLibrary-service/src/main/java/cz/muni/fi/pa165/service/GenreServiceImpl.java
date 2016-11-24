@@ -32,8 +32,9 @@ public class GenreServiceImpl implements GenreService{
     }
 
     @Override
-    public void create(Genre genre) {
+    public Genre create(Genre genre) {
         genreDao.create(genre);
+        return genre;
     }
 
     @Override
