@@ -24,29 +24,28 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @Import(AppContext.class)
-@ComponentScan(basePackageClasses={AlbumServiceImpl.class, SongFacadeImpl.class})
+@ComponentScan(basePackageClasses = {AlbumServiceImpl.class, SongFacadeImpl.class})
 public class ServiceConfiguration {
-	
 
-	@Bean
-	public Mapper dozer(){
-		DozerBeanMapper dozer = new DozerBeanMapper();		
-		dozer.addMapping(new DozerCustomConfig());
-		return dozer;
-	}
-	
-	/**
-	 * Custom config for Dozer if needed
-	 * @author nguyen
-	 *
-	 */
-	public class DozerCustomConfig extends BeanMappingBuilder {
-	    @Override
-	    protected void configure() {
-	        mapping(Song.class, SongDTO.class);
-	    }
-	}
-	
+    @Bean
+    public Mapper dozer() {
+        DozerBeanMapper dozer = new DozerBeanMapper();
+        dozer.addMapping(new DozerCustomConfig());
+        return dozer;
+    }
+
+    /**
+     * Custom config for Dozer if needed
+     *
+     * @author nguyen
+     *
+     */
+    public class DozerCustomConfig extends BeanMappingBuilder {
+
+        @Override
+        protected void configure() {
+            mapping(Song.class, SongDTO.class);
+        }
+    }
+
 }
-
-
