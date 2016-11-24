@@ -12,7 +12,7 @@ public interface UserService {
 
 	void create(User user);
 
-	void update(User user);
+	void changePassword(User user, String newPassword);
 
     User findByUsername(String username);
 }
