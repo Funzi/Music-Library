@@ -9,8 +9,10 @@ import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.AlbumRating;
 import cz.muni.fi.pa165.entity.Musician;
+import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.util.EntityUtils;
+import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbum;
 import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbumRating;
 import cz.muni.fi.pa165.util.TestUtils;
 import java.util.Date;
@@ -46,7 +48,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void createAndFindByIdTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
 
         Album album2 = albumDao.findById(album.getId());
@@ -55,11 +57,10 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void multiCreateTest() {
-        Musician musician = EntityUtils.getPersistedValidMusician(emf);
-        Album album = EntityUtils.getValidAlbum(musician);
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(musician);
+        Album album2 = EntityUtils.getValidAlbum();
         albumDao.create(album2);
 
         assertEquals(albumDao.findById(album.getId()), album);
@@ -68,7 +69,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test(expectedExceptions = PersistenceException.class)
     public void doubleCreateTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
         albumDao.create(album);
     }
@@ -95,11 +96,10 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findAllTest() {
-        Musician musician = EntityUtils.getPersistedValidMusician(emf);
-        Album album = EntityUtils.getValidAlbum(musician);
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(musician);
+        Album album2 = EntityUtils.getValidAlbum();
         albumDao.create(album2);
 
         List<Album> albums = albumDao.findAll();
@@ -117,7 +117,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void deleteTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
         assertEquals(albumDao.findById(album.getId()), album);
 
@@ -127,11 +127,10 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void multiDeleteTest() {
-        Musician musician = EntityUtils.getPersistedValidMusician(emf);
-        Album album = EntityUtils.getValidAlbum(musician);
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(musician);
+        Album album2 = EntityUtils.getValidAlbum();
         albumDao.create(album2);
 
         assertEquals(albumDao.findAll().size(), 2);
@@ -146,11 +145,8 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test()
     public void deleteInvalidTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
-        Musician musician2 = EntityUtils.getValidMusician();
-        musician2.setName("Jaromir Nohavica");
-        TestUtils.persistObjects(emf, musician2);
-        Album album2 = EntityUtils.getValidAlbum(musician2);
+        Album album = EntityUtils.getValidAlbum();
+        Album album2 = EntityUtils.getValidAlbum();
 
         albumDao.create(album2);
         albumDao.delete(album);
@@ -164,7 +160,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateTest() {
-        Album album = EntityUtils.getValidAlbum(EntityUtils.getPersistedValidMusician(emf));
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
         assertEquals(albumDao.findById(album.getId()).getTitle(), album.getTitle());
 
@@ -176,11 +172,10 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void multiUpdateTest() {
-        Musician musician = EntityUtils.getPersistedValidMusician(emf);
-        Album album = EntityUtils.getValidAlbum(musician);
+        Album album = EntityUtils.getValidAlbum();
         albumDao.create(album);
 
-        Album album2 = EntityUtils.getValidAlbum(musician);
+        Album album2 = EntityUtils.getValidAlbum();
         albumDao.create(album2);
 
         album.setTitle("random");
@@ -196,9 +191,8 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void updateInvalidTest() {
-        Musician musician = EntityUtils.getPersistedValidMusician(emf);
-        Album album = EntityUtils.getValidAlbum(musician);
-        Album album2 = EntityUtils.getValidAlbum(musician);
+        Album album = EntityUtils.getValidAlbum();
+        Album album2 = EntityUtils.getValidAlbum();
         albumDao.create(album2);
 
         album.setTitle("random");
@@ -213,9 +207,8 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
 	@Test
 	public void testBestRating() {
-		Musician musician = EntityUtils.getPersistedValidMusician(emf);
-        Album album = EntityUtils.getValidAlbum(musician);
-        Album album2 = EntityUtils.getValidAlbum(musician);
+        Album album = EntityUtils.getValidAlbum();
+        Album album2 = EntityUtils.getValidAlbum();
 		album2.setTitle("aaaaa");
 
 		User user1 = EntityUtils.getValidUser();
@@ -258,6 +251,32 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 		best = albumDao.findBestRated(1, date);
 		assertEquals(best.size(), 1);
 		assertTrue(best.contains(album2));
+	}
+
+	@Test
+	public void testBestRatingForMusician() {
+		Album album1 = getValidAlbum();
+		Album album2 = getValidAlbum();
+
+		Musician musician = EntityUtils.getPersistedValidMusician(emf);
+		Song song1 = EntityUtils.getValidSong();
+		song1.setMusician(musician);
+		song1.setAlbum(album1);
+		Song song2 = EntityUtils.getValidSong();
+		song2.setMusician(musician);
+		song2.setAlbum(album2);
+
+		User user = EntityUtils.getPersistedValidUser(emf);
+		AlbumRating rating1 = getValidAlbumRating(album1, user);
+		rating1.setRvalue(1.0);
+		AlbumRating rating2 = getValidAlbumRating(album2, user);
+		rating2.setRvalue(0.60);
+
+		TestUtils.persistObjects(emf, song1, song2, album1, album2, rating1, rating2);
+
+		List<Album> bestRated = albumDao.findBestRatedForMusician(1, musician);
+		assertEquals(bestRated.size(), 1);
+		assertTrue(bestRated.contains(album1));
 	}
 
     @AfterMethod

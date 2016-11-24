@@ -3,11 +3,9 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.AlbumRating;
-import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.util.EntityUtils;
 import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbumRating;
-import static cz.muni.fi.pa165.util.EntityUtils.getValidMusician;
 import static cz.muni.fi.pa165.util.EntityUtils.getValidUser;
 import java.util.Date;
 import java.util.List;
@@ -48,9 +46,6 @@ public class AlbumRatingDaoTest extends AbstractTestNGSpringContextTests {
     private AlbumDao albumDao;
 
 	@Autowired
-    private MusicianDao musicianDao;
-
-	@Autowired
     private UserDao userDao;
 
 	private User user1;
@@ -65,12 +60,9 @@ public class AlbumRatingDaoTest extends AbstractTestNGSpringContextTests {
 		user2 = getValidUser();
 		user2.setUsername("user 2");
 
-		Musician musician = getValidMusician();
-		album1 = EntityUtils.getValidAlbum(musician);
-		album2 = EntityUtils.getValidAlbum(musician);
+		album1 = EntityUtils.getValidAlbum();
+		album2 = EntityUtils.getValidAlbum();
 		album2.setTitle("album 2");
-
-		musicianDao.create(musician);
 
 		userDao.create(user1);
 		userDao.create(user2);

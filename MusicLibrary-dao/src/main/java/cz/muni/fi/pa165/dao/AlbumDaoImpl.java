@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Musician;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -87,6 +88,19 @@ public class AlbumDaoImpl implements AlbumDao {
 				.filter(id -> id != null)
 				.forEach(id -> albums.add(findById(id)));
 
+		return albums;
+	}
+
+	@Override
+	public List<Album> findBestRatedForMusician(int limit, Musician musician) {
+		List<Album> albums = new ArrayList<>();
+		em.createQuery("select r.album.id from AlbumRating r, Song s where r.album = s.album and s.musician = :musician group by r.album order by avg(r.rvalue) desc", Long.class)
+				.setParameter("musician", musician)
+				.setMaxResults(limit)
+				.getResultList()
+				.stream()
+				.filter(id -> id != null)
+				.forEach(id -> albums.add(findById(id)));
 		return albums;
 	}
 }

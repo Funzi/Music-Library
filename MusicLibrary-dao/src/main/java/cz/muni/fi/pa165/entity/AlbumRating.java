@@ -21,7 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
  * @author Jan Stourac
  */
 @Entity
-@Table(name = "RATING",
+@Table(name = "ALBUM_RATING",
 		uniqueConstraints = {
 			@UniqueConstraint(columnNames
 					= {"album_id", "user_id"})})
@@ -133,5 +133,5 @@ public class AlbumRating {
 		return true;
 	}
 
-	
+
 }

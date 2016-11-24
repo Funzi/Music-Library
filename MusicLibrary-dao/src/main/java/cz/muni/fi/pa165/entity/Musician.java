@@ -1,17 +1,15 @@
 package cz.muni.fi.pa165.entity;
 
 import cz.muni.fi.pa165.utils.Constants;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Formula;
 
 /**
  * Class representing musician entity.
@@ -30,6 +28,9 @@ public class Musician {
 	@NotNull
 	@Column(nullable = false, unique = true, length = Constants.INT_LENGTH_SMALL)
 	private String name;
+
+	@Formula("(select coalesce(avg(r.rvalue), 0) from Album_Rating r, Song s where r.album_id = s.album_id and s.musician_id = id)")
+	private double avgAlbumRating;
 
 	public Musician() {
 
@@ -71,6 +72,10 @@ public class Musician {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public double getAvgAlbumRating() {
+		return avgAlbumRating;
 	}
 
 	@Override

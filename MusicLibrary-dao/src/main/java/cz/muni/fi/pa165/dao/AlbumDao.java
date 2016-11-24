@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Musician;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -58,4 +59,6 @@ public interface AlbumDao {
 	List<Album> findBestRated(int limit);
 
 	List<Album> findBestRated(int limit, Date upTo);
+
+	List<Album> findBestRatedForMusician(int limit, Musician musician);
 }
