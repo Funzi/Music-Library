@@ -5,7 +5,7 @@
  */
 package cz.muni.fi.pa165.service;
 
-import config.ServiceConfiguration;
+import cz.muni.fi.pa165.config.ServiceConfiguration;
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Song;

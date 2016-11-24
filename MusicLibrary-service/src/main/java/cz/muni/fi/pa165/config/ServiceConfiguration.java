@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package config;
+package cz.muni.fi.pa165.config;
 
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.api.dto.SongDTO;
