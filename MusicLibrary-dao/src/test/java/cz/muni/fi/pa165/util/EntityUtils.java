@@ -1,9 +1,7 @@
 package cz.muni.fi.pa165.util;
 
-import cz.muni.fi.pa165.entity.Album;
-import cz.muni.fi.pa165.entity.Genre;
-import cz.muni.fi.pa165.entity.Musician;
-import cz.muni.fi.pa165.entity.Song;
+import cz.muni.fi.pa165.entity.*;
+
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -61,4 +59,13 @@ public class EntityUtils {
         TestUtils.persistObjects(emf, song);
         return song;
     }
+
+    public static Art getArt() {
+        Art art = new Art();
+        art.setImageName("TestArtName");
+        art.setImageType("TestArtType");
+        art.setImage("TestArtImage".getBytes());
+        return art;
+    }
+
 }

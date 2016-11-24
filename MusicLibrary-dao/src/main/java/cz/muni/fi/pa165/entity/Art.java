@@ -20,9 +20,10 @@ public class Art {
     @Lob
     private byte[] image;
 
+    @Column(nullable = false)
     private String imageType;
 
-    @Column(length = Constants.INT_LENGTH_MEDIUM)
+    @Column(nullable = false, length = Constants.INT_LENGTH_MEDIUM)
     private String imageName;
 
 
