@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.*;
+import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.util.EntityUtils;
 import cz.muni.fi.pa165.util.TestUtils;
@@ -8,7 +9,10 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
+
+import org.hibernate.TransientPropertyValueException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import static org.testng.Assert.assertEquals;
@@ -185,6 +189,15 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
         song.setTitle("random");
         songDao.update(song);
         assertEquals(songDao.findById(song2.getId()).getTitle(), song2.getTitle());
+    }
+
+    @Test(expectedExceptions = InvalidDataAccessApiUsageException.class)
+    public void testUpdateSongNonExistingAlbum() {
+        Album album = EntityUtils.getValidAlbum();
+        Song song = EntityUtils.getValidSong();
+        songDao.create(song);
+        song.setAlbum(album);
+        songDao.update(song);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

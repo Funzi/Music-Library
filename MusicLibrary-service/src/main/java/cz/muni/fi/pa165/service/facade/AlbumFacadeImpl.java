@@ -44,20 +44,7 @@ public class AlbumFacadeImpl implements AlbumFacade {
 
     @Override
     public Long createAlbum(AlbumDTO albumDTO) {
-        Album mappedAlbum = new Album();
-        mappedAlbum.setReleaseDate(albumDTO.getReleaseDate());
-        mappedAlbum.setCommentary(albumDTO.getCommentary());
-        mappedAlbum.setTitle(albumDTO.getTitle());
-
-        mappedAlbum.setArt(artService.findArtById(albumDTO.getArt().getId()));
-
-        Set<Song> songs = new HashSet<>();
-        for (SongDTO s : albumDTO.getSongs()) {
-            Song newSong = new Song();
-            newSong.setId(s.getId());
-            songs.add(newSong);
-        }
-        mappedAlbum.setSongs(songs);
+        Album mappedAlbum = beanMappingService.mapTo(albumDTO, Album.class);
 
         Album newAlbum = albumService.createAlbum(mappedAlbum);
         return newAlbum.getId();

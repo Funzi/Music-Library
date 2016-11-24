@@ -19,6 +19,8 @@ public interface SongFacade {
 
     public void deleteSong(Long id);
 
+    public void assignSongToAlbum(Long song_id, Long album_id);
+
     public List<SongDTO> getAllSongs();
 
     public List<SongDTO> getSongsByMusicianName(String musicianName);

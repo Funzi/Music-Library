@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.MusicianDao;
 import cz.muni.fi.pa165.dao.SongDao;
+import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 import javax.inject.Inject;
@@ -33,6 +34,19 @@ public class SongServiceImpl implements SongService {
     @Override
     public List<Song> findAll() {
         return songDao.findAll();
+    }
+
+    @Override
+    public void assignSongToAlbum(Long song_id, Album album) {
+        Song song = songDao.findById(song_id);
+        if (song != null) {
+            song.setAlbum(album);
+            try {
+                songDao.update(song);
+            }catch (Exception ex) {
+
+            }
+        }
     }
 
     @Override

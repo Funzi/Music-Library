@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.service;
 
+import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface SongService {
     public Song findById(Long id);
 
     public List<Song> findAll();
+
+    void assignSongToAlbum(Long song_id, Album album);
 
     public Song create(Song p);
 

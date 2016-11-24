@@ -6,16 +6,9 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.AppContext;
-import cz.muni.fi.pa165.entity.Album;
-import cz.muni.fi.pa165.entity.AlbumRating;
-import cz.muni.fi.pa165.entity.Musician;
-import cz.muni.fi.pa165.entity.Song;
-
-import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.entity.*;
 
 import cz.muni.fi.pa165.util.EntityUtils;
-import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbum;
-import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbumRating;
 import cz.muni.fi.pa165.util.TestUtils;
 
 import java.time.DateTimeException;
@@ -28,6 +21,8 @@ import javax.persistence.PersistenceUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+
+import static cz.muni.fi.pa165.util.EntityUtils.*;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
@@ -446,6 +441,24 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 
         List<Album> list = albumDao.findAlbumsByPartialTitle(partial);
         assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void testAddSongToAlbum() {
+        Musician musician = getValidMusician();
+        Album album = getValidAlbum();
+        Art art = getArt();
+        Genre genre = getValidGenre();
+        Song song = EntityUtils.getValidSong();
+        song.setGenre(genre);
+        song.setMusician(musician);
+        song.setAlbum(album);
+        album.setArt(art);
+        //album.addSong(song);
+        TestUtils.persistObjects(emf, musician, art, genre, album, song);
+
+        Album album1 = albumDao.findById(album.getId());
+        assertEquals(album1.getId(), album.getId());
     }
 
     @AfterMethod

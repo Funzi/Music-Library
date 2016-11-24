@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.service.facade;
 import cz.muni.fi.pa165.api.SongFacade;
 import cz.muni.fi.pa165.api.dto.SongCreateDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
+import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.service.AlbumService;
 import cz.muni.fi.pa165.service.BeanMappingService;
@@ -64,6 +65,14 @@ public class SongFacadeImpl implements SongFacade {
     @Override
     public void deleteSong(Long id) {
         songService.delete(songService.findById(id));
+    }
+
+    @Override
+    public void assignSongToAlbum(Long song_id, Long album_id) {
+        Album album = albumService.findAlbumById(album_id);
+        if (album != null) {
+            songService.assignSongToAlbum(song_id, album);
+        }
     }
 
     @Override
