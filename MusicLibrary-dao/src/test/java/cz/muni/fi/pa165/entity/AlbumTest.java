@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 
 /**
  * Unit tests for Album entity.
- * 
+ *
  * @author Martin Kulisek
  * @see Album
  */
@@ -185,9 +185,63 @@ public class AlbumTest extends AbstractTestNGSpringContextTests {
         TestUtils.persistObjects(emf, album);
     }
 
+	@Test
+	public void testSimpleAlbumRating() {
+		Album album = createMinimalValidAlbum();
+		User user = EntityUtils.getPersistedValidUser(emf);
+		AlbumRating rating = EntityUtils.getValidAlbumRating(album, user);
+		TestUtils.persistObjects(emf, album, rating);
+
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertTrue(album2.getRatings().size() == 1);
+		assertTrue(album2.getRatings().contains(rating));
+	}
+
+	@Test
+	public void testComplexAlbumRating() {
+		Album album = createMinimalValidAlbum();
+		Album album2 = createMinimalValidAlbum();
+		User user1 = EntityUtils.getValidUser();
+		User user2 = EntityUtils.getValidUser();
+		user2.setUsername("user 2");
+		AlbumRating rating1 = EntityUtils.getValidAlbumRating(album, user1);
+		AlbumRating rating2 = EntityUtils.getValidAlbumRating(album, user2);
+		AlbumRating rating3 = EntityUtils.getValidAlbumRating(album2, user1);
+		TestUtils.persistObjects(emf, album, album2, user1, user2, rating1, rating2, rating3);
+
+		EntityManager em2 = emf.createEntityManager();
+		Album album3 = em2.find(Album.class, album.getId());
+		assertEquals(album3.getRatings().size(), 2);
+		assertTrue(album3.getRatings().contains(rating1) && album3.getRatings().contains(rating2));
+	}
+
+	@Test
+	public void testAlbumAvgRating() {
+		double rvalue1 = 0.5;
+		double rvalue2 = 0.35;
+		double avg = (rvalue1 + rvalue2) / 2;
+		Album album = createMinimalValidAlbum();
+		Album album2 = createMinimalValidAlbum();
+		User user1 = EntityUtils.getValidUser();
+		User user2 = EntityUtils.getValidUser();
+		user2.setUsername("user 2");
+		AlbumRating rating1 = EntityUtils.getValidAlbumRating(album, user1);
+		rating1.setRvalue(rvalue1);
+		AlbumRating rating2 = EntityUtils.getValidAlbumRating(album, user2);
+		rating2.setRvalue(rvalue2);
+		TestUtils.persistObjects(emf, album, album2, user1, user2, rating1, rating2);
+
+		EntityManager em2 = emf.createEntityManager();
+		Album album3 = em2.find(Album.class, album.getId());
+		assertEquals(album2.getAvgRating(), 0.0);
+		assertEquals(album3.getAvgRating(), avg);
+	}
+
     @AfterMethod
     public void deleteData() {
-        TestUtils.deleteData(emf, "Song", "Album","Musician");
+        //TestUtils.deleteData(emf, "Song", "users", "AlbumRating", "Album", "Musician");
+		TestUtils.deleteAllData(emf);
     }
 
     private Album createMinimalValidAlbum() {

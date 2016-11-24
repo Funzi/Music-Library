@@ -1,32 +1,27 @@
 package cz.muni.fi.pa165.entity;
 
 import cz.muni.fi.pa165.AppContext;
-import cz.muni.fi.pa165.entity.Musician;
+import cz.muni.fi.pa165.util.EntityUtils;
+import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbum;
+import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbumRating;
+import cz.muni.fi.pa165.util.TestUtils;
+import cz.muni.fi.pa165.utils.Constants;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
 import javax.validation.ConstraintViolationException;
-
-import cz.muni.fi.pa165.util.EntityUtils;
-import cz.muni.fi.pa165.util.TestUtils;
-import cz.muni.fi.pa165.utils.Constants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
-
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
-import java.time.LocalDate;
-import java.util.Set;
-import java.util.TreeSet;
-
 /**
  * Unit tests for Musician entity.
- * 
+ *
  * @author Oldrich Konecny
  * @see Musician
  */
@@ -122,6 +117,35 @@ public class MusicianTest extends AbstractTestNGSpringContextTests {
         assertTrue(musician2.getName().isEmpty());
     }
 
+	@Test
+	public void testAvgAlbumRating() {
+		Album album1 = getValidAlbum();
+		Album album2 = getValidAlbum();
+
+		Musician musician = createMinimalValidMusiscian();
+		Song song1 = EntityUtils.getValidSong();
+		song1.setMusician(musician);
+		song1.setAlbum(album1);
+		Song song2 = EntityUtils.getValidSong();
+		song2.setMusician(musician);
+		song2.setAlbum(album2);
+
+		User user = EntityUtils.getPersistedValidUser(emf);
+		double val1 = 1.0;
+		double val2 = 0.6;
+		double avg = (val1 + val2) / 2;
+		AlbumRating rating1 = getValidAlbumRating(album1, user);
+		rating1.setRvalue(val1);
+		AlbumRating rating2 = getValidAlbumRating(album2, user);
+		rating2.setRvalue(val2);
+
+		TestUtils.persistObjects(emf, musician, song1, song2, album1, album2, rating1, rating2);
+
+		musician = emf.createEntityManager().find(Musician.class, musician.getId());
+
+		assertEquals(musician.getAvgAlbumRating(), avg);
+	}
+
 
     private Album createMinimalPersistedAlbum(EntityManagerFactory emf) {
         Album album = new Album();
@@ -132,7 +156,7 @@ public class MusicianTest extends AbstractTestNGSpringContextTests {
 
     @AfterMethod
     public void deleteData() {
-        TestUtils.deleteData(emf, "Musician", "Album", "Genre", "Song");
+        TestUtils.deleteAllData(emf);
     }
 
     private Musician createMinimalValidMusiscian() {

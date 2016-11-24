@@ -42,11 +42,6 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
-    public List<Song> getSongsByMusicianName(String musicianName) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
     public void delete(Song s) {
         songDao.delete(s);
     }

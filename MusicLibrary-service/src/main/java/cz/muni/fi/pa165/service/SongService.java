@@ -20,7 +20,5 @@ public interface SongService {
 
     public Song create(Song p);
 
-    public List<Song> getSongsByMusicianName(String musicianName);
-
     public void delete(Song p);
 }

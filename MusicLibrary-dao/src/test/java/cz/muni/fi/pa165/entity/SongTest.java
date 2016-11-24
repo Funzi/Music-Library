@@ -301,8 +301,7 @@ public class SongTest extends AbstractTestNGSpringContextTests {
     }
 
     private Song createComplexValidSong() {
-        Musician musician = EntityUtils.getValidMusician();
-        Album album = EntityUtils.getValidAlbum(musician);
+        Album album = EntityUtils.getValidAlbum();
         int position = 10;
         Genre genre = EntityUtils.getValidGenre();
         int bitrate = 192;

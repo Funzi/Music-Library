@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import org.hibernate.annotations.Formula;
 
 /**
  * Entity class representing one music Album.
@@ -32,11 +33,18 @@ public class Album {
     @Column(length = Constants.INT_LENGTH_HUGE)
     private String commentary;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "album")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "album", cascade=CascadeType.ALL)
     private Set<Song> songs = new HashSet<>();
 
     @OneToOne
     private Art art;
+
+	@OneToMany(mappedBy="album", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	//@JoinTable(name = "album_rating", joinColumns = @JoinColumn(name = "album_id"), inverseJoinColumns = @JoinColumn(name = "rating_id"))
+	private Set<AlbumRating> ratings = new HashSet<>();
+
+	@Formula("(select coalesce(avg(r.rvalue), 0) from Album_Rating r where r.album_id = id)")
+	private double avgRating;
 
     public Album() {
 
@@ -170,6 +178,26 @@ public class Album {
     public void setArt(Art art) {
         this.art = art;
     }
+
+	public Set<AlbumRating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<AlbumRating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public void addRating(AlbumRating rating) {
+		this.ratings.add(rating);
+	}
+
+	public boolean removeRating(AlbumRating rating) {
+		return this.ratings.remove(rating);
+	}
+
+	public double getAvgRating() {
+		return avgRating;
+	}
 
     @Override
     public boolean equals(Object o) {

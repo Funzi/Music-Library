@@ -34,7 +34,7 @@ public class EntityUtils {
         return musician;
     }
 
-    public static Album getValidAlbum(Musician musician) {
+    public static Album getValidAlbum() {
         Album album = new Album();
         album.setTitle("Testing album");
 
@@ -42,9 +42,8 @@ public class EntityUtils {
     }
 
     public static Album getPersistedValidAlbum(EntityManagerFactory emf) {
-        Musician musician = getValidMusician();
-        Album album = getValidAlbum(musician);
-        TestUtils.persistObjects(emf, musician, album);
+        Album album = getValidAlbum();
+        TestUtils.persistObjects(emf, album);
         return album;
     }
 
@@ -67,5 +66,47 @@ public class EntityUtils {
         art.setImage("TestArtImage".getBytes());
         return art;
     }
+
+
+	public static User getValidUser() {
+        User user = new User();
+        user.setUsername("user");
+		user.setPassword("password");
+        return user;
+    }
+
+    public static User getPersistedValidUser(EntityManagerFactory emf) {
+        User user = getValidUser();
+        TestUtils.persistObjects(emf, user);
+        return user;
+    }
+
+	public static Role getValidRole() {
+        Role role = new Role();
+        role.setName("role");
+        return role;
+    }
+
+    public static Role getPersistedValidRole(EntityManagerFactory emf) {
+        Role role = getValidRole();
+        TestUtils.persistObjects(emf, role);
+        return role;
+    }
+
+	public static AlbumRating getValidAlbumRating(Album album, User user) {
+		AlbumRating rating = new AlbumRating();
+		rating.setAlbum(album);
+		rating.setUser(user);
+		rating.setRvalue(0.35f);
+		return rating;
+	}
+
+	public static AlbumRating getPersistedValidAlbumRating(EntityManagerFactory emf) {
+		Album album = getValidAlbum();
+		User user = getValidUser();
+		AlbumRating rating = getValidAlbumRating(album, user);
+		TestUtils.persistObjects(emf, album, user, rating);
+		return rating;
+	}
 
 }

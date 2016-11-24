@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.entity;
 
 import cz.muni.fi.pa165.utils.Constants;
-import java.util.Objects;
 import javax.persistence.*;
 
 /**
@@ -213,10 +212,10 @@ public class Song {
 		return "Song{" +
 				"id=" + id +
 				", title='" + title + '\'' +
-				", album=" + album +
-				", musician=" + musician +
+				", album=" + (album != null ? album.getId() : null) +
+				", musician=" + (musician != null ? musician.getId() : null) +
 				", position=" + position +
-				", genre=" + genre +
+				", genre=" + (genre != null ? genre.getId() : null) +
 				", bitrate=" + bitrate +
 				", commentary='" + commentary + '\'' +
 				'}';
