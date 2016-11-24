@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.dto.GenreDTO;
+import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.GenreService;
@@ -38,5 +39,23 @@ public class GenreFacadeImpl implements GenreFacade {
     public GenreDTO getGenreById(Long id) {
         Genre genre = genreService.findById(id);
         return (genre == null) ? null : beanMappingService.mapTo(genre, GenreDTO.class);
+    }
+
+    @Override
+    public Long createGenre(GenreDTO genre) {
+        Genre g = beanMappingService.mapTo(genre, Genre.class);
+        g.setId(null);
+        g = genreService.create(g);
+        return g.getId();
+    }
+
+    @Override
+    public void deleteGenre(GenreDTO genre) {
+        genreService.delete(beanMappingService.mapTo(genre, Genre.class));
+    }
+
+    @Override
+    public List<SongDTO> getAllSongsByGenre() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
