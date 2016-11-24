@@ -17,6 +17,9 @@ import cz.muni.fi.pa165.util.EntityUtils;
 import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbum;
 import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbumRating;
 import cz.muni.fi.pa165.util.TestUtils;
+
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
@@ -282,7 +285,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 	}
 
     @Test
-    public void getAlbumByMusician() {
+    public void testFindAlbumByMusician() {
         Musician musician = EntityUtils.getPersistedValidMusician(emf);
         Song song1 = new Song();
         Song song2 = new Song();
@@ -315,14 +318,141 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
     }
 
 
+    @Test
+    public void testFindAlbumsByReleaseDate() {
+        Album album = getValidAlbum();
+        LocalDate ld = LocalDate.of(2016, 1, 1);
+        album.setReleaseDate(ld);
+        albumDao.create(album);
+
+        Album album1 = getValidAlbum();
+        album1.setReleaseDate(LocalDate.of(2000, 1, 1));
+        albumDao.create(album1);
+
+        assertTrue(albumDao.findAll().size() == 2);
+
+        List<Album> list = albumDao.findAlbumsByReleaseDates(
+                LocalDate.of(2010, 1, 1), LocalDate.of(2017, 1 , 1));
+
+        assertEquals(list.get(0), album);
+    }
+
+    @Test
+    public void testFindAlbumsByReleaseDateNonExisting() {
+        Album album = getValidAlbum();
+        LocalDate ld = LocalDate.of(2016, 1, 2);
+        album.setReleaseDate(ld);
+        albumDao.create(album);
+
+        List<Album> list = albumDao.findAlbumsByReleaseDates(
+                LocalDate.of(2010, 1, 1), LocalDate.of(2016, 1 , 1));
+
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void testFindAlbumsByReleaseDateBorderDate() {
+        Album album = getValidAlbum();
+        LocalDate ld = LocalDate.of(2016, 1, 1);
+        album.setReleaseDate(ld);
+        albumDao.create(album);
+
+        List<Album> list = albumDao.findAlbumsByReleaseDates(
+                LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1 , 1));
+
+        assertEquals(list.get(0), album);
+    }
+
+    @Test
+    public void testFindAlbumsByReleaseDateBorderDates2() {
+        Album album = getValidAlbum();
+        LocalDate ld = LocalDate.of(2016, 1, 1);
+        album.setReleaseDate(ld);
+        albumDao.create(album);
+
+        Album album1 = getValidAlbum();
+        album1.setReleaseDate(LocalDate.of(2010, 1, 1));
+        albumDao.create(album1);
+
+        List<Album> list = albumDao.findAlbumsByReleaseDates(
+                LocalDate.of(2010, 1, 1), LocalDate.of(2016, 1 , 1));
+        assertTrue(list.contains(album));
+        assertTrue(list.contains(album1));
+        assertTrue(list.size() == 2);
+    }
+
+    @Test(expectedExceptions = DateTimeException.class)
+    public void testFindAlbumsByReleaseDateWrongDate() {
+        albumDao.findAlbumsByReleaseDates(LocalDate.of(1,13,789), LocalDate.of(-5,1,1));
+    }
+
+    @Test
+    public void testFindAlbumsByReleaseDateChangeDates() {
+        Album album = getValidAlbum();
+        LocalDate ld = LocalDate.of(2016, 1, 1);
+        album.setReleaseDate(ld);
+        albumDao.create(album);
+
+        List<Album> list = albumDao.findAlbumsByReleaseDates(
+                LocalDate.of(2017, 1, 1), LocalDate.of(2010, 1 , 1));
+
+        assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void testFindAlbumsByPartialTitle() {
+        String title = "tvaroh za rafkem..";
+        Album album = getValidAlbum();
+        album.setTitle(title);
+        albumDao.create(album);
+
+        String partial = "tvaroh";
+
+        List<Album> list = albumDao.findAlbumsByPartialTitle(partial);
+        assertEquals(list.get(0), album);
+    }
+
+    @Test
+    public void testFindAlbumsByPartialTitleMoreAlbums() {
+        String title = "tvaroh za rafkem..";
+        Album album = getValidAlbum();
+        album.setTitle(title);
+        albumDao.create(album);
+
+        Album album1 = getValidAlbum();
+        album1.setTitle("vsem nam tvaroh velmi chutna");
+        albumDao.create(album1);
+
+        Album album2 = getValidAlbum();
+        album2.setTitle("Tvaroh qweasfq");
+        albumDao.create(album2);
+
+        String partial = "tvaroh";
+
+        List<Album> list = albumDao.findAlbumsByPartialTitle(partial);
+        assertTrue(list.contains(album));
+        assertTrue(list.contains(album1));
+        assertTrue(list.size() == 2);
+    }
+
+    @Test
+    public void testFindAlbumsByPartialTitleNonExistingTitle() {
+        String title = "tvaroh za rafkem..";
+        Album album = getValidAlbum();
+        album.setTitle(title);
+        albumDao.create(album);
+
+        String partial = "qweasd";
+
+        List<Album> list = albumDao.findAlbumsByPartialTitle(partial);
+        assertTrue(list.isEmpty());
+    }
+    
     @AfterMethod
     public void deleteData() {
         TestUtils.deleteAllData(emf);
 
     }
-
-
-
 
 
 }
