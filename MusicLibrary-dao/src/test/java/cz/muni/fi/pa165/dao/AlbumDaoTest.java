@@ -447,7 +447,7 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
         List<Album> list = albumDao.findAlbumsByPartialTitle(partial);
         assertTrue(list.isEmpty());
     }
-    
+
     @AfterMethod
     public void deleteData() {
         TestUtils.deleteAllData(emf);
