@@ -1,13 +1,15 @@
 package cz.muni.fi.pa165.service;
 
-import cz.muni.fi.pa165.dao.AlbumDao;
-import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.api.dto.AlbumDTO;
+import cz.muni.fi.pa165.dao.*;
+import cz.muni.fi.pa165.entity.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import javax.inject.Inject;
 import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,13 +29,57 @@ public class AlbumServiceTest {
     @Mock
     private AlbumDao albumDao;
 
+    @Mock
+    private SongDao songDao;
+
+    @Mock
+    private ArtDao artDao;
+
+    @Mock
+    private AlbumRatingDao albumRatingDao;
+
+    @Mock
+    private GenreDao genreDao;
+
+    @Mock
+    private MusicianDao musicianDao;
+
     private Album album1;
     private Album album2;
     private Album album3;
+    private Album album4;
+    private Song song1;
+    private Art art1;
+    private AlbumRating albumRating1;
+    private Genre genre1;
+    private Musician musician1;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+
+        art1 = new Art() {
+            {
+                setId(1L);
+                setImageName("ArtName");
+                setImageType("ArtType");
+            }
+        };
+
+        genre1 = new Genre() {
+            {
+                setId(1L);
+                setDescription("GenreDescription");
+                setName("GenreName");
+            }
+        };
+
+        musician1 = new Musician() {
+            {
+                setId(1L);
+                setName("MusicianName");
+            }
+        };
 
         album1 = new Album() {
             {
@@ -61,6 +107,38 @@ public class AlbumServiceTest {
                 setCommentary("Album3Commentary");
             }
         };
+
+        album4 = new Album() {
+            {
+                setId(4L);
+                setTitle("Album4");
+                setArt(art1);
+            }
+        };
+
+        song1 = new Song() {
+            {
+                setId(1L);
+                setTitle("SongTitle");
+                setAlbum(album4);
+                setMusician(musician1);
+                setGenre(genre1);
+            }
+        };
+
+        albumRating1 = new AlbumRating() {
+            {
+                setComment("AlbumRatingComment");
+                setAlbum(album4);
+            }
+        };
+
+        when(artDao.findById(art1.getId())).thenReturn(art1);
+        when(genreDao.findById(genre1.getId())).thenReturn(genre1);
+        when(musicianDao.findById(musician1.getId())).thenReturn(musician1);
+        when(songDao.findById(song1.getId())).thenReturn(song1);
+        when(albumRatingDao.findById(albumRating1.getId())).thenReturn(albumRating1);
+        when(albumDao.findById(album4.getId())).thenReturn(album4);
 
         when(albumDao.findById(album1.getId())).thenReturn(album1);
         when(albumDao.findById(album2.getId())).thenReturn(album2);
@@ -139,7 +217,16 @@ public class AlbumServiceTest {
     }
 
 
+    @Test
+    public void testCreateOrUpdateEverything() {
+        album4.addSong(song1);
+        album4.addRating(albumRating1);
+        Album alb = service.createOrUpdateEverything(album4);
+        Album album = service.findAlbumById(alb.getId());
 
+        assertEquals(album, alb);
+
+    }
 
 
 

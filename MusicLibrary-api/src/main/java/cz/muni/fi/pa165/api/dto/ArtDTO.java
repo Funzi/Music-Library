@@ -49,4 +49,13 @@ public class ArtDTO {
     public void setImage(String image) {
         this.image = image;
     }
+
+    @Override
+    public String toString() {
+        return "ArtDTO{" +
+                "id=" + id +
+                ", imageType='" + imageType + '\'' +
+                ", imageName='" + imageName + '\'' +
+                '}';
+    }
 }

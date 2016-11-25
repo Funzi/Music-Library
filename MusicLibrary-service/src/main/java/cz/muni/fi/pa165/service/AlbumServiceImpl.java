@@ -81,15 +81,12 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public Album createOrUpdateEverything(Album album) {
-        if (album == null) throw new NullPointerException("album is null");
         if (album.getArt() != null) createOrUpdateArt(album.getArt());
 
-        if (album.getId() == null) {
-            albumDao.create(album);
-        } else {
-            Album albumCheck = albumDao.findById(album.getId());
-            if (albumCheck == null) throw new DataAccessException("Error, can not find album with #id="+ album.getId()+" id Database");
+        if (album.getId() != null) {
             albumDao.update(album);
+        } else {
+            albumDao.create(album);
         }
 
         if (album.getRatings() != null && !album.getRatings().isEmpty()) {
@@ -101,7 +98,7 @@ public class AlbumServiceImpl implements AlbumService {
         }
 
 
-        return  null;
+        return  album;
     }
 
     private void createOrUpdateSong(Song song) {
@@ -110,8 +107,6 @@ public class AlbumServiceImpl implements AlbumService {
         if (song.getMusician() != null) createOrUpdateMusician(song.getMusician());
 
         if (song.getId() != null) {
-            Song songCheck = songDao.findById(song.getId());
-            if (songCheck == null) throw new DataAccessException("Error, can not find Song with #id="+ song.getId()+" in Database");
             songDao.update(song);
         }else {
             songDao.create(song);
@@ -120,7 +115,6 @@ public class AlbumServiceImpl implements AlbumService {
 
     private void createOrUpdateMusician(Musician musician) {
         if (musician.getId() != null) {
-            if (musicianDao.findById(musician.getId()) == null) throw new DataAccessException("Error, can not find Musician with #id="+ musician.getId()+" in Database");
             musicianDao.update(musician);
         }else {
             musicianDao.create(musician);
@@ -129,7 +123,6 @@ public class AlbumServiceImpl implements AlbumService {
 
     private void createOrUpdateGenre(Genre genre) {
         if (genre.getId() != null) {
-            if (genreDao.findById(genre.getId()) == null) throw new DataAccessException("Error, can not find Genre with #id="+ genre.getId()+" in Database");
             genreDao.update(genre);
         }else {
             genreDao.create(genre);
@@ -138,8 +131,6 @@ public class AlbumServiceImpl implements AlbumService {
 
     private void createOrUpdateAlbumRating(AlbumRating ar) {
         if (ar.getId() != null) {
-            AlbumRating albumRating = albumRatingDao.findById(ar.getId());
-            if (albumRating == null) throw new DataAccessException("Error, can not find Song with #id="+ ar.getId()+" in Database");
             albumRatingDao.update(ar);
         }else {
             albumRatingDao.create(ar);
@@ -148,8 +139,6 @@ public class AlbumServiceImpl implements AlbumService {
 
     private void createOrUpdateArt(Art art) {
         if (art.getId() != null) {
-            Art artCheck = artDao.findById(art.getId());
-            if (artCheck == null) throw new DataAccessException("Error, can not find Art with #id="+ art.getId()+" in Database");
             artDao.update(art);
         }else {
             artDao.create(art);

@@ -1,6 +1,8 @@
 
 package cz.muni.fi.pa165.api.dto;
 
+import cz.muni.fi.pa165.entity.Song;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
@@ -104,12 +106,16 @@ public class AlbumDTO {
 
     @Override
     public String toString() {
+        String songsIdName = "";
+        for (SongDTO s : songs) {
+            songsIdName.concat("#" + s.getId() + " title:" + s.getTitle() + ", ");
+        }
         return "AlbumDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", releaseDate=" + releaseDate +
                 ", commentary='" + commentary + '\'' +
-                ", songs=" + songs +
+                ", songs=" + songsIdName +
                 ", art=" + art +
                 '}';
     }
