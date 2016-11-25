@@ -12,6 +12,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNull;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -44,6 +45,8 @@ public class MusicianFacadeTest extends AbstractTestNGSpringContextTests {
 				setName("Musician 2");
 			}
 		};
+
+		assertNotEquals(musician1.getName(), musician2.getName());
 	}
 
 	@Test
@@ -54,10 +57,11 @@ public class MusicianFacadeTest extends AbstractTestNGSpringContextTests {
 
 	@Test
 	public void getByIdTest() {
-		Long id = musicianFacade.createMusician(musician1);
-		MusicianDTO dto = musicianFacade.getMusicianById(id);
+		Long id1 = musicianFacade.createMusician(musician1);
+		Long id2 = musicianFacade.createMusician(musician2);
 
-		assertEquals(musician1.getName(), dto.getName());
+		assertEquals(musician1.getName(), musicianFacade.getMusicianById(id1).getName());
+		assertEquals(musician2.getName(), musicianFacade.getMusicianById(id2).getName());
 	}
 
 	@Test
@@ -69,6 +73,26 @@ public class MusicianFacadeTest extends AbstractTestNGSpringContextTests {
 		assertEquals(musicians.size(), 2);
 		assertEquals(musicians.get(0).getName(), musician1.getName());
 		assertEquals(musicians.get(1).getName(), musician2.getName());
+	}
+
+	@Test
+	public void getMusicianByNameTest() {
+		musicianFacade.createMusician(musician1);
+		musicianFacade.createMusician(musician2);
+
+		assertEquals(musician1.getName(), musicianFacade.getMusicianByName(musician1.getName()).getName());
+		assertEquals(musician2.getName(), musicianFacade.getMusicianByName(musician2.getName()).getName());
+	}
+
+	@Test
+	public void deleteMusicianTest() {
+		Long id1 = musicianFacade.createMusician(musician1);
+		Long id2 = musicianFacade.createMusician(musician2);
+
+		musicianFacade.deleteMusician(musicianFacade.getMusicianById(id1));
+		assertNull(musicianFacade.getMusicianById(id1));
+		assertEquals(musicianFacade.getAllMusicians().size(), 1);
+		assertEquals(musicianFacade.getMusicianById(id2).getName(), musician2.getName());
 	}
 
 }
