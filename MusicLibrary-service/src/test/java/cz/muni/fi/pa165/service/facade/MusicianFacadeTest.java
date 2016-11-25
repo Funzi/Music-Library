@@ -3,8 +3,10 @@ package cz.muni.fi.pa165.service.facade;
 import cz.muni.fi.pa165.api.MusicianFacade;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.config.ServiceConfiguration;
+import cz.muni.fi.pa165.util.TestUtils;
 import java.util.List;
-import javax.transaction.Transactional;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -13,6 +15,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -22,9 +25,11 @@ import org.testng.annotations.Test;
  * @author Jan Stourac
  */
 @ContextConfiguration(classes = ServiceConfiguration.class)
-@Transactional
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 public class MusicianFacadeTest extends AbstractTestNGSpringContextTests {
+
+	@PersistenceUnit
+	private EntityManagerFactory emf;
 
 	@Autowired
 	private MusicianFacade musicianFacade;
@@ -93,6 +98,11 @@ public class MusicianFacadeTest extends AbstractTestNGSpringContextTests {
 		assertNull(musicianFacade.getMusicianById(id1));
 		assertEquals(musicianFacade.getAllMusicians().size(), 1);
 		assertEquals(musicianFacade.getMusicianById(id2).getName(), musician2.getName());
+	}
+
+	@AfterMethod
+	public void deleteData() {
+		TestUtils.deleteAllData(emf);
 	}
 
 }
