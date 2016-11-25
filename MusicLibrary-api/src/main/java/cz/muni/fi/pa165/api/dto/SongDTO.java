@@ -216,11 +216,7 @@ public class SongDTO {
 
     @Override
     public String toString() {
-        String albumId = "null";
-        if (album.getId() != null) {
-            albumId = album.getId().toString();
-        }
-        return "SongDTO{" + "id=" + id + ", title=" + title + ", album=" + albumId
+        return "SongDTO{" + "id=" + id + ", title=" + title + ", album=" + (album != null ? album.getId() : "null")
                 + ", musician=" + musician + ", position=" + position + ", genre="
                 + genre + ", bitrate=" + bitrate + ", commentary=" + commentary + '}';
     }
