@@ -6,11 +6,13 @@ import cz.muni.fi.pa165.entity.AlbumRating;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Jan Stourac
  */
+@Service
 public class AlbumRatingServiceImpl implements AlbumRatingService {
 
 	@Inject
