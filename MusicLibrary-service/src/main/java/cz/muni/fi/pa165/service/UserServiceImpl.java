@@ -7,11 +7,13 @@ import cz.muni.fi.pa165.entity.User;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Jan Stourac
  */
+@Service
 public class UserServiceImpl implements UserService {
 
 	@Autowired

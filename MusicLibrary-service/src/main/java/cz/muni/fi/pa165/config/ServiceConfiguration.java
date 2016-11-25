@@ -42,6 +42,7 @@ public class ServiceConfiguration {
 		DefaultPasswordStrengthValidator validator = new DefaultPasswordStrengthValidator();
 		validator.setMinLength(8);
 		validator.setMinGroupsCount(2);
+		validator.addAllGroups();
 		return validator;
 	}
 

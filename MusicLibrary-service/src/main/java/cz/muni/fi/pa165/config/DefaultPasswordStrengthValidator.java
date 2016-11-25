@@ -52,6 +52,13 @@ public class DefaultPasswordStrengthValidator implements PasswordStrengthValidat
 		return Collections.unmodifiableMap(groups);
 	}
 
+	public void addAllGroups() {
+		addGroup(CharacterGroup.LOWERCASE_LETTERS, 0);
+		addGroup(CharacterGroup.UPPERCASE_LETTERS, 0);
+		addGroup(CharacterGroup.NUMBERS, 0);
+		addGroup(CharacterGroup.SPECIAL_CHARACTERS, 0);
+	}
+
 	@Override
 	public ValidationReport validate(String password) {
 		List<String> errors = new ArrayList<>();

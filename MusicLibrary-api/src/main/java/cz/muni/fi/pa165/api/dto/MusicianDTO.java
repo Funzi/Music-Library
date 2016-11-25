@@ -8,6 +8,7 @@ public class MusicianDTO {
 
 	private long id;
 	private String name;
+	private double avgAlbumRating;
 
 	public long getId() {
 		return id;
@@ -23,6 +24,10 @@ public class MusicianDTO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public double getAvgAlbumRating() {
+		return avgAlbumRating;
 	}
 
 }

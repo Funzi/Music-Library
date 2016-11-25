@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.api.dto;
 
-import cz.muni.fi.pa165.entity.Role;
 import java.util.Set;
 
 /**
@@ -13,23 +12,26 @@ public class UserDTO {
 
 	private String username;
 
-	private Set<Role> roles;
+	private Set<RoleDTO> roles;
 
 	public Long getId() {
 		return id;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getUsername() {
 		return username;
 	}
 
-	public Set<Role> getRoles() {
+	public Set<RoleDTO> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<RoleDTO> roles) {
 		this.roles = roles;
 	}
-
 
 }
