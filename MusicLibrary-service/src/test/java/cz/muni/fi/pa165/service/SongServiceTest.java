@@ -27,6 +27,7 @@ import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeMethod;
 
 /**
+ * Unit tests for Song service.
  *
  * @author Martin Kulisek
  */

@@ -6,7 +6,6 @@
 package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.api.SongFacade;
-import cz.muni.fi.pa165.api.dto.SongCreateDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Song;
@@ -33,15 +32,15 @@ public class SongFacadeImpl implements SongFacade {
 
     final static Logger LOG = LoggerFactory.getLogger(SongFacadeImpl.class);
 
-    @Inject
+    @Autowired
     private SongService songService;
-    
+
     @Inject
     private AlbumService albumService;
-    
+
     @Inject
     private MusicianService musicianService;
-    
+
     @Inject
     private GenreService genreService;
 
@@ -49,8 +48,13 @@ public class SongFacadeImpl implements SongFacade {
     private BeanMappingService beanMappingService;
 
     @Override
-    public Long createSong(SongCreateDTO s) {
+    public Long createSong(SongDTO s) {
         Song mappedSong = beanMappingService.mapTo(s, Song.class);
+        mappedSong.setId(null);
+        mappedSong = songService.create(mappedSong);
+        return mappedSong.getId();
+
+        /*Song mappedSong = beanMappingService.mapTo(s, Song.class);
         mappedSong.setAlbum(albumService.findAlbumById(s.getAlbumId()));
         mappedSong.setBitrate(s.getBitrate());
         mappedSong.setCommentary(s.getCommentary());
@@ -59,7 +63,7 @@ public class SongFacadeImpl implements SongFacade {
         mappedSong.setPosition(s.getPosition());
         mappedSong.setTitle(s.getTitle());
         Song newSong = songService.create(mappedSong);
-        return newSong.getId();
+        return newSong.getId();*/
     }
 
     @Override
@@ -78,11 +82,6 @@ public class SongFacadeImpl implements SongFacade {
     @Override
     public List<SongDTO> getAllSongs() {
         return beanMappingService.mapTo(songService.findAll(), SongDTO.class);
-    }
-
-    @Override
-    public List<SongDTO> getSongsByMusicianName(String musicianName) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

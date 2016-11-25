@@ -15,7 +15,6 @@ import org.dozer.CustomConverter;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
-import static org.dozer.loader.api.FieldsMappingOptions.customConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,32 +34,26 @@ public class ServiceConfiguration {
     public Mapper dozer() {
         DozerBeanMapper dozer = new DozerBeanMapper();
         dozer.addMapping(new DozerCustomConfig());
-		//dozer.setCustomConverters(getConverters());
+        //dozer.setCustomConverters(getConverters());
         return dozer;
     }
 
-	private List<CustomConverter> getConverters() {
-		return new ArrayList<CustomConverter>() {
-			{
-				add(new Base64Converter());
-			}
-		};
-	}
+    private List<CustomConverter> getConverters() {
+        return new ArrayList<CustomConverter>() {
+            {
+                add(new Base64Converter());
+            }
+        };
+    }
 
-    /**
-     * Custom config for Dozer if needed
-     *
-     * @author nguyen
-     *
-     */
     public class DozerCustomConfig extends BeanMappingBuilder {
 
         @Override
         protected void configure() {
             mapping(Song.class, SongDTO.class);
             mapping(Genre.class, GenreDTO.class);
-			mapping(Musician.class, MusicianDTO.class);
-			mapping(Art.class, ArtDTO.class).fields("image", "image", customConverter(Base64Converter.class));
+            mapping(Musician.class, MusicianDTO.class);
+            mapping(Art.class, ArtDTO.class).fields("image", "image", customConverter(Base64Converter.class));
 
         }
     }
