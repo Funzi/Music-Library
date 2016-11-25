@@ -4,7 +4,6 @@ import cz.muni.fi.pa165.entity.Genre;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
  * @author Martin Kulisek
  */
 @Repository
-@Transactional
 public class GenreDaoImpl implements GenreDao {
 
     @PersistenceContext

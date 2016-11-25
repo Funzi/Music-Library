@@ -2,18 +2,16 @@ package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Musician;
-import cz.muni.fi.pa165.util.TestUtils;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.transaction.TransactionSystemException;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import static org.testng.Assert.*;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
@@ -23,10 +21,9 @@ import org.testng.annotations.Test;
  * @see MusicianDao
  */
 @ContextConfiguration(classes = AppContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class MusicianDaoTest extends AbstractTestNGSpringContextTests {
-
-	@PersistenceUnit
-	private EntityManagerFactory emf;
 
 	@Autowired
 	private MusicianDao musicianDao;
@@ -142,30 +139,14 @@ public class MusicianDaoTest extends AbstractTestNGSpringContextTests {
 		name = "Something Else";
 		musician.setName(name);
 		Musician musician2 = musicianDao.update(musician);
-		assertEquals(musicianDao.findById(musician2.getId()).getName(), name);
-	}
-
-	@Test(expectedExceptions = TransactionSystemException.class)
-	public void testUpdateInvalid() {
-		Musician musician = createValidMusiscian();
-		String name = "Something";
-		musician.setName(name);
-		musicianDao.create(musician);
+		assertEquals(musician.getId(), musician2.getId());
 		assertEquals(musicianDao.findById(musician.getId()).getName(), name);
-
-		musician.setName(null);
-		Musician musician2 = musicianDao.update(musician);
 	}
 
 	@Test
 	public void testFindNoExistingObject() {
 		Musician musician = musicianDao.findById(123123L);
 		assertNull(musician);
-	}
-
-	@AfterMethod
-	public void deleteData() {
-		TestUtils.deleteData(emf, "Musician", "Album", "Song", "Genre");
 	}
 
 	private Musician createValidMusiscian() {

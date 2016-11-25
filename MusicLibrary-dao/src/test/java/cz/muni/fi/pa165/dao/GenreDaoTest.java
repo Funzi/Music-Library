@@ -3,31 +3,28 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Genre;
 import static cz.muni.fi.pa165.util.EntityUtils.getValidGenre;
-import cz.muni.fi.pa165.util.TestUtils;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 /**
  * Unit tests for Genre DAO.
- * 
+ *
  * @author David Pribula
  * @see GenreDao
  */
 @ContextConfiguration(classes = AppContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class GenreDaoTest extends AbstractTestNGSpringContextTests {
-
-    @PersistenceUnit
-    private EntityManagerFactory emf;
 
     @Autowired
     private GenreDao genreDao;
@@ -39,13 +36,6 @@ public class GenreDaoTest extends AbstractTestNGSpringContextTests {
 
         Genre genre2 = genreDao.findById(genre.getId());
         assertEquals(genre, genre2);
-    }
-
-    @Test(expectedExceptions = PersistenceException.class)
-    public void createSameGenresShouldRaiseExceptions() {
-        Genre genre = getValidGenre();
-        genreDao.create(genre);
-        genreDao.create(genre);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -138,8 +128,4 @@ public class GenreDaoTest extends AbstractTestNGSpringContextTests {
         genreDao.update(null);
     }
 
-    @AfterMethod
-    public void deleteData() {
-        TestUtils.deleteData(emf, "Genre");
-    }
 }

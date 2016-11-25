@@ -5,14 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * JPA implementation of SongDao interface
  * @author David Pribula
  */
 @Repository
-@Transactional
 public class SongDaoImpl implements SongDao {
 
     @PersistenceContext

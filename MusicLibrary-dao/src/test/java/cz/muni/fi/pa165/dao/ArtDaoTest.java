@@ -3,30 +3,25 @@ package cz.muni.fi.pa165.dao;
 import cz.muni.fi.pa165.AppContext;
 import cz.muni.fi.pa165.entity.Art;
 import cz.muni.fi.pa165.util.EntityUtils;
-import cz.muni.fi.pa165.util.TestUtils;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.Test;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
-
 import java.util.List;
-
+import javax.inject.Inject;
+import javax.persistence.PersistenceException;
+import javax.transaction.Transactional;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
+import org.testng.annotations.Test;
 
 /**
  * Created by olda on 24.11.2016.
  */
 @ContextConfiguration(classes = AppContext.class)
+@TestExecutionListeners(TransactionalTestExecutionListener.class)
+@Transactional
 public class ArtDaoTest extends AbstractTestNGSpringContextTests{
-
-    @PersistenceUnit
-    private EntityManagerFactory emf;
 
     @Inject
     private ArtDao artDao;
@@ -171,13 +166,5 @@ public class ArtDaoTest extends AbstractTestNGSpringContextTests{
         art.setId(9789L);
         artDao.update(art);
     }
-
-
-
-    @AfterMethod
-    public void deleteData() {
-        TestUtils.deleteData(emf, "Art");
-    }
-
 
 }

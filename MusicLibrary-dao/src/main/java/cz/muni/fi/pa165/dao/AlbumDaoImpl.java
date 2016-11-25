@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Implementation of data access layer for Album entity.
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Oldrich Konecny
  */
 @Repository
-@Transactional
 public class AlbumDaoImpl implements AlbumDao {
 
 	@PersistenceContext

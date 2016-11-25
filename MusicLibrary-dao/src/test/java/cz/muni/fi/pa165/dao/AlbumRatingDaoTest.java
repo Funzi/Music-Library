@@ -9,9 +9,7 @@ import static cz.muni.fi.pa165.util.EntityUtils.getValidAlbumRating;
 import static cz.muni.fi.pa165.util.EntityUtils.getValidUser;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceException;
-import javax.persistence.PersistenceUnit;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,9 +33,6 @@ import org.testng.annotations.Test;
 @TestExecutionListeners(TransactionalTestExecutionListener.class)
 @Transactional
 public class AlbumRatingDaoTest extends AbstractTestNGSpringContextTests {
-
-    @PersistenceUnit
-    private EntityManagerFactory emf;
 
     @Autowired
     private AlbumRatingDao albumRatingDao;
