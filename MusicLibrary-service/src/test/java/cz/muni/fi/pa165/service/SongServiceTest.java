@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.SongDao;
+import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertSame;
 import static org.testng.Assert.assertTrue;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Unit tests for Song service.
@@ -43,14 +45,23 @@ public class SongServiceTest {
     private Song song2;
     private Song song3;
 
+	private Musician musician1;
+
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+
+		musician1 = new Musician() {
+				{
+					setName("musician 1");
+				}
+		};
 
         song1 = new Song() {
             {
                 setId(1L);
                 setTitle("Song 1");
+				setMusician(musician1);
             }
         };
 
@@ -70,6 +81,12 @@ public class SongServiceTest {
 
         when(songDao.findById(song1.getId())).thenReturn(song1);
         when(songDao.findById(song2.getId())).thenReturn(song2);
+		when(songDao.findByMusician(musician1)).thenReturn(new ArrayList<Song>() {
+				{
+					add(song1);
+					add(song2);
+				}
+		});
         doThrow(PersistenceException.class).when(songDao).create(song1);
         doThrow(IllegalArgumentException.class).when(songDao).create(null);
         doThrow(IllegalArgumentException.class).when(songDao).delete(null);
@@ -141,5 +158,14 @@ public class SongServiceTest {
     public void testDeleteNull() {
         service.delete(null);
     }
+
+	@Test
+	public void testGetByMusician() {
+		List<Song> songs = service.getSongsForMusician(musician1);
+		assertEquals(songs.size(), 2);
+		assertTrue(songs.contains(song1));
+		assertTrue(songs.contains(song2));
+		assertFalse(songs.contains(song3));
+	}
 
 }

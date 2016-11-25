@@ -6,8 +6,10 @@
 package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.api.SongFacade;
+import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.service.AlbumService;
 import cz.muni.fi.pa165.service.BeanMappingService;
@@ -89,5 +91,12 @@ public class SongFacadeImpl implements SongFacade {
         Song song = songService.findById(id);
         return (song == null) ? null : beanMappingService.mapTo(song, SongDTO.class);
     }
+
+	@Override
+	public List<SongDTO> getSongsForMusician(MusicianDTO musician) {
+		return beanMappingService.mapTo(songService.getSongsForMusician(beanMappingService.mapTo(musician, Musician.class)), SongDTO.class);
+	}
+
+
 
 }

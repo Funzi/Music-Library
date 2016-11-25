@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.service;
 import cz.muni.fi.pa165.dao.MusicianDao;
 import cz.muni.fi.pa165.dao.SongDao;
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 import javax.inject.Inject;
@@ -22,7 +23,7 @@ public class SongServiceImpl implements SongService {
 
     @Inject
     private SongDao songDao;
-    
+
     @Inject
     private MusicianDao musicianDao;
 
@@ -59,5 +60,10 @@ public class SongServiceImpl implements SongService {
     public void delete(Song s) {
         songDao.delete(s);
     }
+
+	@Override
+	public List<Song> getSongsForMusician(Musician musician) {
+		return songDao.findByMusician(musician);
+	}
 
 }
