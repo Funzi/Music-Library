@@ -17,7 +17,5 @@ public interface GenreFacade {
     
     public List<GenreDTO> getAllGenres();
     
-    public List<SongDTO> getAllSongsByGenre();
-    
     public GenreDTO getGenreById(Long id);
 }

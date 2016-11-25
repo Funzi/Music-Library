@@ -10,11 +10,15 @@ import cz.muni.fi.pa165.service.BeanMappingService;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Jan Stourac
  */
+@Service
+@Transactional
 public class AlbumRatingFacadeImpl implements AlbumRatingFacade {
 
 	@Autowired

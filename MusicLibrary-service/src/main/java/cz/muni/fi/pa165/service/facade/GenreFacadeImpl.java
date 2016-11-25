@@ -53,9 +53,4 @@ public class GenreFacadeImpl implements GenreFacade {
     public void deleteGenre(GenreDTO genre) {
         genreService.delete(beanMappingService.mapTo(genre, Genre.class));
     }
-
-    @Override
-    public List<SongDTO> getAllSongsByGenre() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }
