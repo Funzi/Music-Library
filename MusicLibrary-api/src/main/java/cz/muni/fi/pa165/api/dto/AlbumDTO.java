@@ -88,7 +88,9 @@ public class AlbumDTO {
         AlbumDTO albumDTO = (AlbumDTO) o;
 
         if (title != null ? !title.equals(albumDTO.title) : albumDTO.title != null) return false;
-        return releaseDate != null ? releaseDate.equals(albumDTO.releaseDate) : albumDTO.releaseDate == null;
+        if (releaseDate != null ? !releaseDate.equals(albumDTO.releaseDate) : albumDTO.releaseDate != null)
+            return false;
+        return commentary != null ? commentary.equals(albumDTO.commentary) : albumDTO.commentary == null;
 
     }
 
@@ -96,6 +98,7 @@ public class AlbumDTO {
     public int hashCode() {
         int result = title != null ? title.hashCode() : 0;
         result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + (commentary != null ? commentary.hashCode() : 0);
         return result;
     }
 
