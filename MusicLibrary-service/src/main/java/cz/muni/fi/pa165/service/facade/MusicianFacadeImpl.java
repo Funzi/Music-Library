@@ -2,7 +2,6 @@ package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.api.MusicianFacade;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
-import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.MusicianService;
@@ -51,11 +50,6 @@ public class MusicianFacadeImpl implements MusicianFacade {
 	@Override
 	public void deleteMusician(MusicianDTO musician) {
 		musicianService.delete(beanMappingService.mapTo(musician, Musician.class));
-	}
-
-	@Override
-	public List<SongDTO> getSongsForMusician(MusicianDTO musician) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 }

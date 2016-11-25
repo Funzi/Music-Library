@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dao;
 
+import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 
@@ -46,4 +47,6 @@ public interface SongDao {
      * @return list containing all songs
      */
     List<Song> findAll();
+
+	List<Song> findByMusician(Musician musician);
 }

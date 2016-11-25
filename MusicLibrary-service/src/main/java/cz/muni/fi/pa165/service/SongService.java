@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 
@@ -24,4 +25,8 @@ public interface SongService {
     public Song create(Song p);
 
     public void delete(Song p);
+
+	List<Song> getSongsForMusician(Musician musician);
+
+	void updateSongPosition(Song song, int newPosition);
 }

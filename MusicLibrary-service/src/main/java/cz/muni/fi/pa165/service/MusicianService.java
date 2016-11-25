@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 @Service
 public interface MusicianService {
 
-    public List<Musician> findAll();
-    public Musician findById(Long id);
-	public Musician findByName(String name);
-    public Musician create(Musician musician);
-    public void delete(Musician musician);
+    List<Musician> findAll();
+    Musician findById(Long id);
+	Musician findByName(String name);
+    Musician create(Musician musician);
+    void delete(Musician musician);
 }

@@ -1,8 +1,11 @@
 package cz.muni.fi.pa165.dao;
 
 import cz.muni.fi.pa165.*;
+import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.util.EntityUtils;
+import static cz.muni.fi.pa165.util.EntityUtils.getValidMusician;
+import static cz.muni.fi.pa165.util.EntityUtils.getValidSong;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import org.testng.annotations.Test;
@@ -28,6 +33,9 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private SongDao songDao;
+
+	@Autowired
+	private MusicianDao musicianDao;
 
 	@Test
 	public void createAndFindByIdTest() {
@@ -173,6 +181,35 @@ public class SongDaoTest extends AbstractTestNGSpringContextTests {
 		song.setTitle("random");
 		songDao.update(song);
 		assertEquals(songDao.findById(song2.getId()).getTitle(), song2.getTitle());
+	}
+
+	@Test
+	public void findByMusicianTest() {
+		Musician musician1 = getValidMusician();
+		musician1.setName("musician 1");
+		Musician musician2 = getValidMusician();
+		musician2.setName("musician 2");
+		Song song1 = getValidSong();
+		song1.setMusician(musician1);
+		Song song2 = getValidSong();
+		song2.setMusician(musician1);
+		Song song3 = getValidSong();
+		song3.setMusician(musician2);
+
+		assertNotEquals(musician1.getName(), musician2.getName());
+
+		musicianDao.create(musician1);
+		musicianDao.create(musician2);
+
+		songDao.create(song1);
+		songDao.create(song2);
+		songDao.create(song3);
+
+		List<Song> songs = songDao.findByMusician(musician1);
+		assertEquals(songs.size(), 2);
+		assertTrue(songs.contains(song1));
+		assertTrue(songs.contains(song2));
+		assertFalse(songs.contains(song3));
 	}
 
 	@Test(expectedExceptions = IllegalArgumentException.class)

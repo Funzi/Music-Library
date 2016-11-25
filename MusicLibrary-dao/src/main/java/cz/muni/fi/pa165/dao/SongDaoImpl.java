@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.dao;
 
+import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -40,5 +41,12 @@ public class SongDaoImpl implements SongDao {
     public List<Song> findAll() {
         return em.createQuery("SELECT s FROM Song s", Song.class).getResultList();
     }
+
+	@Override
+	public List<Song> findByMusician(Musician musician) {
+		return em.createQuery("select s from Song s where s.musician = :musician")
+				.setParameter("musician", musician)
+				.getResultList();
+	}
 
 }
