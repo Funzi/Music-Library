@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -34,6 +35,19 @@ public class ServiceConfiguration {
 		DozerBeanMapper dozer = new DozerBeanMapper();
 		dozer.addMapping(new DozerCustomConfig());
 		return dozer;
+	}
+
+	@Bean
+	public PasswordStrengthValidator passwordStrengthValidator() {
+		DefaultPasswordStrengthValidator validator = new DefaultPasswordStrengthValidator();
+		validator.setMinLength(8);
+		validator.setMinGroupsCount(2);
+		return validator;
+	}
+
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 
 	public class DozerCustomConfig extends BeanMappingBuilder {
