@@ -27,4 +27,6 @@ public interface SongFacade {
 
 	List<SongDTO> getSongsForMusician(MusicianDTO musician);
 
+	void updateSongPosition(SongDTO song, int newPosition);
+
 }

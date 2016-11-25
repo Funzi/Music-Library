@@ -27,4 +27,6 @@ public interface SongService {
     public void delete(Song p);
 
 	List<Song> getSongsForMusician(Musician musician);
+
+	void updateSongPosition(Song song, int newPosition);
 }
