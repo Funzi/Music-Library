@@ -1,4 +1,3 @@
-
 package cz.muni.fi.pa165.service;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class BeanMappingServiceImpl implements BeanMappingService{
     private Mapper dozer;
 
     @Override
-    public  <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass) {
+    public <T> List<T> mapTo(Collection<?> objects, Class<T> mapToClass) {
         List<T> mappedCollection = new ArrayList<>();
         for (Object object : objects) {
             mappedCollection.add(dozer.map(object, mapToClass));
@@ -28,10 +27,10 @@ public class BeanMappingServiceImpl implements BeanMappingService{
     {
         return dozer.map(u,mapToClass);
     }
-    
+
     @Override
     public Mapper getMapper(){
     	return dozer;
     }
-    
+
 }
