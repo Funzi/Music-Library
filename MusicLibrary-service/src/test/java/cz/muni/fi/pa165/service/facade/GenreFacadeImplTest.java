@@ -28,6 +28,8 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertNull;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -45,43 +47,42 @@ public class GenreFacadeImplTest extends AbstractTestNGSpringContextTests{
     @Autowired
     private GenreFacade genreFacade;
       
-    Genre genre1;
-    Genre genre2;
     GenreDTO genreDTO1;
+    GenreDTO genreDTO2;
     
     @BeforeMethod
     public void setUp() {
-               
-        genre1 = new Genre() {
-            {
-                setId(1L);
-                setName("Rock");
-            }
-        };
+        
         genreDTO1 = new GenreDTO() {
             {
                 setId(1L);
                 setName("Rock");
             }
         };
-        genre2 = new Genre() {
+        genreDTO2 = new GenreDTO() {
             {
                 setId(2L);
                 setName("Jazz");
             }
         };
+    }
+    
+    @Test
+    public void createTest() {
+        Long id = genreFacade.createGenre(genreDTO1);
         
-        List<Genre> genres = new ArrayList<Genre>() {
-            {
-                add(genre1);
-                add(genre2);
-            }
-        };
+        assertNotEquals(id,0L);
     }
     
     @Test
     public void getAllGenresTest() {
-        
+        genreFacade.createGenre(genreDTO1);
+        genreFacade.createGenre(genreDTO2);
+        List<GenreDTO> genres = genreFacade.getAllGenres();
+
+        assertEquals(genres.size(),2);
+        assertEquals(genres.get(0).getName(), genreDTO1.getName());
+        assertEquals(genres.get(1).getName(), genreDTO2.getName());
     }
     
     @Test
@@ -89,5 +90,14 @@ public class GenreFacadeImplTest extends AbstractTestNGSpringContextTests{
         Long id = genreFacade.createGenre(genreDTO1);
         
         assertEquals(genreDTO1.getName(),genreFacade.getGenreById(id).getName());
+    }
+    
+    @Test
+    public void deleteTest() {
+        Long id = genreFacade.createGenre(genreDTO1);
+        
+        genreFacade.deleteGenre(genreFacade.getGenreById(id));
+        assertNull(genreFacade.getGenreById(id));
+        assertEquals(genreFacade.getAllGenres().size(),0);
     }
 }
