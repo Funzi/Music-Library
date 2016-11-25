@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 /**
+ * Implementation of SongService
  *
  * @author Martin Kulisek
  */
@@ -41,7 +42,7 @@ public class SongServiceImpl implements SongService {
             song.setAlbum(album);
             try {
                 songDao.update(song);
-            }catch (Exception ex) {
+            } catch (Exception ex) {
 
             }
         }
@@ -58,32 +59,38 @@ public class SongServiceImpl implements SongService {
         songDao.delete(s);
     }
 
-	@Override
-	public List<Song> getSongsForMusician(Musician musician) {
-		return songDao.findByMusician(musician);
-	}
+    @Override
+    public List<Song> getSongsForMusician(Musician musician) {
+        return songDao.findByMusician(musician);
+    }
 
-	@Override
-	public void updateSongPosition(Song song, int newPosition) {
-		Set<Song> songs = song.getAlbum().getSongs();
+    @Override
+    public void updateSongPosition(Song song, int newPosition) {
+        if (song.getAlbum() == null) {
+            song.setPosition(newPosition);
+            songDao.update(song);
+            return;
+        }
 
-		if(newPosition <= 0 || newPosition > songs.size()) {
-			throw new IllegalArgumentException("New position must be withing zero and song count");
-		}
+        Set<Song> songs = song.getAlbum().getSongs();
 
-		int origPosition = song.getPosition();
-		for(Song s : songs) {
-			int pos = s.getPosition();
-			if (s.equals(song)) {
-				s.setPosition(newPosition);
-			} else if(pos > origPosition && pos <= newPosition) {
-				s.setPosition(s.getPosition() - 1);
-			} else {
-				continue;
-			}
+        if (newPosition <= 0 || newPosition > songs.size()) {
+            throw new IllegalArgumentException("New position must be between zero and song count");
+        }
 
-			songDao.update(s);
-		}
-	}
+        int origPosition = song.getPosition();
+        for (Song s : songs) {
+            int pos = s.getPosition();
+            if (s.equals(song)) {
+                s.setPosition(newPosition);
+            } else if (pos > origPosition && pos <= newPosition) {
+                s.setPosition(s.getPosition() - 1);
+            } else {
+                continue;
+            }
+
+            songDao.update(s);
+        }
+    }
 
 }

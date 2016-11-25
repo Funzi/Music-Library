@@ -46,23 +46,23 @@ public class SongServiceTest {
     private Song song2;
     private Song song3;
 
-	private Musician musician1;
+    private Musician musician1;
 
     @BeforeMethod
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-		musician1 = new Musician() {
-				{
-					setName("musician 1");
-				}
-		};
+        musician1 = new Musician() {
+            {
+                setName("musician 1");
+            }
+        };
 
         song1 = new Song() {
             {
                 setId(1L);
                 setTitle("Song 1");
-				setMusician(musician1);
+                setMusician(musician1);
             }
         };
 
@@ -82,12 +82,12 @@ public class SongServiceTest {
 
         when(songDao.findById(song1.getId())).thenReturn(song1);
         when(songDao.findById(song2.getId())).thenReturn(song2);
-		when(songDao.findByMusician(musician1)).thenReturn(new ArrayList<Song>() {
-				{
-					add(song1);
-					add(song2);
-				}
-		});
+        when(songDao.findByMusician(musician1)).thenReturn(new ArrayList<Song>() {
+            {
+                add(song1);
+                add(song2);
+            }
+        });
         doThrow(PersistenceException.class).when(songDao).create(song1);
         doThrow(IllegalArgumentException.class).when(songDao).create(null);
         doThrow(IllegalArgumentException.class).when(songDao).delete(null);
@@ -160,53 +160,53 @@ public class SongServiceTest {
         service.delete(null);
     }
 
-	@Test
-	public void testGetByMusician() {
-		List<Song> songs = service.getSongsForMusician(musician1);
-		assertEquals(songs.size(), 2);
-		assertTrue(songs.contains(song1));
-		assertTrue(songs.contains(song2));
-		assertFalse(songs.contains(song3));
-	}
+    @Test
+    public void testGetByMusician() {
+        List<Song> songs = service.getSongsForMusician(musician1);
+        assertEquals(songs.size(), 2);
+        assertTrue(songs.contains(song1));
+        assertTrue(songs.contains(song2));
+        assertFalse(songs.contains(song3));
+    }
 
-	@Test
-	public void updateSongPositionTest() {
-		Song song1 = new Song();
-		song1.setPosition(1);
-		Song song2 = new Song();
-		song2.setPosition(2);
-		Song song3 = new Song();
-		song3.setPosition(3);
-		Song song4 = new Song();
-		song4.setPosition(4);
-		Song song5 = new Song();
-		song5.setPosition(5);
-		Song song6 = new Song();
-		song6.setPosition(6);
+    @Test
+    public void updateSongPositionTest() {
+        Song song1 = new Song();
+        song1.setPosition(1);
+        Song song2 = new Song();
+        song2.setPosition(2);
+        Song song3 = new Song();
+        song3.setPosition(3);
+        Song song4 = new Song();
+        song4.setPosition(4);
+        Song song5 = new Song();
+        song5.setPosition(5);
+        Song song6 = new Song();
+        song6.setPosition(6);
 
-		Album album = new Album();
-		album.addSong(song6);
-		album.addSong(song5);
-		album.addSong(song4);
-		album.addSong(song3);
-		album.addSong(song2);
-		album.addSong(song1);
+        Album album = new Album();
+        album.addSong(song6);
+        album.addSong(song5);
+        album.addSong(song4);
+        album.addSong(song3);
+        album.addSong(song2);
+        album.addSong(song1);
 
-		song2.setAlbum(album);
+        song2.setAlbum(album);
 
-		service.updateSongPosition(song2, 5);
+        service.updateSongPosition(song2, 5);
 
-		verify(songDao, times(1)).update(song2);
-		verify(songDao, times(1)).update(song3);
-		verify(songDao, times(1)).update(song4);
-		verify(songDao, times(1)).update(song5);
+        verify(songDao, times(1)).update(song2);
+        verify(songDao, times(1)).update(song3);
+        verify(songDao, times(1)).update(song4);
+        verify(songDao, times(1)).update(song5);
 
-		assertEquals(song1.getPosition(), 1);
-		assertEquals(song2.getPosition(), 5);
-		assertEquals(song3.getPosition(), 2);
-		assertEquals(song4.getPosition(), 3);
-		assertEquals(song5.getPosition(), 4);
-		assertEquals(song6.getPosition(), 6);
-	}
+        assertEquals(song1.getPosition(), 1);
+        assertEquals(song2.getPosition(), 5);
+        assertEquals(song3.getPosition(), 2);
+        assertEquals(song4.getPosition(), 3);
+        assertEquals(song5.getPosition(), 4);
+        assertEquals(song6.getPosition(), 6);
+    }
 
 }

@@ -13,8 +13,6 @@ import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.service.AlbumService;
 import cz.muni.fi.pa165.service.BeanMappingService;
-import cz.muni.fi.pa165.service.GenreService;
-import cz.muni.fi.pa165.service.MusicianService;
 import cz.muni.fi.pa165.service.SongService;
 import java.util.List;
 import javax.inject.Inject;
@@ -40,12 +38,6 @@ public class SongFacadeImpl implements SongFacade {
     @Inject
     private AlbumService albumService;
 
-    @Inject
-    private MusicianService musicianService;
-
-    @Inject
-    private GenreService genreService;
-
     @Autowired
     private BeanMappingService beanMappingService;
 
@@ -55,17 +47,6 @@ public class SongFacadeImpl implements SongFacade {
         mappedSong.setId(null);
         mappedSong = songService.create(mappedSong);
         return mappedSong.getId();
-
-        /*Song mappedSong = beanMappingService.mapTo(s, Song.class);
-        mappedSong.setAlbum(albumService.findAlbumById(s.getAlbumId()));
-        mappedSong.setBitrate(s.getBitrate());
-        mappedSong.setCommentary(s.getCommentary());
-        mappedSong.setGenre(genreService.findById(s.getGenreId()));
-        mappedSong.setMusician(musicianService.findById(s.getMusicianId()));
-        mappedSong.setPosition(s.getPosition());
-        mappedSong.setTitle(s.getTitle());
-        Song newSong = songService.create(mappedSong);
-        return newSong.getId();*/
     }
 
     @Override
@@ -92,15 +73,14 @@ public class SongFacadeImpl implements SongFacade {
         return (song == null) ? null : beanMappingService.mapTo(song, SongDTO.class);
     }
 
-	@Override
-	public List<SongDTO> getSongsForMusician(MusicianDTO musician) {
-		return beanMappingService.mapTo(songService.getSongsForMusician(beanMappingService.mapTo(musician, Musician.class)), SongDTO.class);
-	}
+    @Override
+    public List<SongDTO> getSongsForMusician(MusicianDTO musician) {
+        return beanMappingService.mapTo(songService.getSongsForMusician(beanMappingService.mapTo(musician, Musician.class)), SongDTO.class);
+    }
 
-	@Override
-	public void updateSongPosition(SongDTO song, int newPosition) {
-		songService.updateSongPosition(beanMappingService.mapTo(song, Song.class), newPosition);
-	}
-
+    @Override
+    public void updateSongPosition(SongDTO song, int newPosition) {
+        songService.updateSongPosition(beanMappingService.mapTo(song, Song.class), newPosition);
+    }
 
 }

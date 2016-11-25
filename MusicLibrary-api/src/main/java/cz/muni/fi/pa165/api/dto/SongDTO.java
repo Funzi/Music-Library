@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.api.dto;
 import java.util.Objects;
 
 /**
+ * Data Transfer Object for Song
  *
  * @author Martin Kulisek
  */
@@ -215,7 +216,11 @@ public class SongDTO {
 
     @Override
     public String toString() {
-        return "SongDTO{" + "id=" + id + ", title=" + title + ", album=" + album
+        String albumId = "null";
+        if (album.getId() != null) {
+            albumId = album.getId().toString();
+        }
+        return "SongDTO{" + "id=" + id + ", title=" + title + ", album=" + albumId
                 + ", musician=" + musician + ", position=" + position + ", genre="
                 + genre + ", bitrate=" + bitrate + ", commentary=" + commentary + '}';
     }

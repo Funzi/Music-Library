@@ -5,7 +5,11 @@
  */
 package cz.muni.fi.pa165.service.facade;
 
+import cz.muni.fi.pa165.api.AlbumFacade;
+import cz.muni.fi.pa165.api.MusicianFacade;
 import cz.muni.fi.pa165.api.SongFacade;
+import cz.muni.fi.pa165.api.dto.AlbumDTO;
+import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.config.ServiceConfiguration;
 import java.util.List;
@@ -22,6 +26,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 /**
+ * Unit tests for facade layer of Song
  *
  * @author Martin Kulisek
  */
@@ -32,6 +37,12 @@ public class SongFacadeImplTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private SongFacade songFacade;
+
+    @Autowired
+    private AlbumFacade albumFacade;
+
+    @Autowired
+    private MusicianFacade musicianFacade;
 
     private SongDTO song1;
     private SongDTO song2;
@@ -88,5 +99,41 @@ public class SongFacadeImplTest extends AbstractTestNGSpringContextTests {
         assertNull(songFacade.getSongById(id1));
         assertEquals(songFacade.getAllSongs().size(), 1);
         assertEquals(songFacade.getSongById(id2).getTitle(), song2.getTitle());
+    }
+
+    @Test
+    public void updateSongPositionWithoutAlbumTest() {
+        song1.setPosition(2);
+        Long id = songFacade.createSong(song1);
+
+        songFacade.updateSongPosition(songFacade.getSongById(id), 3);
+        assertEquals(songFacade.getAllSongs().size(), 1);
+        assertEquals(songFacade.getSongById(id).getPosition(), 3);
+    }
+
+    @Test
+    public void assignSongToAlbumTest() {
+        AlbumDTO album = new AlbumDTO();
+        album.setTitle("Album");
+
+        Long id = songFacade.createSong(song1);
+        Long albumId = albumFacade.createAlbum(album);
+        songFacade.assignSongToAlbum(id, albumId);
+
+        assertEquals(songFacade.getAllSongs().size(), 1);
+        assertEquals(songFacade.getSongById(id).getAlbum().getTitle(), "Album");
+    }
+
+    @Test
+    public void getSongsForMusicianTest() {
+        MusicianDTO musician = new MusicianDTO();
+        musician.setName("Musician");
+        MusicianDTO persistedMusician = musicianFacade.getMusicianById(musicianFacade.createMusician(musician));
+
+        song1.setMusician(persistedMusician);
+        songFacade.createSong(song1);
+
+        assertEquals(songFacade.getSongsForMusician(persistedMusician).size(), 1);
+        assertEquals(songFacade.getSongsForMusician(persistedMusician).get(0).getMusician().getName(), "Musician");
     }
 }

@@ -11,6 +11,7 @@ import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 
 /**
+ * Service layer of Song entity
  *
  * @author Martin Kulisek
  */
@@ -26,7 +27,7 @@ public interface SongService {
 
     public void delete(Song p);
 
-	List<Song> getSongsForMusician(Musician musician);
+    List<Song> getSongsForMusician(Musician musician);
 
-	void updateSongPosition(Song song, int newPosition);
+    void updateSongPosition(Song song, int newPosition);
 }
