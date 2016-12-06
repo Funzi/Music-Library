@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.sampledata;
 
 import cz.muni.fi.pa165.config.ServiceConfiguration;
-import java.io.IOException;
 import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class SampleDataConfiguration {
     private SampleDataLoadingFacade sampleDataLoadingFacade;
 
     @PostConstruct
-    public void dataLoading() throws IOException {
+    public void dataLoading() throws Exception {
         log.debug("dataLoading()");
         sampleDataLoadingFacade.loadData();
     }

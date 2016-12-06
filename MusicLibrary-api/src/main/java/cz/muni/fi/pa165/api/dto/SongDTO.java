@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Martin Kulisek
  */
-public class SongDTO {
+public class SongDTO implements Comparable<SongDTO> {
 
     private Long id;
 
@@ -220,5 +220,11 @@ public class SongDTO {
                 + ", musician=" + musician + ", position=" + position + ", genre="
                 + genre + ", bitrate=" + bitrate + ", commentary=" + commentary + '}';
     }
+
+	@Override
+	public int compareTo(SongDTO o) {
+		int ret = Integer.compare(position, o.position);
+		return ret != 0 ? ret : -1;
+	}
 
 }

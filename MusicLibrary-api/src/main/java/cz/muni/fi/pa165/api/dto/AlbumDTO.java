@@ -1,19 +1,18 @@
 
 package cz.muni.fi.pa165.api.dto;
 
-import cz.muni.fi.pa165.entity.Song;
-
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Created by olda on 20.11.2016.
  */
 public class AlbumDTO {
 
-    private  Long id;
+    private Long id;
 
     private String title;
 
@@ -21,9 +20,11 @@ public class AlbumDTO {
 
     private String commentary;
 
-    private Set<SongDTO> songs = new HashSet<>();
+    private SortedSet<SongDTO> songs = new TreeSet<>();
 
     private ArtDTO art;
+
+	private double avgRating;
 
 
     public Long getId() {
@@ -62,7 +63,7 @@ public class AlbumDTO {
         return songs;
     }
 
-    public void setSongs(Set<SongDTO> songs) {
+    public void setSongs(SortedSet<SongDTO> songs) {
         this.songs = songs;
     }
 
@@ -81,6 +82,14 @@ public class AlbumDTO {
     public void addSong(Collection<SongDTO> songs) {
         this.songs.addAll(songs);
     }
+
+	public double getAvgRating() {
+		return avgRating;
+	}
+
+	public void setAvgRating(double avgRating) {
+		this.avgRating = avgRating;
+	}
 
     @Override
     public boolean equals(Object o) {
