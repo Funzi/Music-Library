@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.entity.AlbumRating;
 import cz.muni.fi.pa165.entity.Art;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
+import cz.muni.fi.pa165.entity.Role;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.service.AlbumRatingService;
@@ -12,6 +13,7 @@ import cz.muni.fi.pa165.service.AlbumService;
 import cz.muni.fi.pa165.service.ArtService;
 import cz.muni.fi.pa165.service.GenreService;
 import cz.muni.fi.pa165.service.MusicianService;
+import cz.muni.fi.pa165.service.RoleService;
 import cz.muni.fi.pa165.service.SongService;
 import cz.muni.fi.pa165.service.UserService;
 import java.io.ByteArrayOutputStream;
@@ -52,6 +54,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 	@Autowired
     private MusicianService musicianService;
 	@Autowired
+    private RoleService roleService;
+	@Autowired
     private SongService songService;
 	@Autowired
     private UserService userService;
@@ -63,7 +67,9 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		Genre metal = genre("Metal", "metal music");
 		Genre rock = genre("Rock", "rock music");
 
-		User honza = user("honza", "heslo123");
+		Role admin = role("admin");
+
+		User honza = user("honza", "heslo123", admin);
 		User pepa = user("pepa", "heslo1234.");
 
 		Musician metallica = musician("Metallica");
@@ -76,10 +82,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		Album sirenCharms = album("Siren Charms", null, LocalDate.parse("2014-09-05"), sirenCharmsArt);
 		Album myMix = album("My mix", "best mix 4ever", LocalDate.now(), null);
 
-		AlbumRating loadHonza = albumRating(load, honza, 1.3);
-		AlbumRating loadPepa = albumRating(load, pepa, 2.8);
-		AlbumRating sirenCharmsHonza = albumRating(sirenCharms, honza, 3.5);
-		AlbumRating sirenCharmsPepa = albumRating(sirenCharms, pepa, 3.8);
+		AlbumRating loadHonza = albumRating(load, honza, 1.3, null);
+		AlbumRating loadPepa = albumRating(load, pepa, 2.8, "One of the top albums from Metallica. Really love it!");
+		AlbumRating sirenCharmsHonza = albumRating(sirenCharms, honza, 3.5, "The best live performance I have ever seen");
+		AlbumRating sirenCharmsPepa = albumRating(sirenCharms, pepa, 3.8, null);
 
 		Song aintMyBitch = song("Ain't My Bitch", load, metallica, 1, rock, null);
 		Song twoXFour = song("2 X 4", load, metallica, 2, rock, null);
@@ -104,11 +110,12 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		return album;
 	}
 
-	private AlbumRating albumRating(Album album, User user, double rvalue) {
+	private AlbumRating albumRating(Album album, User user, double rvalue, String comment) {
 		AlbumRating rating = new AlbumRating();
 		rating.setAlbum(album);
 		rating.setRvalue(rvalue);
 		rating.setUser(user);
+		rating.setComment(comment);
 
 		albumRatingService.create(rating);
 
@@ -145,6 +152,15 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		return musician;
 	}
 
+	private Role role(String name) {
+		Role role = new Role();
+		role.setName(name);
+
+		roleService.create(role);
+
+		return role;
+	}
+
 	private Song song(String title, Album album, Musician musician, int position, Genre genre, String commentary) {
 		Song song = new Song();
 		song.setTitle(title);
@@ -159,11 +175,14 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		return song;
 	}
 
-	private User user(String username, String password) {
+	private User user(String username, String password, Role... roles) {
 		User user = new User();
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setPasswordConfirm(password);
+		for(Role r : roles) {
+			user.addRole(r);
+		}
 
 		userService.create(user);
 

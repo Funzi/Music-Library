@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <my:pagetemplate title="${album.title}">
     <jsp:attribute name="body">
@@ -55,21 +56,73 @@
         </div>
         <div>
             <h2>Songs</h2>
-            <table class="table table-striped">
+            <!-- TODO: reordering -->
+            <table id="sort" class="table table-striped">
                 <tr>
                     <th>#</th>
                     <th>Name</th>
                     <th>Musician</th>
+                        <sec:authorize access="hasAuthority('admin')">
+                        <th width="75" align="center">Actions</th>
+                        </sec:authorize>
                 </tr>
-                <c:forEach items="${album.songs}" var="s">
-                    <tr>
-                        <td><c:out value="${s.position}" /></td>
-                        <td><c:out value="${s.title}" /></td>
-                        <td><my:musician musician="${s.musician}" /></td>
-                    </tr>
-                </c:forEach>
+                <tbody>
+                    <c:forEach items="${album.songs}" var="s">
+                        <tr>
+                            <td><c:out value="${s.position}" /></td>
+                            <td><c:out value="${s.title}" /></td>
+                            <td><my:musician musician="${s.musician}" /></td>
+                            <sec:authorize access="hasAuthority('admin')">
+                                <td align="center"><my:a href="/songs/${s.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;&nbsp;&nbsp;<my:a href="/songs/${s.id}/delete" data-confirm="Are you sure to delete this song?"><img src="<c:url value="/images/delete.png" />" title="Edit" alt="Edit" /></my:a></td>
+                                </sec:authorize>
+                        </tr>
+                    </c:forEach>
+                </tbody>
             </table>
         </div>
+
+        <div>
+            <sec:authorize access="isAuthenticated()">
+                <button id="opener" type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Rate this album!</button>
+            </sec:authorize>
+            <h2>Ratings</h2>
+            <c:forEach items="${ratings}" var="r">
+                <div class="alert alert-info" role="alert">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <c:out value="${r.user.username}" />&nbsp;&nbsp;&nbsp;<my:rating rating="${r.rvalue}" includeValue="true" /></div>
+                        <div class="offset8">[ <c:out value="${r.added}" /> ]</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <c:out value="${r.comment}" />
+                        </div>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
+
+        <div id="dialog" title="Rate album">
+            <c:url var="rate_action" value="/albums/${album.id}/rate" />
+            <form:form action="${rate_action}" method="POST" modelAttribute="ratingForm" class="form">
+                <s:bind path="rvalue">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="rvalue" class="form-control" placeholder="Rating"
+                                    autofocus="true"></form:input>
+                        <form:errors path="rvalue"></form:errors>
+                        </div>
+                </s:bind>
+
+                <s:bind path="comment">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="comment" class="form-control" placeholder="Comment"></form:input>
+                        <form:errors path="comment"></form:errors>
+                        </div>
+                </s:bind>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form:form>
+        F</div>
 
     </jsp:attribute>
 </my:pagetemplate>

@@ -33,14 +33,13 @@ public class Album {
     @Column(length = Constants.INT_LENGTH_HUGE)
     private String commentary;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "album", cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "album", cascade=CascadeType.ALL, orphanRemoval = true)
     private Set<Song> songs = new HashSet<>();
 
     @OneToOne
     private Art art;
 
-	@OneToMany(mappedBy="album", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	//@JoinTable(name = "album_rating", joinColumns = @JoinColumn(name = "album_id"), inverseJoinColumns = @JoinColumn(name = "rating_id"))
+	@OneToMany(mappedBy="album", cascade=CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	private Set<AlbumRating> ratings = new HashSet<>();
 
 	@Formula("(select coalesce(avg(r.rvalue), 0) from Album_Rating r where r.album_id = id)")

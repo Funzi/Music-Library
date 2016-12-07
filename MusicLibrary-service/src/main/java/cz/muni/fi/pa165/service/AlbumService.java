@@ -1,8 +1,6 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.entity.Album;
-import cz.muni.fi.pa165.entity.Song;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,6 +11,7 @@ public interface AlbumService {
     Album findAlbumById(Long id);
     List<Album> findAllAlbums();
     Album createAlbum(Album album);
+	void updateAlbum(Album album);
     void deleteAlbum(Album album);
     void changeCommentary(Album album, String newCommentary);
     List<Album> findAlbumsByMusicianId(Long musicianId);

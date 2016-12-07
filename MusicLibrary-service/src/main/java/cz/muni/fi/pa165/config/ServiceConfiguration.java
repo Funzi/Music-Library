@@ -60,7 +60,7 @@ public class ServiceConfiguration {
 			mapping(Song.class, SongDTO.class);
 			mapping(Genre.class, GenreDTO.class);
 			mapping(Musician.class, MusicianDTO.class);
-			mapping(AlbumRating.class, AlbumRatingDTO.class);
+			mapping(AlbumRating.class, AlbumRatingDTO.class).fields("added", "added", customConverter(DateConverter.class));
 			mapping(Art.class, ArtDTO.class).fields("image", "image", customConverter(Base64Converter.class));
 			mapping(Album.class, AlbumDTO.class).fields("releaseDate", "releaseDate", customConverter(LocalDateConvert.class));
 

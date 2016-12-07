@@ -23,6 +23,11 @@
         </dependency>
         <dependency>
             <groupId>cz.muni.fi.pa165</groupId>
+            <artifactId>MusicLibrary-rest</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cz.muni.fi.pa165</groupId>
             <artifactId>MusicLibrary-sample-data</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
@@ -47,6 +52,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+        </dependency>
+
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
         </dependency>
     </dependencies>
 

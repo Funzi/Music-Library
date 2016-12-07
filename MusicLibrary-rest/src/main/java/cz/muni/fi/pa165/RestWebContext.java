@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @Configuration
 @Import({ServiceConfiguration.class, SampleDataConfiguration.class})
 @ComponentScan(basePackages = {"cz.muni.fi.pa165.rest.controllers", "cz.fi.muni.pa165.rest.assemblers"})
-public class RootWebContext extends WebMvcConfigurerAdapter {
+public class RestWebContext extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

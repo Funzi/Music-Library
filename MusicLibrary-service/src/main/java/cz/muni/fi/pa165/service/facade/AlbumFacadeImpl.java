@@ -42,6 +42,11 @@ public class AlbumFacadeImpl implements AlbumFacade {
 	}
 
 	@Override
+	public void updateAlbum(AlbumDTO albumDTO) {
+		albumService.updateAlbum(beanMappingService.mapTo(albumDTO, Album.class));
+	}
+
+	@Override
 	public void deleteAlbum(AlbumDTO albumDTO) {
 		Album album = new Album();
 		album.setId(albumDTO.getId());
@@ -83,4 +88,5 @@ public class AlbumFacadeImpl implements AlbumFacade {
 		List<Album> albums = albumService.findAllAlbums();
 		return beanMappingService.mapTo(albums, AlbumDTO.class);
 	}
+
 }

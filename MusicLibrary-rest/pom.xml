@@ -10,7 +10,7 @@
 
     <groupId>cz.muni.fi.pa165</groupId>
     <artifactId>MusicLibrary-rest</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>Music Library REST Layer</name>
 
     <build>
@@ -20,8 +20,21 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <path>/MusicLibrary-rest</path>
+                    <path>/pa165</path>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>make-a-jar</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

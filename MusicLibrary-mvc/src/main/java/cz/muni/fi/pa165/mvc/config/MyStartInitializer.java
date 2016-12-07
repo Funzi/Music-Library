@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.mvc.config;
 
+import cz.muni.fi.pa165.RestWebContext;
 import cz.muni.fi.pa165.config.SecurityConfig;
 import javax.servlet.Filter;
 import javax.servlet.FilterRegistration;
@@ -31,7 +32,7 @@ public class MyStartInitializer extends AbstractAnnotationConfigDispatcherServle
 
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return new Class<?>[]{MySpringMvcConfig.class, SecurityConfig.class};
+		return new Class<?>[]{MySpringMvcConfig.class, SecurityConfig.class, RestWebContext.class};
 	}
 
 	@Override

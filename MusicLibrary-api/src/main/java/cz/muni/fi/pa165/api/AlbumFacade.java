@@ -2,10 +2,6 @@ package cz.muni.fi.pa165.api;
 
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
-import cz.muni.fi.pa165.api.dto.SongDTO;
-import cz.muni.fi.pa165.entity.Album;
-import cz.muni.fi.pa165.entity.Musician;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,6 +10,7 @@ import java.util.List;
  */
 public interface AlbumFacade {
     Long createAlbum(AlbumDTO albumDTO);
+	void updateAlbum(AlbumDTO albumDTO);
     void deleteAlbum(AlbumDTO albumDTO);
     void changeCommentary(Long albumId, String commentary);
     AlbumDTO getAlbumById(Long id);

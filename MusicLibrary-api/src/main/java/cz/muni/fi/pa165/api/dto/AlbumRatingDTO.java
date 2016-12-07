@@ -1,12 +1,15 @@
 package cz.muni.fi.pa165.api.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  *
  * @author Jan Stourac
  */
-public class AlbumRatingDTO {
+public class AlbumRatingDTO implements Comparable<AlbumRatingDTO> {
 
 	private Long id;
 
@@ -18,7 +21,8 @@ public class AlbumRatingDTO {
 
 	private String comment;
 
-	private Date added;
+	@DateTimeFormat(iso = ISO.DATE)
+	private LocalDate added;
 
 	public Long getId() {
 		return id;
@@ -56,13 +60,47 @@ public class AlbumRatingDTO {
 		this.user = user;
 	}
 
-	public Date getAdded() {
+	public LocalDate getAdded() {
 		return added;
 	}
 
-	public void setAdded(Date added) {
+	public void setAdded(LocalDate added) {
 		this.added = added;
 	}
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 67 * hash + Objects.hashCode(this.album);
+		hash = 67 * hash + Objects.hashCode(this.user);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final AlbumRatingDTO other = (AlbumRatingDTO) obj;
+		if (!Objects.equals(this.album, other.album)) {
+			return false;
+		}
+		if (!Objects.equals(this.user, other.user)) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public int compareTo(AlbumRatingDTO o) {
+		int ret = -1 * added.compareTo(o.added);
+		return ret != 0 ? ret : 1;
+	}
 
 }
