@@ -33,157 +33,157 @@ import org.testng.annotations.Test;
 @ContextConfiguration(classes = AppContext.class)
 public class AlbumTest extends AbstractTestNGSpringContextTests {
 
-    @PersistenceUnit
-    private EntityManagerFactory emf;
+	@PersistenceUnit
+	private EntityManagerFactory emf;
 
-    @Test
-    public void testEquals() {
-        Album album1 = createMinimalValidAlbum();
-        TestUtils.persistObjects(emf, album1);
+	@Test
+	public void testEquals() {
+		Album album1 = createMinimalValidAlbum();
+		TestUtils.persistObjects(emf, album1);
 
-        EntityManager em = emf.createEntityManager();
-        Album album2 = em.find(Album.class, album1.getId());
-        assertEquals(album1, album2);
-    }
+		EntityManager em = emf.createEntityManager();
+		Album album2 = em.find(Album.class, album1.getId());
+		assertEquals(album1, album2);
+	}
 
-    @Test
-    public void testHashCode() {
-        Album album1 = createMinimalValidAlbum();
-        TestUtils.persistObjects(emf, album1);
+	@Test
+	public void testHashCode() {
+		Album album1 = createMinimalValidAlbum();
+		TestUtils.persistObjects(emf, album1);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album1.getId());
-        assertEquals(album1.hashCode(), album2.hashCode());
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album1.getId());
+		assertEquals(album1.hashCode(), album2.hashCode());
+	}
 
-    @Test
-    public void testGeneratedId() {
-        Album album = createMinimalValidAlbum();
-        TestUtils.persistObjects(emf, album);
+	@Test
+	public void testGeneratedId() {
+		Album album = createMinimalValidAlbum();
+		TestUtils.persistObjects(emf, album);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertEquals(album.getId(), album2.getId());
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertEquals(album.getId(), album2.getId());
+	}
 
-    @Test
-    public void testTitle() {
-        String title = "Test";
-        Album album = createMinimalValidAlbum();
-        album.setTitle(title);
-        TestUtils.persistObjects(emf, album);
+	@Test
+	public void testTitle() {
+		String title = "Test";
+		Album album = createMinimalValidAlbum();
+		album.setTitle(title);
+		TestUtils.persistObjects(emf, album);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertEquals(album2.getTitle(), title);
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertEquals(album2.getTitle(), title);
+	}
 
-    @Test(expectedExceptions = ConstraintViolationException.class)
-    public void throwIfTitleIsNull() {
-        Album album = createMinimalValidAlbum();
-        album.setTitle(null);
-        TestUtils.persistObjects(emf, album);
-    }
+	@Test(expectedExceptions = ConstraintViolationException.class)
+	public void throwIfTitleIsNull() {
+		Album album = createMinimalValidAlbum();
+		album.setTitle(null);
+		TestUtils.persistObjects(emf, album);
+	}
 
-    @Test
-    public void testMaxTitleLength() {
-        Album album = createMinimalValidAlbum();
-        album.setTitle(TestUtils.generateString(64));
-        TestUtils.persistObjects(emf, album);
-    }
+	@Test
+	public void testMaxTitleLength() {
+		Album album = createMinimalValidAlbum();
+		album.setTitle(TestUtils.generateString(64));
+		TestUtils.persistObjects(emf, album);
+	}
 
-    @Test(expectedExceptions = PersistenceException.class)
-    public void throwIfTitleIsTooLong() {
-        Album album = createMinimalValidAlbum();
-        album.setTitle(TestUtils.generateString(65));
-        TestUtils.persistObjects(emf, album);
-    }
+	@Test(expectedExceptions = PersistenceException.class)
+	public void throwIfTitleIsTooLong() {
+		Album album = createMinimalValidAlbum();
+		album.setTitle(TestUtils.generateString(65));
+		TestUtils.persistObjects(emf, album);
+	}
 
-    @Test
-    public void testReleaseDate() {
-        LocalDate date = LocalDate.now();
-        Album album = createMinimalValidAlbum();
-        album.setReleaseDate(date);
-        TestUtils.persistObjects(emf, album);
+	@Test
+	public void testReleaseDate() {
+		LocalDate date = LocalDate.now();
+		Album album = createMinimalValidAlbum();
+		album.setReleaseDate(date);
+		TestUtils.persistObjects(emf, album);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertEquals(album2.getReleaseDate(), date);
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertEquals(album2.getReleaseDate(), date);
+	}
 
-    @Test
-    public void testSongs() {
-        Album album = createMinimalValidAlbum();
+	@Test
+	public void testSongs() {
+		Album album = createMinimalValidAlbum();
 
-        Song song1 = EntityUtils.getValidSong();
-        song1.setTitle("super cool title");
-        song1.setAlbum(album);
+		Song song1 = EntityUtils.getValidSong();
+		song1.setTitle("super cool title");
+		song1.setAlbum(album);
 
-        Song song2 = EntityUtils.getValidSong();
-        song2.setAlbum(album);
-        Set songs = new HashSet();
-        songs.add(song1);
-        songs.add(song2);
-        album.addSongs(songs);
+		Song song2 = EntityUtils.getValidSong();
+		song2.setAlbum(album);
+		Set songs = new HashSet();
+		songs.add(song1);
+		songs.add(song2);
+		album.addSongs(songs);
 
-        TestUtils.persistObjects(emf, album, song1, song2);
+		TestUtils.persistObjects(emf, album, song1, song2);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertEquals(album2.getSongs(), songs);
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertEquals(album2.getSongs(), songs);
+	}
 
-    @Test
-    public void testCommentary() {
-        String com = "commentary";
-        Album album = createMinimalValidAlbum();
-        album.setCommentary(com);
-        TestUtils.persistObjects(emf, album);
+	@Test
+	public void testCommentary() {
+		String com = "commentary";
+		Album album = createMinimalValidAlbum();
+		album.setCommentary(com);
+		TestUtils.persistObjects(emf, album);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertEquals(album2.getCommentary(), com);
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertEquals(album2.getCommentary(), com);
+	}
 
-    @Test
-    public void testDefaultCommentary() {
-        Album album = createMinimalValidAlbum();
-        TestUtils.persistObjects(emf, album);
+	@Test
+	public void testDefaultCommentary() {
+		Album album = createMinimalValidAlbum();
+		TestUtils.persistObjects(emf, album);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertNull(album2.getCommentary());
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertNull(album2.getCommentary());
+	}
 
-    @Test
-    public void testNullCommentary() {
-        Album album = createMinimalValidAlbum();
-        album.setCommentary(null);
-        TestUtils.persistObjects(emf, album);
+	@Test
+	public void testNullCommentary() {
+		Album album = createMinimalValidAlbum();
+		album.setCommentary(null);
+		TestUtils.persistObjects(emf, album);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertNull(album2.getCommentary());
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertNull(album2.getCommentary());
+	}
 
-    @Test
-    public void testCommentaryMaxLength() {
-        String com = TestUtils.generateString(2048);
-        Album album = createMinimalValidAlbum();
-        album.setCommentary(com);
-        TestUtils.persistObjects(emf, album);
+	@Test
+	public void testCommentaryMaxLength() {
+		String com = TestUtils.generateString(2048);
+		Album album = createMinimalValidAlbum();
+		album.setCommentary(com);
+		TestUtils.persistObjects(emf, album);
 
-        EntityManager em2 = emf.createEntityManager();
-        Album album2 = em2.find(Album.class, album.getId());
-        assertEquals(album2.getCommentary(), com);
-    }
+		EntityManager em2 = emf.createEntityManager();
+		Album album2 = em2.find(Album.class, album.getId());
+		assertEquals(album2.getCommentary(), com);
+	}
 
-    @Test(expectedExceptions = PersistenceException.class)
-    public void throwIfCommentaryIsTooLong() {
-        Album album = createMinimalValidAlbum();
-        album.setCommentary(TestUtils.generateString(2049));
-        TestUtils.persistObjects(emf, album);
-    }
+	@Test(expectedExceptions = PersistenceException.class)
+	public void throwIfCommentaryIsTooLong() {
+		Album album = createMinimalValidAlbum();
+		album.setCommentary(TestUtils.generateString(2049));
+		TestUtils.persistObjects(emf, album);
+	}
 
 	@Test
 	public void testSimpleAlbumRating() {
@@ -208,7 +208,7 @@ public class AlbumTest extends AbstractTestNGSpringContextTests {
 		AlbumRating rating1 = EntityUtils.getValidAlbumRating(album, user1);
 		AlbumRating rating2 = EntityUtils.getValidAlbumRating(album, user2);
 		AlbumRating rating3 = EntityUtils.getValidAlbumRating(album2, user1);
-		TestUtils.persistObjects(emf, album, album2, user1, user2, rating1, rating2, rating3);
+		TestUtils.persistObjects(emf, user1, user2, album, album2);
 
 		EntityManager em2 = emf.createEntityManager();
 		Album album3 = em2.find(Album.class, album.getId());
@@ -230,7 +230,7 @@ public class AlbumTest extends AbstractTestNGSpringContextTests {
 		rating1.setRvalue(rvalue1);
 		AlbumRating rating2 = EntityUtils.getValidAlbumRating(album, user2);
 		rating2.setRvalue(rvalue2);
-		TestUtils.persistObjects(emf, album, album2, user1, user2, rating1, rating2);
+		TestUtils.persistObjects(emf, user1, user2, album, album2);
 
 		EntityManager em2 = emf.createEntityManager();
 		Album album3 = em2.find(Album.class, album.getId());
@@ -238,15 +238,15 @@ public class AlbumTest extends AbstractTestNGSpringContextTests {
 		assertEquals(album3.getAvgRating(), avg);
 	}
 
-    @AfterMethod
-    public void deleteData() {
-        //TestUtils.deleteData(emf, "Song", "users", "AlbumRating", "Album", "Musician");
+	@AfterMethod
+	public void deleteData() {
+		//TestUtils.deleteData(emf, "Song", "users", "AlbumRating", "Album", "Musician");
 		TestUtils.deleteAllData(emf);
-    }
+	}
 
-    private Album createMinimalValidAlbum() {
-        Album album = new Album();
-        album.setTitle("Minimal Album");
-        return album;
-    }
+	private Album createMinimalValidAlbum() {
+		Album album = new Album();
+		album.setTitle("Minimal Album");
+		return album;
+	}
 }

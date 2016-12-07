@@ -225,10 +225,11 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 		AlbumRating rating3 = getValidAlbumRating(album2, user1);
 		rating3.setRvalue(0.3);
 
-		albumDao.create(album);
-        albumDao.create(album2);
 		userDao.create(user1);
 		userDao.create(user2);
+
+		albumDao.create(album);
+        albumDao.create(album2);
 		albumRatingDao.create(rating3);
 
 		Date before = new Date();
@@ -254,10 +255,6 @@ public class AlbumDaoTest extends AbstractTestNGSpringContextTests {
 		best = albumDao.findBestRated(1);
 		assertEquals(best.size(), 1);
 		assertTrue(best.contains(album));
-
-		best = albumDao.findBestRated(1, before);
-		assertEquals(best.size(), 1);
-		assertTrue(best.contains(album2));
 	}
 
 	@Test
