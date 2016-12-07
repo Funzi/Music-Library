@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.api.dto;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -13,6 +14,10 @@ public class UserDTO {
 	private String username;
 
 	private Set<RoleDTO> roles;
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;
@@ -32,6 +37,31 @@ public class UserDTO {
 
 	public void setRoles(Set<RoleDTO> roles) {
 		this.roles = roles;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 47 * hash + Objects.hashCode(this.username);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final UserDTO other = (UserDTO) obj;
+		if (!Objects.equals(this.username, other.username)) {
+			return false;
+		}
+		return true;
 	}
 
 }

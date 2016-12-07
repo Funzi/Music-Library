@@ -61,7 +61,14 @@ public class AlbumRating {
 	}
 
 	public void setAlbum(Album album) {
+		setAlbum(album, true);
+	}
+
+	public void setAlbum(Album album, boolean add) {
 		this.album = album;
+		if (album != null && add) {
+			album.addRating(this, false);
+		}
 	}
 
 	public double getRvalue() {
@@ -132,6 +139,5 @@ public class AlbumRating {
 		}
 		return true;
 	}
-
 
 }

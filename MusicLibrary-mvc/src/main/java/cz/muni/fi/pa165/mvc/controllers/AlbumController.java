@@ -73,7 +73,6 @@ public class AlbumController {
 	@PreAuthorize("hasAuthority('admin')")
 	public String edit(@PathVariable Long id, Model model) {
 		model.addAttribute("form", albumFacade.getAlbumById(id));
-
 		return "album/edit";
 	}
 
@@ -106,7 +105,6 @@ public class AlbumController {
 		return "redirect:/albums/";
 	}
 
-	//FIXME: - Fix constraint violation exception
 	@RequestMapping(value = "/{id}/rate", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
 	public String rate(@PathVariable Long id, @ModelAttribute("ratingForm") AlbumRatingDTO rating, RedirectAttributes redir) {
@@ -123,7 +121,7 @@ public class AlbumController {
 			} catch (Exception ex) {
 				//TODO: Logging
 				ex.printStackTrace();
-				redir.addFlashAttribute(Alert.SUCCESS, "Unable to save rating (reason: " + ex.getMessage() + ")");
+				redir.addFlashAttribute(Alert.ERROR, "Unable to save rating (reason: " + ex.getMessage() + ")");
 			}
 		}
 

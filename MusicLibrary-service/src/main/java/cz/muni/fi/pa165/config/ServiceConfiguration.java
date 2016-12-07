@@ -7,12 +7,14 @@ import cz.muni.fi.pa165.api.dto.ArtDTO;
 import cz.muni.fi.pa165.api.dto.GenreDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
+import cz.muni.fi.pa165.api.dto.UserDTO;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.AlbumRating;
 import cz.muni.fi.pa165.entity.Art;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
+import cz.muni.fi.pa165.entity.User;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.dozer.loader.api.BeanMappingBuilder;
@@ -59,6 +61,7 @@ public class ServiceConfiguration {
 		protected void configure() {
 			mapping(Song.class, SongDTO.class);
 			mapping(Genre.class, GenreDTO.class);
+			mapping(User.class, UserDTO.class);
 			mapping(Musician.class, MusicianDTO.class);
 			mapping(AlbumRating.class, AlbumRatingDTO.class).fields("added", "added", customConverter(DateConverter.class));
 			mapping(Art.class, ArtDTO.class).fields("image", "image", customConverter(Base64Converter.class));

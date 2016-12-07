@@ -31,8 +31,11 @@ public class SecurityServiceImpl implements SecurityService {
 
 	@Override
 	public String getLoggedInUsername() {
-		Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-		return userDetails instanceof UserDetails ? ((UserDetails) userDetails).getUsername() : null;
+		try {
+			return SecurityContextHolder.getContext().getAuthentication().getName();
+		} catch(Exception ex) {
+			return null;
+		}
 	}
 
 	@Override
