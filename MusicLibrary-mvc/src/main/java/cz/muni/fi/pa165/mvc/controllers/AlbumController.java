@@ -65,6 +65,9 @@ public class AlbumController {
 		model.addAttribute("genres", a.getSongs().stream().map(s -> s.getGenre()).collect(Collectors.toSet()));
 		model.addAttribute("ratings", a.getRatings());
 		model.addAttribute("ratingForm", new AlbumRatingDTO());
+		model.addAttribute("hasRated", a.getRatings().stream()
+				.map(r -> r.getUser().getUsername())
+				.anyMatch(u -> u.equals(securityFacade.getLoggedInUsername())));
 
 		return "album/details";
 	}
@@ -114,6 +117,7 @@ public class AlbumController {
 			redir.addFlashAttribute(Alert.ERROR, "Album with id '" + id + "' does not exist!");
 		} else {
 			try {
+				rating.setId(null);
 				rating.setAlbum(album);
 				rating.setUser(securityFacade.getLoggedInUser());
 				albumRatingFacade.create(rating);
@@ -122,6 +126,37 @@ public class AlbumController {
 				//TODO: Logging
 				ex.printStackTrace();
 				redir.addFlashAttribute(Alert.ERROR, "Unable to save rating (reason: " + ex.getMessage() + ")");
+			}
+		}
+
+		return "redirect:/albums/" + id;
+	}
+
+	@RequestMapping(value = "/{id}/unrate", method = RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
+	public String rate(@PathVariable Long id, RedirectAttributes redir) {
+		AlbumDTO album = albumFacade.getAlbumById(id);
+		if (album == null) {
+			redir.addFlashAttribute(Alert.ERROR, "Album with id '" + id + "' does not exist!");
+		} else {
+			String username = securityFacade.getLoggedInUsername();
+			boolean success = false;
+			for (AlbumRatingDTO rating : album.getRatings()) {
+				if (rating.getUser().getUsername().equals(username)) {
+					try {
+						albumRatingFacade.delete(rating);
+						redir.addFlashAttribute(Alert.SUCCESS, "Successfuly removed!");
+					} catch (Exception ex) {
+						ex.printStackTrace();
+						redir.addFlashAttribute(Alert.ERROR, "Unable to remove rating (reason: " + ex.getMessage() + ")");
+					}
+					success = true;
+					break;
+				}
+			}
+
+			if (!success) {
+				redir.addFlashAttribute(Alert.ERROR, "Rating for this album was not found in database!");
 			}
 		}
 

@@ -35,5 +35,10 @@ public class SecurityFacadeImpl implements SecurityFacade {
 		return beanMappingService.mapTo(securityService.getLoggedInUser(), UserDTO.class);
 	}
 
+	@Override
+	public boolean hasRole(String role) {
+		return securityService.hasRole(role);
+	}
+
 
 }

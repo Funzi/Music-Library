@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -25,7 +26,6 @@ import org.hibernate.annotations.CreationTimestamp;
 		uniqueConstraints = {
 			@UniqueConstraint(columnNames
 					= {"album_id", "user_id"})})
-
 public class AlbumRating {
 
 	@Id
@@ -51,6 +51,10 @@ public class AlbumRating {
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date added;
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public Long getId() {
 		return id;
@@ -103,15 +107,20 @@ public class AlbumRating {
 		this.added = added;
 	}
 
+	// Necessary to handle bi-directional relations
+	@PreRemove
+	private void removeFromAlbum() {
+		album.removeRating(this);
+	}
+
 	@Override
 	public int hashCode() {
 		int hash = 3;
 		hash = 97 * hash + Objects.hashCode(this.album);
-		hash = 97 * hash + (int) (Double.doubleToLongBits(this.rvalue) ^ (Double.doubleToLongBits(this.rvalue) >>> 32));
 		hash = 97 * hash + Objects.hashCode(this.user);
-		hash = 97 * hash + Objects.hashCode(this.comment);
 		return hash;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -125,12 +134,6 @@ public class AlbumRating {
 			return false;
 		}
 		final AlbumRating other = (AlbumRating) obj;
-		if (Double.doubleToLongBits(this.rvalue) != Double.doubleToLongBits(other.rvalue)) {
-			return false;
-		}
-		if (!Objects.equals(this.comment, other.comment)) {
-			return false;
-		}
 		if (!Objects.equals(this.album, other.album)) {
 			return false;
 		}

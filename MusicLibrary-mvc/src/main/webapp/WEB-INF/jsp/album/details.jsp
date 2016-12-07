@@ -80,10 +80,11 @@
                 </tbody>
             </table>
         </div>
-
         <div>
             <sec:authorize access="isAuthenticated()">
-                <button id="opener" type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Rate this album!</button>
+                <c:if test="${!hasRated}">
+                    <button id="opener" type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Rate this album!</button>
+                </c:if>
             </sec:authorize>
             <h2>Ratings</h2>
             <c:forEach items="${ratings}" var="r">
@@ -91,18 +92,23 @@
                     <div class="row">
                         <div class="col-md-11">
                             <c:out value="${r.user.username}" />&nbsp;&nbsp;&nbsp;<my:rating rating="${r.rvalue}" includeValue="true" /></div>
-                        <div class="offset8">[ <c:out value="${r.added}" /> ]</div>
+                        <div class="offset8">[ <c:out value="${r.added}" /> ]
+                            <sec:authorize access="isAuthenticated() and (authentication.name == '${r.user.username}' or hasAuthority('admin'))">
+                                <br><my:a href="/album-rating/${r.id}/delete" data-confirm="Are you sure to delete this rating?"><img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete" /></my:a>
+                            </sec:authorize>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <c:out value="${r.comment}" />
                         </div>
                     </div>
+
                 </div>
             </c:forEach>
         </div>
 
-        <div id="dialog" title="Rate album">
+        <div id="dialog" title="Rate album" hidden="hidden">
             <c:url var="rate_action" value="/albums/${album.id}/rate" />
             <form:form action="${rate_action}" method="POST" modelAttribute="ratingForm" class="form">
                 <s:bind path="rvalue">
@@ -115,7 +121,7 @@
 
                 <s:bind path="comment">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="comment" class="form-control" placeholder="Comment"></form:input>
+                        <form:textarea path="comment" class="form-control" placeholder="Comment" />
                         <form:errors path="comment"></form:errors>
                         </div>
                 </s:bind>

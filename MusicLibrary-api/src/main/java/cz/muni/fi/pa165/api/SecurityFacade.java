@@ -12,4 +12,6 @@ public interface SecurityFacade {
 
 	UserDTO getLoggedInUser();
 
+	boolean hasRole(String role);
+
 }

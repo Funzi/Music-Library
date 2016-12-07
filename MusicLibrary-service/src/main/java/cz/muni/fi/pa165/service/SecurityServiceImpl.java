@@ -33,7 +33,7 @@ public class SecurityServiceImpl implements SecurityService {
 	public String getLoggedInUsername() {
 		try {
 			return SecurityContextHolder.getContext().getAuthentication().getName();
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			return null;
 		}
 	}
@@ -54,6 +54,15 @@ public class SecurityServiceImpl implements SecurityService {
 		if (usernamePasswordAuthenticationToken.isAuthenticated()) {
 			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			logger.debug(String.format("Auto login %s successfully!", username));
+		}
+	}
+
+	@Override
+	public boolean hasRole(String role) {
+		try {
+			return SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(role));
+		} catch (Exception ex) {
+			return false;
 		}
 	}
 

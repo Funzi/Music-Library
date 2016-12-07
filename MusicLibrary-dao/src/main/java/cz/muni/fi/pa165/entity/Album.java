@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.entity;
 
 import cz.muni.fi.pa165.utils.Constants;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -40,7 +42,7 @@ public class Album {
 	private Art art;
 
 	@OneToMany(mappedBy = "album", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	private Set<AlbumRating> ratings = new HashSet<>();
+	private List<AlbumRating> ratings = new ArrayList<>();
 
 	@Formula("(select coalesce(avg(r.rvalue), 0) from Album_Rating r where r.album_id = id)")
 	private double avgRating;
@@ -178,7 +180,11 @@ public class Album {
 		this.art = art;
 	}
 
-	public Set<AlbumRating> getRatings() {
+	public void setRatings(List<AlbumRating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public List<AlbumRating> getRatings() {
 		return ratings;
 	}
 

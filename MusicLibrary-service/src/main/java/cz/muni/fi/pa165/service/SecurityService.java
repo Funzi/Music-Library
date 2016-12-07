@@ -14,5 +14,7 @@ public interface SecurityService {
 
 	User getLoggedInUser();
 
+	boolean hasRole(String role);
+
     void autologin(String username, String password);
 }
