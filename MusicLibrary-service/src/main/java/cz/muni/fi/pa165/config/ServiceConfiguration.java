@@ -28,7 +28,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @author Martin Kulisek
  */
 @Configuration
-@Import(AppContext.class)
+@Import({AppContext.class, SecurityConfig.class})
 @ComponentScan(basePackages = {"cz.muni.fi.pa165"})
 public class ServiceConfiguration {
 

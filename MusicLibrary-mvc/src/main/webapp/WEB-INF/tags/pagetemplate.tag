@@ -7,6 +7,7 @@
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
+<c:set var="username" value="${pageContext.request.userPrincipal.name}"/>
 <html lang="${pageContext.request.locale}">
     <head>
         <meta charset="utf-8">
@@ -18,6 +19,70 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"  crossorigin="anonymous">
         <jsp:invoke fragment="head"/>
+
+        <style>
+            .navbar-login
+            {
+                width: 305px;
+                padding: 10px;
+                padding-bottom: 0px;
+            }
+
+            .navbar-login-session
+            {
+                padding: 10px;
+                padding-bottom: 0px;
+                padding-top: 0px;
+            }
+
+            .icon-size
+            {
+                font-size: 87px;
+            }
+
+            .form-signin {
+                max-width: 330px;
+                padding: 15px;
+                margin: 0 auto;
+            }
+
+            .form-signin .form-signin-heading,
+            .form-signin .checkbox {
+                margin-bottom: 10px;
+            }
+
+            .form-signin .checkbox {
+                font-weight: normal;
+            }
+
+            .form-signin .form-control {
+                position: relative;
+                height: auto;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 10px;
+                font-size: 16px;
+            }
+
+            .form-signin .form-control:focus {
+                z-index: 2;
+            }
+
+            .form-signin input {
+                margin-top: 10px;
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            .form-signin button {
+                margin-top: 10px;
+            }
+
+            .has-error {
+                color: red
+            }
+        </style>
     </head>
     <body>
         <!-- navigation bar -->
@@ -68,7 +133,92 @@
                             </ul>
                         </li>
                     </ul>
-                </div><!--/.nav-collapse -->
+                    <c:choose>
+                        <c:when test="${username != null}">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-user"></span> 
+                                        <strong><c:out value="${username}" /></strong>
+                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <div class="navbar-login">
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <p class="text-center">
+                                                            <span class="glyphicon glyphicon-user icon-size"></span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="col-lg-8">
+                                                        <p class="text-left"><strong><c:out value="${username}" /></strong></p>
+                                                        <p class="text-left small">test@example.com</p>
+                                                        <p class="text-left">
+                                                            <a href="#" class="btn btn-primary btn-block btn-sm">Profile</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li>
+                                            <div class="navbar-login navbar-login-session">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <p>
+                                                        <form id="logoutForm" method="POST" action="<c:url value="/logout" />">
+                                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                        </form>
+                                                        <my:a href="javascript:document.forms['logoutForm'].submit();" class="btn btn-danger btn-block">Logout</my:a>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                        </c:when>
+                        <c:otherwise>
+                            <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="glyphicon glyphicon-user"></span> 
+                                        <strong>Login</strong>
+                                        <span class="glyphicon glyphicon-chevron-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <div class="navbar-login">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <form method="POST" action="<c:url value='/login' />" class="form-signin">
+                                                            <h2 class="form-heading">Log in</h2>
+
+                                                            <div class="form-group ${error != null ? 'has-error' : ''}">
+                                                                <span>${message}</span>
+                                                                <input name="username" type="text" class="form-control" placeholder="Username"
+                                                                       autofocus="true"/>
+                                                                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                                                                <span>${error}</span>
+                                                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+                                                                <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+                                                                <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </div>
         </nav>
 
