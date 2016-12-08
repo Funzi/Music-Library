@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.mvc.Alert;
 import cz.muni.fi.pa165.service.SecurityService;
 import cz.muni.fi.pa165.service.UserService;
 import cz.muni.fi.pa165.validator.UserValidator;
@@ -16,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  *
@@ -65,8 +68,17 @@ public class AuthController {
         return "login";
     }
 
-    @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "welcome";
+	@RequestMapping(value = "/login-ok", method = RequestMethod.GET)
+    public String loginOK(@RequestParam String target, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute(Alert.SUCCESS, "Successfuly logged in!");
+
+        return "redirect:" + target;
+    }
+
+	@RequestMapping(value = "/logout-ok", method = RequestMethod.GET)
+    public String logoutOK(@RequestParam String target, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute(Alert.SUCCESS, "Successfuly logged out!");
+
+        return "redirect:" + target;
     }
 }
