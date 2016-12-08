@@ -101,4 +101,26 @@ public class AlbumDaoImpl implements AlbumDao {
 				.forEach(id -> albums.add(findById(id)));
 		return albums;
 	}
+
+	@Override
+	public List<Album> getAlbums(List<Long> musicians, List<Long> genres) {
+		boolean hasMusicians = musicians != null && !musicians.isEmpty();
+		boolean hasGenres = genres != null && !genres.isEmpty();
+
+		String query = "select a from Album a inner join a.songs s where "
+				+ (hasMusicians ? "s.musician.id in (:musicians)" : "a.id = a.id")
+				+ " and "
+				+ (hasGenres ? "s.genre.id in (:genres)" : "a.id = a.id");
+
+		TypedQuery<Album> q = em.createQuery(query, Album.class);
+		if (hasMusicians) {
+			q.setParameter("musicians", musicians);
+		}
+
+		if (hasGenres) {
+			q.setParameter("genres", genres);
+		}
+
+		return q.getResultList();
+	}
 }

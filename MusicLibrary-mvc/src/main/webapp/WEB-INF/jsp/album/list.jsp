@@ -12,6 +12,26 @@
         <sec:authorize access="hasAuthority('admin')">
             <my:a href="/albums/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Add new</button></my:a>
         </sec:authorize>
+        <div class="row">
+            <form:form method="GET" modelAttribute="form">
+                <div class="col-md-3">
+                    Musicians:
+                    <s:bind path="musicians">
+                        <form:select path="musicians" name="musicians" items="${allMusicians}" class="form-control" placeholder="Musicians" multiple="true"></form:select>
+                    </s:bind>
+                </div>
+                <div class="col-md-3">
+                    Genres
+                    <s:bind path="genres">
+                        <form:select path="genres" name="genres" items="${allGenres}" class="form-control" placeholder="Genres" multiple="true"></form:select>
+                    </s:bind>
+                </div>
+
+            </div>
+
+                <p class="pull-right" style="margin-bottom: 20px"><button class="btn btn-sm btn-primary" type="submit">Apply filter</button>&nbsp;<my:a href="/albums/"><button type="button" class="btn btn-danger btn-sm">Reset filter</button></my:a></p>
+        </form:form>
+
 
         <table class="table table-striped">
             <tr>
@@ -19,9 +39,9 @@
                 <th>Musician</th>
                 <th>Release date</th>
                 <th width="200">Rating</th>
-                <sec:authorize access="hasAuthority('admin')">
-                <th width="75" align="center">Actions</th>
-                </sec:authorize>
+                    <sec:authorize access="hasAuthority('admin')">
+                    <th width="75" align="center">Actions</th>
+                    </sec:authorize>
             </tr>
             <c:forEach items="${albums}" var="e">
                 <tr>

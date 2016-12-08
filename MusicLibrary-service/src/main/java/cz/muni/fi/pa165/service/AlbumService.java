@@ -18,4 +18,5 @@ public interface AlbumService {
     List<Album> findAlbumsByReleaseDates(LocalDate from, LocalDate to);
     List<Album> findAlbumsByPartialTitle(String partialTitle);
     Album createOrUpdateEverything(Album album);
+	List<Album> getAlbums(List<Long> musicians, List<Long> genres);
 }

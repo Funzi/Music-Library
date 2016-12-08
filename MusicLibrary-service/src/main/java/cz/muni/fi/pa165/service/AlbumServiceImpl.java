@@ -150,4 +150,9 @@ public class AlbumServiceImpl implements AlbumService {
 		}
 	}
 
+	@Override
+	public List<Album> getAlbums(List<Long> musicians, List<Long> genres) {
+		return albumDao.getAlbums(musicians, genres);
+	}
+
 }

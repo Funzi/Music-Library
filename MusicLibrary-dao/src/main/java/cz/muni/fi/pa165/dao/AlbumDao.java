@@ -61,4 +61,6 @@ public interface AlbumDao {
 	List<Album> findBestRated(int limit, Date upTo);
 
 	List<Album> findBestRatedForMusician(int limit, Musician musician);
+
+	List<Album> getAlbums(List<Long> musicians, List<Long> genres);
 }

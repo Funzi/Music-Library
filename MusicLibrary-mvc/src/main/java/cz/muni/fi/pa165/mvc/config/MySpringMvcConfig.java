@@ -9,6 +9,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -85,6 +87,11 @@ public class MySpringMvcConfig extends WebMvcConfigurerAdapter {
         log.debug("registering JSR-303 validator");
         return new LocalValidatorFactoryBean();
     }
+
+	@Bean
+	public MultipartResolver multipartResolver() {
+		return new CommonsMultipartResolver();
+	}
 
 
 }

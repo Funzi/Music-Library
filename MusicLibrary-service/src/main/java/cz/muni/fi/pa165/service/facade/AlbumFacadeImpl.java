@@ -89,4 +89,9 @@ public class AlbumFacadeImpl implements AlbumFacade {
 		return beanMappingService.mapTo(albums, AlbumDTO.class);
 	}
 
+	@Override
+	public List<AlbumDTO> getAlbums(List<Long> musicians, List<Long> genres) {
+		return beanMappingService.mapTo(albumService.getAlbums(musicians, genres), AlbumDTO.class);
+	}
+
 }

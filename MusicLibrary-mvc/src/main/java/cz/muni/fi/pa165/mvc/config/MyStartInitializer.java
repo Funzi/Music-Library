@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.springframework.web.multipart.support.MultipartFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -38,8 +39,11 @@ public class MyStartInitializer extends AbstractAnnotationConfigDispatcherServle
 	@Override
 	public void onStartup(ServletContext servletContext)
 			throws ServletException {
-		FilterRegistration.Dynamic encodingFilter = servletContext.addFilter("springSecurityFilterChain", new DelegatingFilterProxy());
-		encodingFilter.addMappingForUrlPatterns(null, false, "/*");
+		FilterRegistration.Dynamic multipartFilter = servletContext.addFilter("multipartFilter", new MultipartFilter());
+		multipartFilter.addMappingForUrlPatterns(null, false, "/*");
+
+		FilterRegistration.Dynamic securityFilter = servletContext.addFilter("springSecurityFilterChain", new DelegatingFilterProxy());
+		securityFilter.addMappingForUrlPatterns(null, false, "/*");
 
 		super.onStartup(servletContext);
 	}

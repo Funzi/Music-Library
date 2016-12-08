@@ -18,4 +18,5 @@ public interface AlbumFacade {
     List<AlbumDTO> getAlbumByReleaseDates(LocalDate from, LocalDate to);
     List<AlbumDTO> getAlbumByPartialTitle(String partialTitle);
     List<AlbumDTO> getAllAlbums();
+	List<AlbumDTO> getAlbums(List<Long> musicians, List<Long> genres);
 }

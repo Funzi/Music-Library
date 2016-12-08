@@ -47,6 +47,11 @@
             <artifactId>taglibs-standard-impl</artifactId>
             <version>${taglibs-standard.version}</version>
         </dependency>
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+
 
         <!-- Spring MVC -->
         <dependency>

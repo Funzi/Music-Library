@@ -2,14 +2,19 @@ package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.api.AlbumFacade;
 import cz.muni.fi.pa165.api.AlbumRatingFacade;
+import cz.muni.fi.pa165.api.GenreFacade;
+import cz.muni.fi.pa165.api.MusicianFacade;
 import cz.muni.fi.pa165.api.SecurityFacade;
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
 import cz.muni.fi.pa165.api.dto.AlbumRatingDTO;
 import cz.muni.fi.pa165.api.dto.ArtDTO;
+import cz.muni.fi.pa165.api.dto.GenreDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.mvc.Alert;
+import cz.muni.fi.pa165.mvc.forms.FilterForm;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -49,17 +54,41 @@ public class AlbumController {
 	private AlbumRatingFacade albumRatingFacade;
 
 	@Autowired
+	private GenreFacade genreFacade;
+
+	@Autowired
+	private MusicianFacade musicianFacade;
+
+	@Autowired
 	private SecurityFacade securityFacade;
 
 	@RequestMapping("/")
-	public String list(Model model) {
+	public String list(@ModelAttribute("form") FilterForm form, Model model) {
+		form = form != null ? form : new FilterForm();
 		Map<AlbumDTO, Set<MusicianDTO>> data = new HashMap<>();
 
-		albumFacade.getAllAlbums().forEach(a
+		albumFacade.getAlbums(form.getMusicians(), form.getGenres()).forEach(a
 				-> data.put(a, a.getSongs().stream().map(s -> s.getMusician()).collect(Collectors.toSet()))
 		);
 
 		model.addAttribute("albums", data);
+		model.addAttribute("form", form);
+		model.addAttribute("allMusicians", musicianFacade.getAllMusicians().stream().sorted(new Comparator<MusicianDTO>() {
+
+			@Override
+			public int compare(MusicianDTO o1, MusicianDTO o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+
+		}).collect(Collectors.toMap(m -> m.getId(), m-> m.getName())));
+		model.addAttribute("allGenres", genreFacade.getAllGenres().stream().sorted(new Comparator<GenreDTO>() {
+
+			@Override
+			public int compare(GenreDTO o1, GenreDTO o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+
+		}).collect(Collectors.toMap(m -> m.getId(), m-> m.getName())));
 
 		return "album/list";
 	}
