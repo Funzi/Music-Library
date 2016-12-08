@@ -8,8 +8,8 @@
 <my:pagetemplate title="Albums">
     <jsp:attribute name="body">
 
-        <form:form method="POST" modelAttribute="form" class="form-signin">
-        <h2 class="form-signin-heading">Edit album</h2>
+        <form:form method="POST" modelAttribute="albumForm">
+        <h2 class="form-signin-heading">Add new album</h2>
         <s:bind path="title">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="title" class="form-control" placeholder="Album title"
