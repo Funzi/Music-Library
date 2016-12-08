@@ -65,6 +65,7 @@ public class AlbumController {
 		model.addAttribute("genres", a.getSongs().stream().map(s -> s.getGenre()).collect(Collectors.toSet()));
 		model.addAttribute("ratings", a.getRatings());
 		model.addAttribute("ratingForm", new AlbumRatingDTO());
+		model.addAttribute("ratingValues", AlbumRatingController.allowedValues());
 		model.addAttribute("hasRated", a.getRatings().stream()
 				.map(r -> r.getUser().getUsername())
 				.anyMatch(u -> u.equals(securityFacade.getLoggedInUsername())));

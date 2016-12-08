@@ -113,8 +113,8 @@
             <form:form action="${rate_action}" method="POST" modelAttribute="ratingForm" class="form">
                 <s:bind path="rvalue">
                     <div class="form-group ${status.error ? 'has-error' : ''}">
-                        <form:input type="text" path="rvalue" class="form-control" placeholder="Rating"
-                                    autofocus="true"></form:input>
+                        <form:select type="text" path="rvalue" items="${ratingValues}" class="form-control" placeholder="Rating"
+                                    autofocus="true"></form:select>
                         <form:errors path="rvalue"></form:errors>
                         </div>
                 </s:bind>

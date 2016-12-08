@@ -4,6 +4,8 @@ import cz.muni.fi.pa165.api.AlbumRatingFacade;
 import cz.muni.fi.pa165.api.SecurityFacade;
 import cz.muni.fi.pa165.api.dto.AlbumRatingDTO;
 import cz.muni.fi.pa165.mvc.Alert;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -50,5 +52,23 @@ public class AlbumRatingController {
 		}
 
 		return "redirect:/albums/" + albumId;
+	}
+
+	public static Map<Double, String> allowedValues() {
+		return new LinkedHashMap<Double, String>() {
+			{
+				put(0.0, "0 stars");
+				put(0.5, "0.5 star");
+				put(1.0, "1 star");
+				put(1.5, "1.5 stars");
+				put(2.0, "2 stars");
+				put(2.5, "2.5 stars");
+				put(3.0, "3 stars");
+				put(3.5, "3.5 stars");
+				put(4.0, "4 stars");
+				put(4.5, "4.5 stars");
+				put(5.0, "5 stars");
+			}
+		};
 	}
 }
