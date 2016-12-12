@@ -18,13 +18,13 @@
                 <th>Genre</th>
                 <th width="75" align="center">Actions</th>
             </tr>
-            <c:forEach items="${songDtoList}" var="s">
+            <c:forEach items="${songDTOList}" var="s">
                 <tr>
-                    <td><my:a href="/songs/${s.getId()}"><c:out value="${s.getTitle()}"/></my:a></td>
-                    <td><c:out value="${s.getMusician().getName()}"/></td>
-                    <td><c:out value="${s.getAlbum().getTitle()}"/></td>
-                    <td><c:out value="${s.getGenre().getName()}"/></td>
-                    <td align="center"><my:a href="/songs/${s.getId()}/delete"  data-confirm="Are you sure to delete this song?">
+                    <td><my:a href="/songs/${s.id}"><c:out value="${s.title}"/></my:a></td>
+                    <td><c:out value="${s.musician.name}"/></td>
+                    <td><c:out value="${s.album.title}"/></td>
+                    <td><c:out value="${s.genre.name}"/></td>
+                    <td align="center"><my:a href="/songs/${s.id}/delete"  data-confirm="Are you sure to delete this song?">
                         <img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete"/>
                     </my:a>
                     </td>
