@@ -7,7 +7,6 @@ package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.dto.GenreDTO;
-import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.service.BeanMappingService;
 import cz.muni.fi.pa165.service.GenreService;
@@ -29,7 +28,7 @@ public class GenreFacadeImpl implements GenreFacade {
 
     @Autowired
     private BeanMappingService beanMappingService;
-    
+
     @Override
     public List<GenreDTO> getAllGenres() {
         return beanMappingService.mapTo(genreService.findAll(), GenreDTO.class);
@@ -52,5 +51,10 @@ public class GenreFacadeImpl implements GenreFacade {
     @Override
     public void deleteGenre(GenreDTO genre) {
         genreService.delete(beanMappingService.mapTo(genre, Genre.class));
+    }
+
+    @Override
+    public void updateGenre(GenreDTO genre) {
+        genreService.updateGenre(beanMappingService.mapTo(genre, Genre.class));
     }
 }

@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
  * @author David Pribula
  */
 @Service
-public class GenreServiceImpl implements GenreService{
+public class GenreServiceImpl implements GenreService {
 
     @Inject
     private GenreDao genreDao;
-    
+
     @Override
     public List<Genre> findAll() {
         return genreDao.findAll();
@@ -40,5 +40,10 @@ public class GenreServiceImpl implements GenreService{
     @Override
     public void delete(Genre genre) {
         genreDao.delete(genre);
+    }
+
+    @Override
+    public void updateGenre(Genre genre) {
+        genreDao.update(genre);
     }
 }
