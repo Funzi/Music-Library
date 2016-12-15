@@ -31,5 +31,8 @@
                 </tr>
             </c:forEach>
         </table>
+       <sec:authorize access="hasAuthority('admin')">
+            <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Add new</button></my:a>
+        </sec:authorize>
     </jsp:attribute>
 </my:pagetemplate>
