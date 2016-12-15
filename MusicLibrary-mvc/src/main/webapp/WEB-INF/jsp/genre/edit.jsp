@@ -1,7 +1,7 @@
 <%-- 
-    Document   : add
-    Created on : Dec 15, 2016, 3:54:49 PM
-    Author     : Martin Kulisek
+    Document   : edit
+    Created on : Dec 15, 2016, 10:15:36 PM
+    Author     : Asus N55
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true" session="false" %>
@@ -11,10 +11,11 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Adding genre">
+<my:pagetemplate title="Genres">
     <jsp:attribute name="body">
 
-        <form:form method="POST" modelAttribute="genreForm">
+        <form:form method="POST" modelAttribute="form" class="form-signin">
+        <h2 class="form-signin-heading">Edit genre</h2>
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="name" class="form-control" placeholder="Genre name"
@@ -30,7 +31,7 @@
             </div>
         </s:bind>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Add genre</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Edit</button>
     </form:form>
 
     </jsp:attribute>

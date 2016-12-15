@@ -112,17 +112,8 @@
                         <li><my:a href="/albums/"><f:message key="navigation.albums"/></my:a></li>
                         <li><my:a href="/genres/"><f:message key="navigation.genres"/></my:a></li>
                         <li><my:a href="/musicians/"><f:message key="navigation.musicians"/></my:a></li>
-                        <li><my:a href="/songs/"><f:message key="navigation.songs"/></my:a> </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.admin"/><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><my:a href="/order/list/all"><f:message key="navigation.admin.orders"/></my:a></li>
-                                <li><my:a href="/user/list"><f:message key="navigation.admin.customers"/></my:a></li>
-                                <li><my:a href="/product/list"><f:message key="navigation.admin.products"/></my:a></li>
-                                <li><my:a href="/category/list"><f:message key="navigation.admin.categories"/></my:a></li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
+                        <li><my:a href="/songs/"><f:message key="navigation.songs"/></my:a> </li>´´
+                            <!--<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li class="dropdown-header">Javadocs</li>
@@ -134,15 +125,9 @@
                                 <li><a href="http://getbootstrap.com/css/">Bootstrap CSS</a></li>
                                 <li><a href="http://getbootstrap.com/components/">Bootstrap components</a></li>
                             </ul>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.about"/><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="https://is.muni.cz/predmet/fi/podzim2015/PA165">PA165</a></li>
-                                <li><a href="http://docs.spring.io/spring/docs/current/spring-framework-reference/html/mvc.html">SpringMVC</a></li>
-                                <li><a href="http://getbootstrap.com/">Bootstrap</a></li>
-                                <li><a href="https://maven.apache.org/">Maven</a></li>
-                            </ul>
+                        </li>-->
+                        <li><my:a href="https://github.com/Funzi/Music-Library/wiki"><f:message key="navigation.about"/></my:a></li>
+                    </ul>
                         </li>
                     </ul>
                     <c:choose>
@@ -197,7 +182,7 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <span class="glyphicon glyphicon-user"></span> 
-                                        <strong>Login</strong>
+                                        <strong><f:message key="content.login"/></strong>
                                         <span class="glyphicon glyphicon-chevron-down"></span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -210,14 +195,14 @@
 
                                                             <div class="form-group ${error != null ? 'has-error' : ''}">
                                                                 <span>${message}</span>
-                                                                <input name="username" type="text" class="form-control" placeholder="Username"
+                                                                <input name="username" type="text" class="form-control" placeholder=<f:message key="content.username"/>
                                                                        autofocus="true"/>
-                                                                <input name="password" type="password" class="form-control" placeholder="Password"/>
+                                                                <input name="password" type="password" class="form-control" placeholder=<f:message key="content.password"/>/>
                                                                 <span>${error}</span>
                                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
-                                                                <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
-                                                                <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
+                                                                <button class="btn btn-lg btn-primary btn-block" type="submit"><f:message key="content.log_in"/></button>
+                                                                <h4 class="text-center"><a href="${contextPath}/registration"><f:message key="content.create_account"/></a></h4>
                                                             </div>
 
                                                         </form>
@@ -277,12 +262,12 @@
             <jsp:invoke fragment="body"/>
 
         </div>
-        <!-- footer -->
+        <!-- footer 
         <footer class="footer">
             <div class="container">
                 <p class="text-muted">&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Masaryk University</p>
             </div>
-        </footer>
+        </footer>-->
         <!-- javascripts placed at the end of the document so the pages load faster -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
