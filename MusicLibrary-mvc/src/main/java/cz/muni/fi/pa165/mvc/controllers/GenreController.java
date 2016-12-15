@@ -25,9 +25,6 @@ public class GenreController {
     final static Logger log = LoggerFactory.getLogger(GenreController.class);
     public static final String REDIRECT_GENRES = "redirect:/genres/";
 
-    //@Autowired
-    //private MessageSource messageSource; //resource bundle provided by Spring
-
     @Autowired
     private GenreFacade genreFacade;
 
@@ -35,11 +32,6 @@ public class GenreController {
     public String bar(Model model) {
         model.addAttribute("genres", genreFacade.getAllGenres());
         return "genre/list";
-    }
-
-    @RequestMapping("/")
-    public String list(@ModelAttribute("form") FilterForm form, Model model) {
-        return bar(model);
     }
 
     @RequestMapping("/{id}")
