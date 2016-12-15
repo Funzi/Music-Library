@@ -112,6 +112,7 @@
                         <li><my:a href="/albums/"><f:message key="navigation.albums"/></my:a></li>
                         <li><my:a href="/genres/"><f:message key="navigation.genres"/></my:a></li>
                         <li><my:a href="/musicians/"><f:message key="navigation.musicians"/></my:a></li>
+                        <li><my:a href="/songs/"><f:message key="navigation.songs"/></my:a> </li>´´
                             <!--<li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b class="caret"></b></a>
                             <ul class="dropdown-menu">
