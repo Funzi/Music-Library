@@ -20,14 +20,14 @@ public class SongCreateDTO {
     @NotNull
     private String title;
 
-    private long albumId;
+    private Long albumId;
 
-    private long musicianId;
+    private Long musicianId;
 
     @NotNull
     private int position;
 
-    private long genreId;
+    private Long genreId;
 
     private int bitrate;
 
@@ -72,19 +72,19 @@ public class SongCreateDTO {
         this.title = title;
     }
 
-    public long getAlbumId() {
+    public Long getAlbumId() {
         return albumId;
     }
 
-    public void setAlbumId(long albumId) {
+    public void setAlbumId(Long albumId) {
         this.albumId = albumId;
     }
 
-    public long getMusicianId() {
+    public Long getMusicianId() {
         return musicianId;
     }
 
-    public void setMusicianId(long musicianId) {
+    public void setMusicianId(Long musicianId) {
         this.musicianId = musicianId;
     }
 
@@ -96,11 +96,11 @@ public class SongCreateDTO {
         this.position = position;
     }
 
-    public long getGenreId() {
+    public Long getGenreId() {
         return genreId;
     }
 
-    public void setGenreId(long genreId) {
+    public void setGenreId(Long genreId) {
         this.genreId = genreId;
     }
 

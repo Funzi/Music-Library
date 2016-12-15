@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.api;
 
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
+import cz.muni.fi.pa165.api.dto.SongCreateDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface SongFacade {
 
-    public Long createSong(SongDTO s);
+    public Long createSong(SongCreateDTO s);
 
     public void deleteSong(Long id);
 

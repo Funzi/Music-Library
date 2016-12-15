@@ -4,9 +4,9 @@ import cz.muni.fi.pa165.api.AlbumFacade;
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.MusicianFacade;
 import cz.muni.fi.pa165.api.SongFacade;
-import cz.muni.fi.pa165.api.dto.GenreDTO;
-import cz.muni.fi.pa165.api.dto.MusicianDTO;
-import cz.muni.fi.pa165.api.dto.SongDTO;
+import cz.muni.fi.pa165.api.dto.*;
+import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.mvc.Alert;
 import javax.servlet.http.HttpServletRequest;
 
@@ -100,14 +100,20 @@ public class SongController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('admin')")
 	public String add(Model model) {
-		model.addAttribute("songForm", new SongDTO());
+
+		model.addAttribute("songForm", new SongCreateDTO());
+		model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+		model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+		model.addAttribute("allGenres", genreFacade.getAllGenres());
 		return "songs/add";
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public String doAdd(@ModelAttribute("songForm") SongDTO songDTO, RedirectAttributes redirect) {
-		Long id = songFacade.createSong(songDTO);
+	@PreAuthorize("hasAuthority('admin')")
+	public String doAdd(@ModelAttribute("songForm") SongCreateDTO songCreateDTO, RedirectAttributes redirect) {
+		Long id = songFacade.createSong(songCreateDTO);
 		redirect.addFlashAttribute(Alert.SUCCESS, "Song Successfully created #id=" + id);
 
 		return REDIRECT_SONGS;

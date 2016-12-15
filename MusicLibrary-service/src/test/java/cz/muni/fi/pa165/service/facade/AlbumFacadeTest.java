@@ -5,6 +5,7 @@ import cz.muni.fi.pa165.api.MusicianFacade;
 import cz.muni.fi.pa165.api.SongFacade;
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
+import cz.muni.fi.pa165.api.dto.SongCreateDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.config.ServiceConfiguration;
 
@@ -87,7 +88,7 @@ public class AlbumFacadeTest extends AbstractTestNGSpringContextTests {
 				}
 		};
 
-		songFacade.createSong(song1);
+		songFacade.createSong(convertToSongCreateDTO(song1));
 		Set<SongDTO> songs = albumFacade.getAlbumById(albumId).getSongs();
 
 		assertEquals(songs.size(), 1);
@@ -127,7 +128,7 @@ public class AlbumFacadeTest extends AbstractTestNGSpringContextTests {
 
 		songDTO.setMusician(musicianDTO);
 		songDTO.setAlbum(album1);
-		Long songId = songFacade.createSong(songDTO);
+		Long songId = songFacade.createSong(convertToSongCreateDTO(songDTO));
 		songDTO.setId(songId);
 
 		List<AlbumDTO> list = albumFacade.getAlbumByMusician(musicianDTO);
@@ -168,6 +169,18 @@ public class AlbumFacadeTest extends AbstractTestNGSpringContextTests {
 	@AfterMethod
 	public void deleteData() {
 		TestUtils.deleteAllData(emf);
+	}
+
+	private SongCreateDTO convertToSongCreateDTO(SongDTO s) {
+		SongCreateDTO sd = new SongCreateDTO();
+		sd.setTitle(s.getTitle());
+		sd.setBitrate(s.getBitrate());
+		sd.setCommentary(s.getCommentary());
+		sd.setPosition(s.getPosition());
+		sd.setAlbumId(s.getAlbum() != null ? s.getAlbum().getId() : null);
+		sd.setMusicianId(s.getMusician() != null ? s.getMusician().getId() : null);
+		sd.setGenreId(s.getGenre() != null ? s.getGenre().getId() : null);
+		return sd;
 	}
 
 }
