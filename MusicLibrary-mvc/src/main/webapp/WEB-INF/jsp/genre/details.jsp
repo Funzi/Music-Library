@@ -1,3 +1,9 @@
+<%-- 
+    Document   : details
+    Created on : Dec 15, 2016, 3:54:49 PM
+    Author     : Martin Kulisek
+--%>
+
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true" session="false" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
