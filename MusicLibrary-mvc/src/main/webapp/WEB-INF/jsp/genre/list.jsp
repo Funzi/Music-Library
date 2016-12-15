@@ -6,13 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <my:pagetemplate title="Genres">
-<jsp:attribute name="body">
+    <jsp:attribute name="body">
 
-    <c:forEach items="${genres}" var="genre">
-        <h2><c:out value="${genre.name}" /></h2>
-        <p><c:out value="${genre.description}" /></p>
-        <p>[ <my:a href="/songs/?genre=${genre.id}">List all songs with this genre</my:a> ]</p>
-    </c:forEach>
+        <c:forEach items="${genres}" var="genre">
+            <h2><my:a href="/genres/${genre.id}"><c:out value="${genre.name}" /></my:a></h2>
+        </c:forEach>
 
-</jsp:attribute>
+    </jsp:attribute>
 </my:pagetemplate>

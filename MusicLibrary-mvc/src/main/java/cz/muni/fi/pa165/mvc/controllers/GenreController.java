@@ -38,7 +38,7 @@ public class GenreController {
     public String detail(@PathVariable Long id, Model model) {
         GenreDTO g = genreFacade.getGenreById(id);
         model.addAttribute("genre", g);
-        model.addAttribute("musicians", g.getName());
+        model.addAttribute("name", g.getName());
         model.addAttribute("description", g.getDescription());
         return "genre/details";
     }
