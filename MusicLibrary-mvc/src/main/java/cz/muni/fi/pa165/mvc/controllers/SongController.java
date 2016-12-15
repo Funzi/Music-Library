@@ -1,8 +1,10 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
 import cz.muni.fi.pa165.api.AlbumFacade;
+import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.MusicianFacade;
 import cz.muni.fi.pa165.api.SongFacade;
+import cz.muni.fi.pa165.api.dto.GenreDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
 import cz.muni.fi.pa165.mvc.Alert;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -41,6 +44,9 @@ public class SongController {
 
 	@Autowired
 	private AlbumFacade albumFacade;
+
+	@Autowired
+	private GenreFacade genreFacade;
 
 	@RequestMapping(value = "/update-position", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('admin')")
@@ -65,11 +71,15 @@ public class SongController {
 	}
 
 	@RequestMapping(value = "/")
-	public String list(Model model) {
-		List<SongDTO> songDTOList = songFacade.getAllSongs();
-
+	public String list(@RequestParam(value = "genre", required = false) Long genreId, Model model) {
+		List<SongDTO> songDTOList;
+		if (genreId != null) {
+			GenreDTO genreDTO = genreFacade.getGenreById(genreId);
+			songDTOList = songFacade.getAllSongs().stream().filter(s -> s.getGenre().equals(genreDTO)).collect(Collectors.toList());
+		}else {
+			songDTOList = songFacade.getAllSongs();
+		}
 		model.addAttribute("songDTOList",songDTOList);
-
 
 		return "songs/list";
 	}
@@ -155,6 +165,8 @@ public class SongController {
 		}
 
 	}
+
+
 
 
 
