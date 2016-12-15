@@ -3,10 +3,7 @@ package cz.muni.fi.pa165.mvc.controllers;
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.dto.GenreDTO;
 import cz.muni.fi.pa165.mvc.Alert;
-import cz.muni.fi.pa165.mvc.forms.FilterForm;
 import javax.servlet.http.HttpServletRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/genres")
 public class GenreController {
 
-    final static Logger log = LoggerFactory.getLogger(GenreController.class);
     public static final String REDIRECT_GENRES = "redirect:/genres/";
 
     @Autowired
@@ -89,7 +85,6 @@ public class GenreController {
             genreFacade.updateGenre(genre);
             redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
         } catch (Exception ex) {
-            ex.printStackTrace();
             redir.addFlashAttribute(Alert.ERROR, "Unable to update genre (reason: " + ex.getMessage() + ")");
         }
 
@@ -108,7 +103,6 @@ public class GenreController {
                 genreFacade.deleteGenre(genre);
                 redir.addFlashAttribute(Alert.SUCCESS, "Successfuly deleted");
             } catch (Exception ex) {
-                ex.printStackTrace();
                 redir.addFlashAttribute(Alert.SUCCESS, "Unable to delete genre (reason: " + ex.getMessage() + ")");
             }
         }
