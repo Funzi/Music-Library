@@ -51,7 +51,11 @@ public class SongFacadeImpl implements SongFacade {
 
     @Override
     public void deleteSong(Long id) {
-        songService.delete(songService.findById(id));
+        Song song = songService.findById(id);
+        song.setAlbum(null);
+        song.setMusician(null);
+        song.setGenre(null);
+        songService.delete(song);
     }
 
     @Override

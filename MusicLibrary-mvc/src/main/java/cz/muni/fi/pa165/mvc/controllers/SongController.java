@@ -103,7 +103,7 @@ public class SongController {
 		return REDIRECT_SONGS;
 	}
 
-	@RequestMapping(value = "/list/musician/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/list/{id}/musician", method = RequestMethod.GET)
 	public String listForMusician(@PathVariable Long id, Model model, RedirectAttributes redir) {
 		MusicianDTO musicianDTO = musicianFacade.getMusicianById(id);
 		if (musicianDTO == null) {
@@ -146,12 +146,14 @@ public class SongController {
 
 		try {
 			songFacade.deleteSong(id);
+			songFacade.deleteSong(id);
+			redir.addFlashAttribute(Alert.SUCCESS, "Song with #id=" + id + " has been deleted");
+			return REDIRECT_SONGS;
 		}catch (Exception ex) {
 			redir.addFlashAttribute(Alert.ERROR, "Cannot delete Song with #id=" + id);
 			return REDIRECT_SONGS;
 		}
-		redir.addFlashAttribute(Alert.SUCCESS, "Song with #id=" + id + " has been deleted");
-		return REDIRECT_SONGS;
+
 	}
 
 
