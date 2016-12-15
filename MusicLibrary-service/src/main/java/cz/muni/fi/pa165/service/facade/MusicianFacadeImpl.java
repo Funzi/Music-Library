@@ -47,6 +47,11 @@ public class MusicianFacadeImpl implements MusicianFacade {
 		return beanMappingService.mapTo(musicianService.findByName(name), MusicianDTO.class);
 	}
 
+        @Override
+        public void updateMusician(MusicianDTO musician) {
+            musicianService.update(beanMappingService.mapTo(musician, Musician.class));
+        }
+        
 	@Override
 	public void deleteMusician(MusicianDTO musician) {
 		musicianService.delete(beanMappingService.mapTo(musician, Musician.class));

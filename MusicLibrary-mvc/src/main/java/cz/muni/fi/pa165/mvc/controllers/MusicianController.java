@@ -14,6 +14,7 @@ import cz.muni.fi.pa165.mvc.Alert;
 import static cz.muni.fi.pa165.mvc.controllers.SongController.REDIRECT_SONGS;
 import cz.muni.fi.pa165.mvc.forms.FilterForm;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,65 @@ public class MusicianController {
 		musicianFacade.createMusician(musician);
 		redir.addFlashAttribute(Alert.SUCCESS, "Successfuly created");
 		return REDIRECT_MUSICIANS;
+	}
+        
+        @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('admin')")
+	public String edit(@PathVariable Long id, Model model, RedirectAttributes redir) {
+		MusicianDTO musician = musicianFacade.getMusicianById(id);
+
+		if (musician == null) {
+			redir.addFlashAttribute(Alert.ERROR, "Musician with id '" + id + "' not found in the database!");
+			return REDIRECT_MUSICIANS;
+		}
+
+		model.addAttribute("form", musician);
+		return "musicians/edit";
+	}
+        
+        @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('admin')")
+	public String doEdit(@PathVariable Long id, @ModelAttribute("form") MusicianDTO musicianForm, RedirectAttributes redir, HttpServletRequest request) {
+		MusicianDTO musician = musicianFacade.getMusicianById(id);
+
+		if (musician == null) {
+			redir.addFlashAttribute(Alert.ERROR, "Musician with id '" + id + "' not found in the database!");
+			return REDIRECT_MUSICIANS;
+		}
+
+		// Update only relevant attributes
+		musician.setName(musicianForm.getName());
+		
+		try {
+			musicianFacade.updateMusician(musician);
+			redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
+		} catch (Exception ex) {
+			//TODO: Logging
+			ex.printStackTrace();
+			redir.addFlashAttribute(Alert.ERROR, "Unable to update album (reason: " + ex.getMessage() + ")");
+		}
+
+		return "redirect:/musicians/" + musician.getId();
+	}
+        
+        @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('admin')")
+	public String delete(@PathVariable Long id, RedirectAttributes redir) {
+		MusicianDTO musician = musicianFacade.getMusicianById(id);
+
+		if (musician == null) {
+			redir.addFlashAttribute(Alert.ERROR, "Musician with id '" + id + "' does not exist!");
+		} else {
+			try {
+				musicianFacade.deleteMusician(musician);
+				redir.addFlashAttribute(Alert.SUCCESS, "Successfuly deleted");
+			} catch (Exception ex) {
+				//TODO: Logging
+				ex.printStackTrace();
+				redir.addFlashAttribute(Alert.SUCCESS, "Unable to delete musician (reason: " + ex.getMessage() + ")");
+			}
+		}
+
+		return "redirect:/musicians/";
 	}
 }

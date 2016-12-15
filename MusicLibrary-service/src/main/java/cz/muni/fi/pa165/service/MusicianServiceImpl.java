@@ -38,6 +38,11 @@ public class MusicianServiceImpl implements MusicianService{
     }
 
     @Override
+    public void update(Musician musician) {
+        musicianDao.update(musician);
+    }
+    
+    @Override
     public void delete(Musician musician) {
         musicianDao.delete(musician);
     }

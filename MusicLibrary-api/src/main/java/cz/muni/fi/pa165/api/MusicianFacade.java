@@ -17,5 +17,7 @@ public interface MusicianFacade {
 
 	void deleteMusician(MusicianDTO musician);
 
+        void updateMusician(MusicianDTO musician);
+        
 	List<MusicianDTO> getAllMusicians();
 }

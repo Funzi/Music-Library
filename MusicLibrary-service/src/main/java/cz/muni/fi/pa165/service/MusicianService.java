@@ -13,7 +13,8 @@ public interface MusicianService {
 
     List<Musician> findAll();
     Musician findById(Long id);
-	Musician findByName(String name);
+    Musician findByName(String name);
     Musician create(Musician musician);
     void delete(Musician musician);
+    public void update(Musician mapTo);
 }

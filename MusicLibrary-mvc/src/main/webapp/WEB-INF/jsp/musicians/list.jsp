@@ -15,6 +15,12 @@
     <c:forEach items="${musicians}" var="m">
         <h2><c:out value="${m.name}" /></h2>
         <h4><c:out value="Average rating of this musician is ${m.avgAlbumRating} stars." /></h4>
+        <p class="pull-right">
+                    <sec:authorize access="hasAuthority('admin')">
+                        <my:a href="/musicians/${m.id}/edit"><button type="button" class="btn btn-primary btn-sm">Edit musician</button></my:a>&nbsp;&nbsp;
+                        <my:a href="/musicians/${m.id}/delete" data-confirm="Are you sure to delete this musicians?"><button type="button" class="btn btn-danger btn-sm">Delete musician</button></my:a>
+                    </sec:authorize>
+                </p>
         <p>[ <my:a href="/musicians/${m.id}">Show albums</my:a> ]</p>
     </c:forEach>
 
