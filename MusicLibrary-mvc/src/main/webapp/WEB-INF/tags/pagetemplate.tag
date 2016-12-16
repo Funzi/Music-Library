@@ -126,7 +126,7 @@
                                 <li><a href="http://getbootstrap.com/components/">Bootstrap components</a></li>
                             </ul>
                         </li>-->
-                        <li><my:a href="https://github.com/Funzi/Music-Library/wiki"><f:message key="navigation.about"/></my:a></li>
+                        <li><my:a href="https://github.com/Funzi/Music-Library/wiki" target="_blank"><f:message key="navigation.about"/></my:a></li>
                     </ul>
                         </li>
                     </ul>
