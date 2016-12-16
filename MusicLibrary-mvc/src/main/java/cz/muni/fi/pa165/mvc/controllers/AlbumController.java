@@ -178,7 +178,7 @@ public class AlbumController {
 			} catch (Exception ex) {
 				//TODO: Logging
 				ex.printStackTrace();
-				redir.addFlashAttribute(Alert.SUCCESS, "Unable to delete album (reason: " + ex.getMessage() + ")");
+				redir.addFlashAttribute(Alert.ERROR, "Unable to delete album (reason: " + ex.getMessage() + ")");
 			}
 		}
 
