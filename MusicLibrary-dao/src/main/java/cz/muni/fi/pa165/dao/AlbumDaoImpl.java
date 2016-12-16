@@ -56,8 +56,9 @@ public class AlbumDaoImpl implements AlbumDao {
 
 	@Override
 	public List<Album> findAlbumsByReleaseDates(LocalDate from, LocalDate to) {
-		typedQuery.setParameter("fromDate", from);
-		typedQuery.setParameter("toDate", to);
+                TypedQuery<Album> typedQuery = em.createQuery("SELECT a from Album a where a.releaseDate BETWEEN :fromDate AND :toDate", Album.class);	
+                typedQuery.setParameter("fromDate", from);
+                typedQuery.setParameter("toDate", to);
 		return typedQuery.getResultList();
 	}
 
