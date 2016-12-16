@@ -16,7 +16,9 @@
                 <th>Musician</th>
                 <th>Album Name</th>
                 <th>Genre</th>
-                <th width="75" align="center">Actions</th>
+                <sec:authorize access="hasAuthority('admin')">
+                    <th width="75" align="center">Actions</th>
+                </sec:authorize>
             </tr>
             <c:forEach items="${songDTOList}" var="s">
                 <tr>
@@ -24,10 +26,13 @@
                     <td><c:out value="${s.musician.name}"/></td>
                     <td><c:out value="${s.album.title}"/></td>
                     <td><c:out value="${s.genre.name}"/></td>
-                    <td align="center"><my:a href="/songs/${s.id}/delete"  data-confirm="Are you sure to delete this song?">
+                    <sec:authorize access="hasAuthority('admin')">
+                    <td align="center">
+                        <my:a href="/songs/${s.id}/delete"  data-confirm="Are you sure to delete this song?">
                         <img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete"/>
-                    </my:a>
+                        </my:a>
                     </td>
+                    </sec:authorize>
                 </tr>
             </c:forEach>
         </table>

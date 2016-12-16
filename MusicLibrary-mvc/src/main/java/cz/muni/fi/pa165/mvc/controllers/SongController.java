@@ -132,8 +132,9 @@ public class SongController {
 		return "songs/listForMusician";
 	}
 
-	@RequestMapping(value = "/addSongToAlbum/{songId}/{albumId}", method = RequestMethod.POST)
-	public String addSongToAlbum(@PathVariable Long songId, @PathVariable Long albumId, RedirectAttributes redir) {
+	@RequestMapping(value = "/addSongToAlbum/", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('admin')")
+	public String addSongToAlbum(@RequestParam(value = "songId", required = false) Long songId, @RequestParam(value = "albumId") Long albumId, RedirectAttributes redir) {
 		if (songFacade.getSongById(songId) == null) {
 			redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + songId + " not found in database");
 			return REDIRECT_SONGS;
@@ -154,6 +155,7 @@ public class SongController {
 	}
 
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('admin')")
 	public String delete(@PathVariable Long id, RedirectAttributes redir) {
 		if (songFacade.getSongById(id) == null) {
 			redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + id + " not found in database");
