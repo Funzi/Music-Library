@@ -16,22 +16,22 @@
     <jsp:attribute name="body">
 
         <sec:authorize access="hasAuthority('admin')">
-            <p><my:a href="/genres/add"><button type="button" class="btn btn-primary btn-sm pull-right"><fmt:message key="content.add_new_genre"/></button></my:a></p>
-            </sec:authorize>
+            <p><my:a href="/genres/add"><button type="button" class="btn btn-primary btn-sm pull-right"><fmt:message key="genre.add_new"/></button></my:a></p>
+        </sec:authorize>
 
-            <div>
-                <h1><fmt:message key="content.genres"/>:</h1>
+        <div>
+            <h1><fmt:message key="genre.genres"/>:</h1>
             <c:forEach items="${genres}" var="genre">
 
                 <p class="pull-right">
                 <sec:authorize access="hasAuthority('admin')">
-                    <my:a href="/genres/${genre.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="content.edit"/></button></my:a>&nbsp;&nbsp;
-                    <my:a href="/genres/${genre.id}/delete" data-confirm="Are you sure to delete this genre?"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="content.delete"/></button></my:a>
-                    </sec:authorize>
+                    <my:a href="/genres/${genre.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="button.edit"/></button></my:a>&nbsp;&nbsp;
+                    <my:a href="/genres/${genre.id}/delete" data-confirm="Are you sure to delete this genre?"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="button.delete"/></button></my:a>
+                </sec:authorize>
                 </p><h3><my:a href="/genres/${genre.id}"><c:out value="${genre.name}" /></my:a></h3>
                 <hr>
-        </c:forEach>
-    </div>
+            </c:forEach>
+        </div>
 
-</jsp:attribute>
+    </jsp:attribute>
 </my:pagetemplate>

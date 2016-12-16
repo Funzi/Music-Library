@@ -31,7 +31,7 @@
             </div>
         </s:bind>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Edit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="button.edit"/></button>
     </form:form>
 
     </jsp:attribute>

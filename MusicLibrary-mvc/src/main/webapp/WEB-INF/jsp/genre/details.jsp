@@ -14,16 +14,16 @@
 <my:pagetemplate title="${genre.name}">
     <jsp:attribute name="body">
 
-        <h3>Description:</h3>
+        <h3><fmt:message key="attributes.description"/>:</h3>
         <c:out value="${genre.description}"/>
 
-        <h3>All songs:</h3>
+        <h3><fmt:message key="attributes.songs"/>:</h3>
         <%--<p><my:a href="/songs/?genre=${genre.id}">List all songs with this genre</my:a></p>--%>
         <table class="table table-striped">
             <tr>
-                <th>Title</th>
-                <th>Musician</th>
-                <th>Album Name</th>
+                <th><fmt:message key="attributes.title"/></th>
+                <th><fmt:message key="attributes.musician"/></th>
+                <th><fmt:message key="attributes.album"/></th>
             </tr>
             <c:forEach items="${songs}" var="s">
                 <tr>

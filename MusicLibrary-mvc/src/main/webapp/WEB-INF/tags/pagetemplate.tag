@@ -112,20 +112,7 @@
                         <li><my:a href="/albums/"><f:message key="navigation.albums"/></my:a></li>
                         <li><my:a href="/genres/"><f:message key="navigation.genres"/></my:a></li>
                         <li><my:a href="/musicians/"><f:message key="navigation.musicians"/></my:a></li>
-                        <li><my:a href="/songs/"><f:message key="navigation.songs"/></my:a> </li>´´
-                            <!--<li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><f:message key="navigation.docs"/><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li class="dropdown-header">Javadocs</li>
-                                <li><a href="http://docs.oracle.com/javase/8/docs/api/">JDK 8 API</a></li>
-                                <li><a href="http://docs.oracle.com/javaee/6/api/">Java EE 6 API</a></li>
-                                <li><a href="http://docs.spring.io/spring/docs/current/javadoc-api/">Spring API</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li class="dropdown-header">Other</li>
-                                <li><a href="http://getbootstrap.com/css/">Bootstrap CSS</a></li>
-                                <li><a href="http://getbootstrap.com/components/">Bootstrap components</a></li>
-                            </ul>
-                        </li>-->
+                        <li><my:a href="/songs/"><f:message key="navigation.songs"/></my:a> </li>
                         <li><my:a href="https://github.com/Funzi/Music-Library/wiki" target="_blank"><f:message key="navigation.about"/></my:a></li>
                     </ul>
                         </li>
@@ -152,7 +139,7 @@
                                                         <p class="text-left"><strong><c:out value="${username}" /></strong></p>
                                                         <p class="text-left small">test@example.com</p>
                                                         <p class="text-left">
-                                                            <a href="#" class="btn btn-primary btn-block btn-sm">Profile</a>
+                                                            <a href="#" class="btn btn-primary btn-block btn-sm"><f:message key="content.profile"/></a>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -167,7 +154,7 @@
                                                         <form id="logoutForm" method="POST" action="<c:url value="/logout" />">
                                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                                         </form>
-                                                        <my:a href="javascript:document.forms['logoutForm'].submit();" class="btn btn-danger btn-block">Logout</my:a>
+                                                        <my:a href="javascript:document.forms['logoutForm'].submit();" class="btn btn-danger btn-block"><f:message key="content.log_out"/></my:a>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -191,7 +178,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-12">
                                                         <form method="POST" action="<c:url value='/login' />" class="form-signin">
-                                                            <h2 class="form-heading">Log in</h2>
+                                                            <h2 class="form-heading"><f:message key="content.log_in"/></h2>
 
                                                             <div class="form-group ${error != null ? 'has-error' : ''}">
                                                                 <span>${message}</span>

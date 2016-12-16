@@ -30,7 +30,7 @@
             </div>
         </s:bind>
 
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Add genre</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="genre.add_new"/></button>
     </form:form>
 
     </jsp:attribute>
