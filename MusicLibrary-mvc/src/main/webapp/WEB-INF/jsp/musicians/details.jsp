@@ -11,11 +11,11 @@
 
          <table class="table table-striped">
             <tr>
-                <th>Name</th>
-                <th>Release date</th>
-                <th width="200">Rating</th>
+                <th><fmt:message key="musician.name"/></th>
+                <th><fmt:message key="musician.release_date"/></th>
+                <th width="200"><fmt:message key="musician.rating"/></th>
                  <sec:authorize access="hasAuthority('admin')">
-                    <th width="75" align="center">Actions</th>
+                    <th width="75" align="center"><fmt:message key="musician.actions"/></th>
                  </sec:authorize>
             </tr>
             <c:forEach items="${albums}" var="a">
