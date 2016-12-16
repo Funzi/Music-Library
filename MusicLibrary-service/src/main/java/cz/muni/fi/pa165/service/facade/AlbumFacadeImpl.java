@@ -22,76 +22,76 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AlbumFacadeImpl implements AlbumFacade {
 
-	final static Logger LOG = LoggerFactory.getLogger(AlbumFacadeImpl.class);
+    final static Logger LOG = LoggerFactory.getLogger(AlbumFacadeImpl.class);
 
-	@Inject
-	private BeanMappingService beanMappingService;
+    @Inject
+    private BeanMappingService beanMappingService;
 
-	@Inject
-	private AlbumService albumService;
+    @Inject
+    private AlbumService albumService;
 
-	@Inject
-	private ArtService artService;
+    @Inject
+    private ArtService artService;
 
-	@Override
-	public Long createAlbum(AlbumDTO albumDTO) {
-		Album mappedAlbum = beanMappingService.mapTo(albumDTO, Album.class);
+    @Override
+    public Long createAlbum(AlbumDTO albumDTO) {
+        Album mappedAlbum = beanMappingService.mapTo(albumDTO, Album.class);
 
-		Album newAlbum = albumService.createAlbum(mappedAlbum);
-		return newAlbum.getId();
-	}
+        Album newAlbum = albumService.createAlbum(mappedAlbum);
+        return newAlbum.getId();
+    }
 
-	@Override
-	public void updateAlbum(AlbumDTO albumDTO) {
-		albumService.updateAlbum(beanMappingService.mapTo(albumDTO, Album.class));
-	}
+    @Override
+    public void updateAlbum(AlbumDTO albumDTO) {
+        albumService.updateAlbum(beanMappingService.mapTo(albumDTO, Album.class));
+    }
 
-	@Override
-	public void deleteAlbum(AlbumDTO albumDTO) {
-		Album album = new Album();
-		album.setId(albumDTO.getId());
-		albumService.deleteAlbum(album);
-	}
+    @Override
+    public void deleteAlbum(AlbumDTO albumDTO) {
+        Album album = new Album();
+        album.setId(albumDTO.getId());
+        albumService.deleteAlbum(album);
+    }
 
-	@Override
-	public void changeCommentary(Long albumId, String commentary) {
-		Album album = albumService.findAlbumById(albumId);
-		albumService.changeCommentary(album, commentary);
-	}
+    @Override
+    public void changeCommentary(Long albumId, String commentary) {
+        Album album = albumService.findAlbumById(albumId);
+        albumService.changeCommentary(album, commentary);
+    }
 
-	@Override
-	public AlbumDTO getAlbumById(Long id) {
-		Album album = albumService.findAlbumById(id);
-		return (album != null) ? beanMappingService.mapTo(album, AlbumDTO.class) : null;
-	}
+    @Override
+    public AlbumDTO getAlbumById(Long id) {
+        Album album = albumService.findAlbumById(id);
+        return (album != null) ? beanMappingService.mapTo(album, AlbumDTO.class) : null;
+    }
 
-	@Override
-	public List<AlbumDTO> getAlbumByMusician(MusicianDTO musicianDto) {
-		List<Album> albums = albumService.findAlbumsByMusicianId(musicianDto.getId());
-		return beanMappingService.mapTo(albums, AlbumDTO.class);
-	}
+    @Override
+    public List<AlbumDTO> getAlbumByMusician(MusicianDTO musicianDto) {
+        List<Album> albums = albumService.findAlbumsByMusicianId(musicianDto.getId());
+        return beanMappingService.mapTo(albums, AlbumDTO.class);
+    }
 
-	@Override
-	public List<AlbumDTO> getAlbumByReleaseDates(LocalDate from, LocalDate to) {
-		List<Album> albums = albumService.findAlbumsByReleaseDates(from, to);
-		return beanMappingService.mapTo(albums, AlbumDTO.class);
-	}
+    @Override
+    public List<AlbumDTO> getAlbumByReleaseDates(LocalDate from, LocalDate to) {
+        List<Album> albums = albumService.findAlbumsByReleaseDates(from, to);
+        return beanMappingService.mapTo(albums, AlbumDTO.class);
+    }
 
-	@Override
-	public List<AlbumDTO> getAlbumByPartialTitle(String partialTitle) {
-		List<Album> albums = albumService.findAlbumsByPartialTitle(partialTitle);
-		return beanMappingService.mapTo(albums, AlbumDTO.class);
-	}
+    @Override
+    public List<AlbumDTO> getAlbumByPartialTitle(String partialTitle) {
+        List<Album> albums = albumService.findAlbumsByPartialTitle(partialTitle);
+        return beanMappingService.mapTo(albums, AlbumDTO.class);
+    }
 
-	@Override
-	public List<AlbumDTO> getAllAlbums() {
-		List<Album> albums = albumService.findAllAlbums();
-		return beanMappingService.mapTo(albums, AlbumDTO.class);
-	}
+    @Override
+    public List<AlbumDTO> getAllAlbums() {
+        List<Album> albums = albumService.findAllAlbums();
+        return beanMappingService.mapTo(albums, AlbumDTO.class);
+    }
 
-	@Override
-	public List<AlbumDTO> getAlbums(List<Long> musicians, List<Long> genres) {
-		return beanMappingService.mapTo(albumService.getAlbums(musicians, genres), AlbumDTO.class);
-	}
+    @Override
+    public List<AlbumDTO> getAlbums(List<Long> musicians, List<Long> genres) {
+        return beanMappingService.mapTo(albumService.getAlbums(musicians, genres), AlbumDTO.class);
+    }
 
 }

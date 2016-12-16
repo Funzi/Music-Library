@@ -7,10 +7,12 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.SongDao;
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
@@ -91,6 +93,11 @@ public class SongServiceImpl implements SongService {
 
             songDao.update(s);
         }
+    }
+
+    @Override
+    public List<Song> getSongsForGenre(Genre genre) {
+        return songDao.findAll().stream().filter(s -> s.getGenre().equals(genre)).collect(Collectors.toList());
     }
 
 }
