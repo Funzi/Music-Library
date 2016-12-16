@@ -64,6 +64,7 @@ public class AlbumController {
 
 	@RequestMapping("/")
 	public String list(@ModelAttribute("form") FilterForm form, Model model) {
+		log.info("Getting all albums for list");
 		form = form != null ? form : new FilterForm();
 		Map<AlbumDTO, Set<MusicianDTO>> data = new HashMap<>();
 
@@ -95,6 +96,7 @@ public class AlbumController {
 
 	@RequestMapping("/{id}")
 	public String detail(@PathVariable Long id, Model model) {
+		log.info("Getting detail for album with id={}", id);
 		AlbumDTO a = albumFacade.getAlbumById(id);
 		model.addAttribute("album", a);
 		model.addAttribute("musicians", a.getSongs().stream().map(s -> s.getMusician()).collect(Collectors.toSet()));
@@ -112,6 +114,7 @@ public class AlbumController {
 	@RequestMapping(value = "/add", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('admin')")
 	public String add(Model model) {
+		log.info("Trying to create new album");
 		model.addAttribute("albumForm", new AlbumDTO());
 		return "album/add";
 	}
@@ -119,6 +122,7 @@ public class AlbumController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('admin')")
 	public String doAdd(@ModelAttribute("albumForm") AlbumDTO album, RedirectAttributes redir) {
+		log.info("Creating new album");
 		albumFacade.createAlbum(album);
 		redir.addFlashAttribute(Alert.SUCCESS, "Successfuly created");
 		return REDIRECT_ALBUMS;
@@ -127,13 +131,15 @@ public class AlbumController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('admin')")
 	public String edit(@PathVariable Long id, Model model, RedirectAttributes redir) {
+		log.info("Trying to get album with id={} for edit", id);
 		AlbumDTO album = albumFacade.getAlbumById(id);
 
 		if (album == null) {
+			log.error("Cannot find album with id={} in database", id);
 			redir.addFlashAttribute(Alert.ERROR, "Album with id '" + id + "' not found in the database!");
 			return REDIRECT_ALBUMS;
 		}
-
+		log.info("Successfully get album with id={} to edit", id);
 		model.addAttribute("form", albumFacade.getAlbumById(id));
 		return "album/edit";
 	}
@@ -141,6 +147,7 @@ public class AlbumController {
 	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('admin')")
 	public String doEdit(@PathVariable Long id, @ModelAttribute("form") AlbumDTO albumForm, RedirectAttributes redir, HttpServletRequest request) {
+		log.info("Trying to update album={}", albumForm);
 		AlbumDTO album = albumFacade.getAlbumById(id);
 
 		if (album == null) {
@@ -155,8 +162,9 @@ public class AlbumController {
 		try {
 			albumFacade.updateAlbum(album);
 			redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
+			log.info("Successfully update album={}", album);
 		} catch (Exception ex) {
-			//TODO: Logging
+			log.error("Unable to update album={} because: {}", album, ex);
 			ex.printStackTrace();
 			redir.addFlashAttribute(Alert.ERROR, "Unable to update album (reason: " + ex.getMessage() + ")");
 		}
@@ -167,16 +175,19 @@ public class AlbumController {
 	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
 	@PreAuthorize("hasAuthority('admin')")
 	public String delete(@PathVariable Long id, RedirectAttributes redir) {
+		log.info("Trying to delete album with id={}", id);
 		AlbumDTO album = albumFacade.getAlbumById(id);
 
 		if (album == null) {
+			log.error("Cannot find album with id={} in database", id);
 			redir.addFlashAttribute(Alert.ERROR, "Album with id '" + id + "' does not exist!");
 		} else {
 			try {
 				albumFacade.deleteAlbum(album);
 				redir.addFlashAttribute(Alert.SUCCESS, "Successfuly deleted");
+				log.info("Successfully deleted album={}", album);
 			} catch (Exception ex) {
-				//TODO: Logging
+				log.error("Unable to delete album={} because: {}", album, ex);
 				ex.printStackTrace();
 				redir.addFlashAttribute(Alert.ERROR, "Unable to delete album (reason: " + ex.getMessage() + ")");
 			}
@@ -188,6 +199,7 @@ public class AlbumController {
 	@RequestMapping(value = "/{id}/rate", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
 	public String rate(@PathVariable Long id, @ModelAttribute("ratingForm") AlbumRatingDTO rating, RedirectAttributes redir) {
+		log.info("Trying to rate album with id={}", id);
 		AlbumDTO album = albumFacade.getAlbumById(id);
 
 		if (album == null) {
@@ -198,9 +210,10 @@ public class AlbumController {
 				rating.setAlbum(album);
 				rating.setUser(securityFacade.getLoggedInUser());
 				albumRatingFacade.create(rating);
-				redir.addFlashAttribute(Alert.SUCCESS, "Successfuly rated!");
+				redir.addFlashAttribute(Alert.SUCCESS, "Successfully rated!");
+				log.info("Successfully rated album={}", album);
 			} catch (Exception ex) {
-				//TODO: Logging
+				log.error("Unable to rate album={} with rating={}", album, rating);
 				ex.printStackTrace();
 				redir.addFlashAttribute(Alert.ERROR, "Unable to save rating (reason: " + ex.getMessage() + ")");
 			}
@@ -212,6 +225,7 @@ public class AlbumController {
 	@RequestMapping(value = "/{id}/unrate", method = RequestMethod.GET)
 	@PreAuthorize("isAuthenticated()")
 	public String rate(@PathVariable Long id, RedirectAttributes redir) {
+		log.info("Trying to rate album with id={}", id);
 		AlbumDTO album = albumFacade.getAlbumById(id);
 		if (album == null) {
 			redir.addFlashAttribute(Alert.ERROR, "Album with id '" + id + "' does not exist!");
@@ -243,6 +257,7 @@ public class AlbumController {
 	@RequestMapping(value = "/{id}/upload-cover", method = RequestMethod.POST)
 	@PreAuthorize("isAuthenticated()")
 	public String handleFileUpload(@PathVariable Long id, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+		log.info("Trying to uload picture for album with id={}", id);
 		try {
 			ArtDTO artDTO = new ArtDTO();
 			artDTO.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
