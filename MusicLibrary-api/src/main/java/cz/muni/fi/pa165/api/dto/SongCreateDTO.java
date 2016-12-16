@@ -6,6 +6,8 @@
 package cz.muni.fi.pa165.api.dto;
 
 import cz.muni.fi.pa165.utils.Constants;
+
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -18,6 +20,7 @@ public class SongCreateDTO {
     private Long id;
 
     @NotNull
+    @Size(min = 1, max = 256)
     private String title;
 
     private Long albumId;
@@ -25,10 +28,12 @@ public class SongCreateDTO {
     private Long musicianId;
 
     @NotNull
+    @DecimalMin(value = "1")
     private int position;
 
     private Long genreId;
 
+    @DecimalMin(value = "0")
     private int bitrate;
 
     @Size(max = Constants.INT_LENGTH_HUGE)
