@@ -31,6 +31,10 @@ public class MusicianDTO {
 	public double getAvgAlbumRating() {
 		return avgAlbumRating;
 	}
+        
+        public void setAvgAlbumRating(double avgRating) {
+		this.avgAlbumRating = avgRating;
+	}
 
 	@Override
 	public int hashCode() {
