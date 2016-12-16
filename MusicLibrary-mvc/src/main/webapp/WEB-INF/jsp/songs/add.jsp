@@ -5,45 +5,54 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="New Song">
+<s:message code="song.new" var="msg"/>
+<my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
         <form:form method="POST" modelAttribute="songForm">
-            <s:bind path="title">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="text" path="title" class="form-control" placeholder="Song title" autofocus="true"/>
-                    <form:errors path="title"/>
-                </div>
-            </s:bind>
-            <s:bind path="position">
-                <div class="form-group ${status.error ? 'has-error' : ''}">
-                    <form:input type="number" path="position" class="form-control" placeholder="Song position"/>
-                    <form:errors path="position"/>
-                </div>
-            </s:bind>
-            <s:bind path="bitrate">
-               <div class="form-group ${status.error ? 'has-error' : ''}">
-                   <form:input type="number" path="bitrate" class="form-control" placeholder="Song bitrate"/>
-                   <form:errors path="bitrate"/>
-               </div>
-           </s:bind>
-            <s:bind path="commentary">
-               <div class="form-group ${status.error ? 'has-error' : ''}">
-                   <form:textarea path="commentary" class="form-control" placeholder="Commentary" />
-                   <form:errors path="commentary"></form:errors>
-               </div>
-           </s:bind>
-            <s:bind path="albumId">
-                <form:select path="albumId" items="${allAlbums}" itemLabel="title" itemValue="id" class="form-control"></form:select>
-            </s:bind>
-            <s:bind path="musicianId">
-                <form:select path="musicianId" items="${allMusicians}" itemLabel="name" itemValue="id" class="form-control"></form:select>
-            </s:bind>
-            <s:bind path="genreId">
-                <form:select path="genreId" items="${allGenres}" itemLabel="name" itemValue="id" class="form-control"></form:select>
-            </s:bind>
-
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            <div class="col-md-6">
+                <s:bind path="title">
+                    <s:message code="song.attribute.title" var="msg"/>
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="text" path="title" class="form-control" placeholder="${msg}" autofocus="true"/>
+                        <form:errors path="title"/>
+                    </div>
+                </s:bind>
+                <s:bind path="position">
+                    <s:message code="song.attribute.position" var="msg"/>
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:input type="number" path="position" class="form-control" placeholder="${msg}"/>
+                        <form:errors path="position"/>
+                    </div>
+                </s:bind>
+                <s:bind path="bitrate">
+                    <s:message code="song.attribute.bitrate" var="msg"/>
+                   <div class="form-group ${status.error ? 'has-error' : ''}">
+                       <form:input type="number" path="bitrate" class="form-control" placeholder="${msg}"/>
+                       <form:errors path="bitrate"/>
+                   </div>
+               </s:bind>
+                <s:bind path="commentary">
+                   <s:message code="song.attribute.commentary" var="msg"/>
+                   <div class="form-group ${status.error ? 'has-error' : ''}">
+                       <form:textarea path="commentary" class="form-control" placeholder="${msg}" />
+                       <form:errors path="commentary"></form:errors>
+                   </div>
+            </div>
+            <div class="col-md-4">
+               </s:bind>
+                <s:bind path="albumId">
+                    <form:select path="albumId" items="${allAlbums}" itemLabel="title" itemValue="id" class="form-control"></form:select>
+                </s:bind>
+                <s:bind path="musicianId">
+                    <form:select path="musicianId" items="${allMusicians}" itemLabel="name" itemValue="id" class="form-control"></form:select>
+                </s:bind>
+                <s:bind path="genreId">
+                    <form:select path="genreId" items="${allGenres}" itemLabel="name" itemValue="id" class="form-control"></form:select>
+                </s:bind>
+            </div>
+            <div class="col-md-2 pull-right">
+                <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="form.submit"/> </button>
+            </div>
         </form:form>
     </jsp:attribute>
 </my:pagetemplate>

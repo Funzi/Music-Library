@@ -6,18 +6,18 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-
-<my:pagetemplate title="Songs">
+<s:message code="songs" var="msg"/>
+<my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
 
         <table class="table table-striped">
             <tr>
-                <th>Title</th>
-                <th>Musician</th>
-                <th>Album Name</th>
-                <th>Genre</th>
+                <th><fmt:message key="song.attribute.title"/></th>
+                <th><fmt:message key="song.attribute.musician"/></th>
+                <th><fmt:message key="song.attribute.album"/></th>
+                <th><fmt:message key="song.attribute.genre"/></th>
                 <sec:authorize access="hasAuthority('admin')">
-                    <th width="75" align="center">Actions</th>
+                    <th width="75" align="center"><fmt:message key="form.actions"/></th>
                 </sec:authorize>
             </tr>
             <c:forEach items="${songDTOList}" var="s">
@@ -28,8 +28,11 @@
                     <td><c:out value="${s.genre.name}"/></td>
                     <sec:authorize access="hasAuthority('admin')">
                     <td align="center">
-                        <my:a href="/songs/${s.id}/delete"  data-confirm="Are you sure to delete this song?">
-                        <img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete"/>
+                        <s:message code="song.delete.confirm" var="msg"/>
+                        <my:a href="/songs/${s.id}/delete"  data-confirm="${msg}">
+                            <s:message code="button.delete" var="msg"/>
+                            <s:message code="button.delete.alt" var="msg2"/>
+                            <img src="<c:url value="/images/delete.png" />" title="${msg}" alt="${msg2}"/>
                         </my:a>
                     </td>
                     </sec:authorize>
@@ -37,7 +40,7 @@
             </c:forEach>
         </table>
        <sec:authorize access="hasAuthority('admin')">
-            <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Add new</button></my:a>
+           <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="button.addnew"/></button></my:a>
         </sec:authorize>
     </jsp:attribute>
 </my:pagetemplate>

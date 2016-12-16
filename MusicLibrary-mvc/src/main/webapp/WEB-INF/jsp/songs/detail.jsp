@@ -12,34 +12,34 @@
         <div class="row">
             <table class="table">
                 <tr>
-                    <th>Album:</th>
+                    <th><fmt:message key="song.attribute.album"/>:</th>
                     <td><my:a href="/albums/${songDTO.album.id}"><c:out value="${songDTO.album.title}"/> </my:a> </td>
                 </tr>
                 <tr>
-                    <th class="col-md-2">Musician:</th>
+                    <th class="col-md-2"><fmt:message key="song.attribute.musician"/>:</th>
                     <td><my:musician musician="${songDTO.musician}"/></td>
                 </tr>
                 <tr>
-                    <th>Genre:</th>
+                    <th><fmt:message key="song.attribute.genre"/>:</th>
                     <td><my:a href="/songs/?genre=${songDTO.genre.id}"><c:out value="${songDTO.genre.name}"/> </my:a> </td>
                 </tr>
                 <tr>
-                    <th>Position:</th>
+                    <th><fmt:message key="song.attribute.position"/>:</th>
                     <td><c:out value="${songDTO.position}"/></td>
                 </tr>
                 <tr>
-                    <th>Bitrate:</th>
+                    <th><fmt:message key="song.attribute.bitrate"/>:</th>
                     <td><c:out value="${songDTO.bitrate}"/></td>
                 </tr>
                 <c:if test="${songDTO.commentary != null}">
                     <tr>
-                        <th>Commentary:</th>
+                        <th><fmt:message key="song.attribute.commentary"/>:</th>
                         <td><c:out value="${songDTO.commentary}"/> </td>
                     </tr>
                 </c:if>
             </table>
             <p class="pull-right">
-                <my:a href="/songs/${songDTO.id}/delete" data-confirm="Are you sure to delete this song?"><button type="button" class="btn btn-danger btn-sm">Delete song</button> </my:a>
+                <my:a href="/songs/${songDTO.id}/delete" data-confirm="Are you sure to delete this song?"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="button.delete"/></button> </my:a>
             </p>
         </div>
 
