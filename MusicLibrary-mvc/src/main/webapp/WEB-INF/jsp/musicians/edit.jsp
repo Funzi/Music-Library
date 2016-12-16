@@ -5,11 +5,12 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Musicians">
+<s:message code="musicians" var="musicians_msg"/>
+<my:pagetemplate title="${musicians_msg}">
     <jsp:attribute name="body">
 
         <form:form method="POST" modelAttribute="form" class="form-signin">
-        <h2 class="form-signin-heading">Edit musician</h2>
+        <h2 class="form-signin-heading"><fmt:message key="musician.edit"/></h2>
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="name" class="form-control" placeholder="Musician name"
@@ -17,7 +18,7 @@
                 <form:errors path="name"></form:errors>
             </div>
         </s:bind>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="form.submit"/></button>
     </form:form>
 
     </jsp:attribute>

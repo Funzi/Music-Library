@@ -32,9 +32,6 @@ public class GenreController {
     private GenreFacade genreFacade;
 
     @Autowired
-    private AlbumFacade albumFacade;
-
-    @Autowired
     private SongFacade songFacade;
 
     @RequestMapping("/")
@@ -64,8 +61,12 @@ public class GenreController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('admin')")
     public String doAdd(@ModelAttribute("genreForm") GenreDTO genre, RedirectAttributes redir) {
-        genreFacade.createGenre(genre);
-        redir.addFlashAttribute(Alert.SUCCESS, "Successfuly created");
+        if (genre.getName().isEmpty()) {
+            redir.addFlashAttribute(Alert.ERROR, "Not created. You have to fill the name");
+        } else {
+            genreFacade.createGenre(genre);
+            redir.addFlashAttribute(Alert.SUCCESS, "Successfuly created");
+        }
         return REDIRECT_GENRES;
     }
 
@@ -92,15 +93,19 @@ public class GenreController {
             redir.addFlashAttribute(Alert.ERROR, "Genre with id '" + id + "' not found in the database!");
             return REDIRECT_GENRES;
         }
+        
+        if (genreForm.getName().isEmpty()) {
+            redir.addFlashAttribute(Alert.ERROR, "Not updated. You have to fill the name");
+        } else {
+            genre.setName(genreForm.getName());
+            genre.setDescription(genreForm.getDescription());
 
-        genre.setName(genreForm.getName());
-        genre.setDescription(genreForm.getDescription());
-
-        try {
-            genreFacade.updateGenre(genre);
-            redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
-        } catch (Exception ex) {
-            redir.addFlashAttribute(Alert.ERROR, "Unable to update genre (reason: " + ex.getMessage() + ")");
+            try {
+                genreFacade.updateGenre(genre);
+                redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
+            } catch (Exception ex) {
+                redir.addFlashAttribute(Alert.ERROR, "Unable to update genre (reason: " + ex.getMessage() + ")");
+            }
         }
 
         return "redirect:/genres/" + genre.getId();

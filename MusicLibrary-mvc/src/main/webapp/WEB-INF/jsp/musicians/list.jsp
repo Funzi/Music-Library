@@ -6,23 +6,25 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<my:pagetemplate title="Musicians">
+<s:message code="musicians" var="musicians_msg"/>
+<my:pagetemplate title="${musicians_msg}">
 <jsp:attribute name="body">
     <sec:authorize access="hasAuthority('admin')">
-            <my:a href="/musicians/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Add new musician</button></my:a>
+            <my:a href="/musicians/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="musician.add_new"/></button></my:a>
       </sec:authorize>
         
     <c:forEach items="${musicians}" var="m">
         <h2><c:out value="${m.name}" /></h2>
-        <p>Average rating of this musician is <fmt:formatNumber type="number" 
-            maxFractionDigits="2" value="${m.avgAlbumRating}" /> stars.</p>
+        <p><fmt:message key="musician.avg_rating_message"/>&nbsp<fmt:formatNumber type="number" 
+            maxFractionDigits="2" value="${m.avgAlbumRating}" />&nbsp<fmt:message key="musician.stars"/></p>
         <p class="pull-right">
                     <sec:authorize access="hasAuthority('admin')">
-                        <my:a href="/musicians/${m.id}/edit"><button type="button" class="btn btn-primary btn-sm">Edit musician</button></my:a>&nbsp;&nbsp;
-                        <my:a href="/musicians/${m.id}/delete" data-confirm="Are you sure to delete this musicians?"><button type="button" class="btn btn-danger btn-sm">Delete musician</button></my:a>
+                        <s:message code="musician.delete.message" var="msg"/>
+                        <my:a href="/musicians/${m.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="musician.edit"/></button></my:a>&nbsp;&nbsp;
+                        <my:a href="/musicians/${m.id}/delete" data-confirm="${msg}"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="musician.delete"/></button></my:a>
                     </sec:authorize>
                 </p>
-        <p>[ <my:a href="/musicians/${m.id}">Show albums</my:a> ]</p>
+        <p>[ <my:a href="/musicians/${m.id}"><fmt:message key="musician.show_albums"/></my:a> ]</p>
     </c:forEach>
 
 </jsp:attribute>
