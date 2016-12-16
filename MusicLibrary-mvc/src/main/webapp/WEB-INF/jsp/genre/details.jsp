@@ -24,16 +24,13 @@
                 <th>Title</th>
                 <th>Musician</th>
                 <th>Album Name</th>
-                <th>Genre</th>
             </tr>
             <c:forEach items="${songs}" var="s">
-                <c:if test="${s.genre}.equals(${genre})">
-                    <tr>
-                        <td><c:out value="${s.musician.name}"/></td>
-                        <td><c:out value="${s.album.title}"/></td>
-                        <td><c:out value="${s.genre.name}"/></td>
-                    </tr>
-                </c:if>
+                <tr>
+                    <td><c:out value="${s.musician.name}"/></td>
+                    <td><c:out value="${s.album.title}"/></td>
+                    <td><c:out value="${s.genre.name}"/></td>
+                </tr>
             </c:forEach>
         </table>
 
