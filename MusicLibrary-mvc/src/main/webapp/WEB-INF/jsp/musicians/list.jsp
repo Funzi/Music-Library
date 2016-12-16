@@ -14,7 +14,8 @@
         
     <c:forEach items="${musicians}" var="m">
         <h2><c:out value="${m.name}" /></h2>
-        <h4><c:out value="Average rating of this musician is ${m.avgAlbumRating} stars." /></h4>
+        <p>Average rating of this musician is <fmt:formatNumber type="number" 
+            maxFractionDigits="2" value="${m.avgAlbumRating}" /> stars.</p>
         <p class="pull-right">
                     <sec:authorize access="hasAuthority('admin')">
                         <my:a href="/musicians/${m.id}/edit"><button type="button" class="btn btn-primary btn-sm">Edit musician</button></my:a>&nbsp;&nbsp;
