@@ -6,6 +6,7 @@
 package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
 import java.util.List;
@@ -30,4 +31,6 @@ public interface SongService {
     List<Song> getSongsForMusician(Musician musician);
 
     void updateSongPosition(Song song, int newPosition);
+
+    public List<Song> getSongsForGenre(Genre genre);
 }

@@ -1,5 +1,6 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
+import cz.muni.fi.pa165.api.AlbumFacade;
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.SongFacade;
 import cz.muni.fi.pa165.api.dto.GenreDTO;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
+ * Controller for genre
  *
  * @author Martin Kulisek
  */
@@ -28,6 +30,9 @@ public class GenreController {
 
     @Autowired
     private GenreFacade genreFacade;
+
+    @Autowired
+    private AlbumFacade albumFacade;
 
     @Autowired
     private SongFacade songFacade;
@@ -90,7 +95,7 @@ public class GenreController {
 
         genre.setName(genreForm.getName());
         genre.setDescription(genreForm.getDescription());
-        
+
         try {
             genreFacade.updateGenre(genre);
             redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
@@ -109,14 +114,18 @@ public class GenreController {
         if (genre == null) {
             redir.addFlashAttribute(Alert.ERROR, "Genre with id '" + id + "' does not exist!");
         } else {
+
             try {
-                genreFacade.deleteGenre(genre);
-                redir.addFlashAttribute(Alert.SUCCESS, "Successfuly deleted");
+                if (songFacade.getSongsForGenre(genre).size() > 0) {
+                    redir.addFlashAttribute(Alert.ERROR, "You need to delete all songs connected to this genre first.");
+                } else {
+                    genreFacade.deleteGenre(genre);
+                    redir.addFlashAttribute(Alert.SUCCESS, "Successfuly deleted");
+                }
             } catch (Exception ex) {
-                redir.addFlashAttribute(Alert.SUCCESS, "Unable to delete genre (reason: " + ex.getMessage() + ")");
+                redir.addFlashAttribute(Alert.ERROR, "Unable to delete genre (reason: " + ex.getMessage() + ")");
             }
         }
-
         return "redirect:/genres/";
     }
 }

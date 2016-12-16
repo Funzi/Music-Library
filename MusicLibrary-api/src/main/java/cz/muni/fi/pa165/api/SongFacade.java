@@ -5,6 +5,7 @@
  */
 package cz.muni.fi.pa165.api;
 
+import cz.muni.fi.pa165.api.dto.GenreDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.api.dto.SongCreateDTO;
 import cz.muni.fi.pa165.api.dto.SongDTO;
@@ -26,8 +27,10 @@ public interface SongFacade {
 
     public SongDTO getSongById(Long id);
 
-	List<SongDTO> getSongsForMusician(MusicianDTO musician);
+    List<SongDTO> getSongsForMusician(MusicianDTO musician);
 
-	void updateSongPosition(SongDTO song, int newPosition);
+    void updateSongPosition(SongDTO song, int newPosition);
+
+    public List<SongDTO> getSongsForGenre(GenreDTO genre);
 
 }
