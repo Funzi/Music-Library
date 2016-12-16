@@ -121,9 +121,12 @@ public class SongController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('admin')")
-	public String doAdd(@Valid @ModelAttribute("songForm") SongCreateDTO songCreateDTO, BindingResult bindingResult, RedirectAttributes redirect) {
+	public String doAdd(@Valid @ModelAttribute("songForm") SongCreateDTO songCreateDTO, BindingResult bindingResult, RedirectAttributes redirect, Model model) {
 		if (bindingResult.hasErrors()) {
 			log.error("Validation of SongCreateDTO didn't pass. Returning to add new song");
+			model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+			model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+			model.addAttribute("allGenres", genreFacade.getAllGenres());
 			return "songs/add";
 		}
 		log.info("Successfully validated SongCreateDTO={}", songCreateDTO);
