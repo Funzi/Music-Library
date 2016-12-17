@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.mvc.controllers;
 
-import cz.muni.fi.pa165.api.AlbumFacade;
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.SongFacade;
 import cz.muni.fi.pa165.api.dto.GenreDTO;
@@ -16,6 +15,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller for genre
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/genres")
 public class GenreController {
 
+    final static Logger log = LoggerFactory.getLogger(GenreController.class);
     public static final String REDIRECT_GENRES = "redirect:/genres/";
 
     @Autowired
@@ -36,12 +38,14 @@ public class GenreController {
 
     @RequestMapping("/")
     public String bar(Model model) {
+        log.info("Getting all genres for list");
         model.addAttribute("genres", genreFacade.getAllGenres());
         return "genre/list";
     }
 
     @RequestMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
+        log.info("Getting detail for genre with id={}", id);
         GenreDTO g = genreFacade.getGenreById(id);
         model.addAttribute("genre", g);
         model.addAttribute("name", g.getName());
@@ -54,6 +58,7 @@ public class GenreController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
     public String add(Model model) {
+        log.info("Trying to create new genre");
         model.addAttribute("genreForm", new GenreDTO());
         return "genre/add";
     }
@@ -61,8 +66,10 @@ public class GenreController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('admin')")
     public String doAdd(@ModelAttribute("genreForm") GenreDTO genre, RedirectAttributes redir) {
+        log.info("Creating new genre");
         if (genre.getName().isEmpty()) {
-            redir.addFlashAttribute(Alert.ERROR, "Not created. You have to fill the name");
+            redir.addFlashAttribute(Alert.ERROR, "You have to fill the name");
+            return REDIRECT_GENRES + "add";
         } else {
             genreFacade.createGenre(genre);
             redir.addFlashAttribute(Alert.SUCCESS, "Successfuly created");
@@ -73,20 +80,24 @@ public class GenreController {
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
     public String edit(@PathVariable Long id, Model model, RedirectAttributes redir) {
+        log.info("Trying to get genre with id={} for edit", id);
         GenreDTO genre = genreFacade.getGenreById(id);
 
         if (genre == null) {
+            log.error("Cannot find genre with id={} in database", id);
             redir.addFlashAttribute(Alert.ERROR, "Genre with id '" + id + "' not found in the database!");
             return REDIRECT_GENRES;
         }
 
         model.addAttribute("form", genreFacade.getGenreById(id));
+        log.info("Successfully got genre with id={} to edit", id);
         return "genre/edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('admin')")
     public String doEdit(@PathVariable Long id, @ModelAttribute("form") GenreDTO genreForm, RedirectAttributes redir, HttpServletRequest request) {
+        log.info("Trying to update genre={}", genreForm);
         GenreDTO genre = genreFacade.getGenreById(id);
 
         if (genre == null) {
@@ -95,7 +106,8 @@ public class GenreController {
         }
         
         if (genreForm.getName().isEmpty()) {
-            redir.addFlashAttribute(Alert.ERROR, "Not updated. You have to fill the name");
+            redir.addFlashAttribute(Alert.ERROR, "You have to fill the name");
+            return REDIRECT_GENRES + "{id}/edit";
         } else {
             genre.setName(genreForm.getName());
             genre.setDescription(genreForm.getDescription());
@@ -103,20 +115,24 @@ public class GenreController {
             try {
                 genreFacade.updateGenre(genre);
                 redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
+                log.info("Successfully updated genre={}", genre);
             } catch (Exception ex) {
+                log.error("Unable to update genre={} because: {}", genre, ex);
                 redir.addFlashAttribute(Alert.ERROR, "Unable to update genre (reason: " + ex.getMessage() + ")");
             }
         }
 
-        return "redirect:/genres/" + genre.getId();
+        return REDIRECT_GENRES + genre.getId();
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
     public String delete(@PathVariable Long id, RedirectAttributes redir) {
+        log.info("Trying to delete genre with id={}", id);
         GenreDTO genre = genreFacade.getGenreById(id);
 
         if (genre == null) {
+            log.error("Cannot find genre with id={} in database", id);
             redir.addFlashAttribute(Alert.ERROR, "Genre with id '" + id + "' does not exist!");
         } else {
 
@@ -131,6 +147,6 @@ public class GenreController {
                 redir.addFlashAttribute(Alert.ERROR, "Unable to delete genre (reason: " + ex.getMessage() + ")");
             }
         }
-        return "redirect:/genres/";
+        return REDIRECT_GENRES;
     }
 }
