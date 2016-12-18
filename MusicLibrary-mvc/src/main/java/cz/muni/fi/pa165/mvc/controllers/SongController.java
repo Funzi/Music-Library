@@ -115,11 +115,6 @@ public class SongController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('admin')")
     public String doAdd(@Valid @ModelAttribute("songForm") SongCreateDTO songCreateDTO, BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        /*if (!(songCreateDTO.getTitle().trim().length() > 0)) {
-            log.error("Name was not set in the form");
-            redirect.addFlashAttribute(Alert.ERROR, "You have to fill the name");
-            return REDIRECT_SONGS + "add";
-        }*/
 
         if (bindingResult.hasErrors()) {
             log.error("Validation of SongCreateDTO={} didn't pass. Returning to add new song", songCreateDTO);

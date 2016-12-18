@@ -39,6 +39,7 @@
                 </c:if>
             </table>
             <p class="pull-right">
+                <my:a href="/songs/${songDTO.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="song.button.edit"/> </button> </my:a>
                 <my:a href="/songs/${songDTO.id}/delete" data-confirm="Are you sure to delete this song?"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="button.delete"/></button> </my:a>
             </p>
         </div>
