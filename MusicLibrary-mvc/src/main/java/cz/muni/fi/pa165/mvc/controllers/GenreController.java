@@ -45,7 +45,7 @@ public class GenreController {
 
     @RequestMapping("/{id}")
     public String detail(@PathVariable Long id, Model model) {
-        log.info("Getting detail for genre with id={}", id);
+        log.info("Getting details for genre with id={}", id);
         GenreDTO g = genreFacade.getGenreById(id);
         model.addAttribute("genre", g);
         model.addAttribute("name", g.getName());
@@ -58,7 +58,7 @@ public class GenreController {
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
     public String add(Model model) {
-        log.info("Trying to create new genre");
+        log.info("Preparing for creating a new genre");
         model.addAttribute("genreForm", new GenreDTO());
         return "genre/add";
     }
@@ -67,11 +67,13 @@ public class GenreController {
     @PreAuthorize("hasAuthority('admin')")
     public String doAdd(@ModelAttribute("genreForm") GenreDTO genre, RedirectAttributes redir) {
         log.info("Creating new genre");
-        if (genre.getName().isEmpty()) {
+        if (!(genre.getName().trim().length() > 0)) {
+            log.error("Name was not set in the form");
             redir.addFlashAttribute(Alert.ERROR, "You have to fill the name");
             return REDIRECT_GENRES + "add";
         } else {
             genreFacade.createGenre(genre);
+            log.info("Successfully created genre");
             redir.addFlashAttribute(Alert.SUCCESS, "Successfuly created");
         }
         return REDIRECT_GENRES;
@@ -90,7 +92,7 @@ public class GenreController {
         }
 
         model.addAttribute("form", genreFacade.getGenreById(id));
-        log.info("Successfully got genre with id={} to edit", id);
+        log.info("Successfully got genre with id={} for edit", id);
         return "genre/edit";
     }
 
@@ -101,11 +103,13 @@ public class GenreController {
         GenreDTO genre = genreFacade.getGenreById(id);
 
         if (genre == null) {
+            log.error("Cannot find genre with id={} in database", id);
             redir.addFlashAttribute(Alert.ERROR, "Genre with id '" + id + "' not found in the database!");
             return REDIRECT_GENRES;
         }
-        
-        if (genreForm.getName().isEmpty()) {
+
+        if (!(genreForm.getName().trim().length() > 0)) {
+            log.error("Name was not set in the form");
             redir.addFlashAttribute(Alert.ERROR, "You have to fill the name");
             return REDIRECT_GENRES + "{id}/edit";
         } else {
@@ -114,8 +118,8 @@ public class GenreController {
 
             try {
                 genreFacade.updateGenre(genre);
-                redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
                 log.info("Successfully updated genre={}", genre);
+                redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
             } catch (Exception ex) {
                 log.error("Unable to update genre={} because: {}", genre, ex);
                 redir.addFlashAttribute(Alert.ERROR, "Unable to update genre (reason: " + ex.getMessage() + ")");
@@ -138,12 +142,15 @@ public class GenreController {
 
             try {
                 if (songFacade.getSongsForGenre(genre).size() > 0) {
+                    log.error("Unable to delete genre={} because of association with existing song", genre);
                     redir.addFlashAttribute(Alert.ERROR, "You need to delete all songs connected to this genre first.");
                 } else {
                     genreFacade.deleteGenre(genre);
+                    log.info("Successfully deleted genre={}", genre);
                     redir.addFlashAttribute(Alert.SUCCESS, "Successfuly deleted");
                 }
             } catch (Exception ex) {
+                log.error("Unable to delete genre={} because: {}", genre, ex);
                 redir.addFlashAttribute(Alert.ERROR, "Unable to delete genre (reason: " + ex.getMessage() + ")");
             }
         }

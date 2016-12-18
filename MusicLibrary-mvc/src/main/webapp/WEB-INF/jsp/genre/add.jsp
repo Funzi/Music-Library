@@ -11,13 +11,16 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate title="Adding genre">
+<my:pagetemplate>
     <jsp:attribute name="body">
 
+        <h1><fmt:message key="genre.adding"/></h1>
+        
         <form:form method="POST" modelAttribute="genreForm">
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="name" class="form-control" placeholder="Genre name"
+                <s:message code="attributes.name" var="msg"/>
+                <form:input type="text" path="name" class="form-control" placeholder="${msg}"
                             autofocus="true"></form:input>
                 <form:errors path="name"></form:errors>
             </div>
@@ -25,7 +28,8 @@
 
         <s:bind path="description">
             <div class="form-group ${status.error ? 'has-error' : ''}">
-                <form:input type="text" path="description" class="form-control" placeholder="Genre description"></form:input>
+                <s:message code="attributes.description" var="msg"/>
+                <form:input type="text" path="description" class="form-control" placeholder="${msg}"></form:input>
                 <form:errors path="description"></form:errors>
             </div>
         </s:bind>
