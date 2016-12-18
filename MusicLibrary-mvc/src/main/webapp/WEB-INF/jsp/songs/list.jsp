@@ -34,13 +34,16 @@
                             <s:message code="button.delete.alt" var="msg2"/>
                             <img src="<c:url value="/images/delete.png" />" title="${msg}" alt="${msg2}"/>
                         </my:a>
+                        <my:a href="/songs/${s.id}/edit">
+                            <img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" />
+                        </my:a>
                     </td>
                     </sec:authorize>
                 </tr>
             </c:forEach>
         </table>
        <sec:authorize access="hasAuthority('admin')">
-           <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="button.addnew"/></button></my:a>
+           <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="button.addnew"/></button></my:a>          
         </sec:authorize>
     </jsp:attribute>
 </my:pagetemplate>
