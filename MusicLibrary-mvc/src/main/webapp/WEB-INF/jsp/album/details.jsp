@@ -20,13 +20,6 @@
                                            </c:otherwise>
                                        </c:choose>" width="230" />
                 <br>
-                <sec:authorize access="hasAuthority('admin')">
-                    <form method="POST" enctype="multipart/form-data" action="<c:url value="/albums/${album.id}/upload-cover?${_csrf.parameterName}=${_csrf.token}" />">
-                        <s:message code="album.upload" var="msg"/>
-                        <input type="file" name="file" /><input type="submit" value="${msg}" />
-                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                    </form>
-                </sec:authorize>
             </div>
             <div class="col-md-9">
                 <p class="pull-right">
