@@ -32,5 +32,7 @@ public interface SongService {
 
     void updateSongPosition(Song song, int newPosition);
 
+    void updateSong(Song song);
+
     public List<Song> getSongsForGenre(Genre genre);
 }

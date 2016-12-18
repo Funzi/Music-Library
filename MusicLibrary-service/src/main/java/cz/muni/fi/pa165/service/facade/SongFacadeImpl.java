@@ -105,6 +105,11 @@ public class SongFacadeImpl implements SongFacade {
     }
 
     @Override
+    public void updateSong(SongDTO songDTO) {
+        songService.updateSong(beanMappingService.mapTo(songDTO, Song.class));
+    }
+
+    @Override
     public List<SongDTO> getSongsForGenre(GenreDTO genre) {
         List<Song> songs = songService.getSongsForGenre(beanMappingService.mapTo(genre, Genre.class));
         return beanMappingService.mapTo(songs, SongDTO.class);

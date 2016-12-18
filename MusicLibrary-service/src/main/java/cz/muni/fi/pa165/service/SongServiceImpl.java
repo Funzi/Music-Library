@@ -96,6 +96,11 @@ public class SongServiceImpl implements SongService {
     }
 
     @Override
+    public void updateSong(Song song) {
+        songDao.update(song);
+    }
+
+    @Override
     public List<Song> getSongsForGenre(Genre genre) {
         return songDao.findAll().stream().filter(s -> s.getGenre().equals(genre)).collect(Collectors.toList());
     }
