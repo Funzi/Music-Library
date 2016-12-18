@@ -105,8 +105,18 @@ public class SongFacadeImpl implements SongFacade {
     }
 
     @Override
-    public void updateSong(SongDTO songDTO) {
-        songService.updateSong(beanMappingService.mapTo(songDTO, Song.class));
+    public void updateSong(SongCreateDTO s) {
+        Song mappedSong = new Song();
+        mappedSong.setTitle(s.getTitle());
+        mappedSong.setBitrate(s.getBitrate());
+        mappedSong.setPosition(s.getPosition());
+        mappedSong.setCommentary(s.getCommentary());
+
+        mappedSong.setAlbum(s.getAlbumId() == null ? null : albumService.findAlbumById(s.getAlbumId()));
+        mappedSong.setMusician(s.getMusicianId() == null ? null : musicianService.findById(s.getMusicianId()));
+        mappedSong.setGenre(s.getGenreId() == null ? null : genreService.findById(s.getGenreId()));
+        mappedSong.setId(s.getId());
+        songService.updateSong(mappedSong);
     }
 
     @Override

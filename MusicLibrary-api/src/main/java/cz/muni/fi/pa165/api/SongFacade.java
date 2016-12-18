@@ -31,7 +31,7 @@ public interface SongFacade {
 
     void updateSongPosition(SongDTO song, int newPosition);
 
-    void updateSong(SongDTO songDTO);
+    void updateSong(SongCreateDTO s);
 
     public List<SongDTO> getSongsForGenre(GenreDTO genre);
 

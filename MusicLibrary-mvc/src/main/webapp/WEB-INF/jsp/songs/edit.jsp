@@ -5,10 +5,11 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<my:pagetemplate>
+<s:message code="song.update" var="msg"/>
+<my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
 
-        <form:form method="POST" modelAttribute="form" class="form-signin">
+        <form:form method="POST" modelAttribute="form">
             <div class="col-md-6">
                 <s:bind path="title">
                     <s:message code="song.attribute.title" var="msg"/>

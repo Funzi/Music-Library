@@ -115,14 +115,14 @@ public class SongController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('admin')")
     public String doAdd(@Valid @ModelAttribute("songForm") SongCreateDTO songCreateDTO, BindingResult bindingResult, RedirectAttributes redirect, Model model) {
-        if (!(songCreateDTO.getTitle().trim().length() > 0)) {
+        /*if (!(songCreateDTO.getTitle().trim().length() > 0)) {
             log.error("Name was not set in the form");
             redirect.addFlashAttribute(Alert.ERROR, "You have to fill the name");
             return REDIRECT_SONGS + "add";
-        }
+        }*/
 
         if (bindingResult.hasErrors()) {
-            log.error("Validation of SongCreateDTO didn't pass. Returning to add new song");
+            log.error("Validation of SongCreateDTO={} didn't pass. Returning to add new song", songCreateDTO);
             model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
             model.addAttribute("allAlbums", albumFacade.getAllAlbums());
             model.addAttribute("allGenres", genreFacade.getAllGenres());
@@ -208,14 +208,36 @@ public class SongController {
             return REDIRECT_SONGS;
         }
 
-        model.addAttribute("form", songFacade.getSongById(id));
+		SongCreateDTO s = new SongCreateDTO();
+		s.setId(song.getId());
+		s.setPosition(song.getPosition());
+		s.setBitrate(song.getBitrate());
+		s.setCommentary(song.getCommentary());
+		s.setTitle(song.getTitle());
+		s.setMusicianId(song.getMusician() == null ? null : song.getMusician().getId());
+		s.setAlbumId(song.getAlbum() == null ? null : song.getAlbum().getId());
+		s.setGenreId(song.getGenre() == null ? null : song.getGenre().getId());
+
+        model.addAttribute("form", s);
+		model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+		model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+		model.addAttribute("allGenres", genreFacade.getAllGenres());
         log.info("Successfully got song with id={} for edit", id);
         return "songs/edit";
     }
 
     @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
     @PreAuthorize("hasAuthority('admin')")
-    public String doEdit(@PathVariable Long id, @ModelAttribute("form") SongDTO songForm, RedirectAttributes redir, HttpServletRequest request) {
+    public String doEdit(@PathVariable Long id,@Valid @ModelAttribute("form") SongCreateDTO songForm, BindingResult bindingResult, RedirectAttributes redir, Model model) {
+        if (bindingResult.hasErrors()) {
+            log.error("Validation of SongCreateDTO={} didn't pass. Returning to edit song with id={}", songForm, id);
+            model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+            model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+            model.addAttribute("allGenres", genreFacade.getAllGenres());
+            return "songs/edit";
+        }
+        log.info("Successfully validated SongCreateDTO={}", songForm);
+
         log.info("Trying to update song={}", songForm);
         SongDTO song = songFacade.getSongById(id);
 
@@ -225,28 +247,16 @@ public class SongController {
             return REDIRECT_SONGS;
         }
 
-        if (!(songForm.getTitle().trim().length() > 0)) {
-            log.error("Title was not set in the form");
-            redir.addFlashAttribute(Alert.ERROR, "You have to fill the title");
-            return REDIRECT_SONGS + "{id}/edit";
-        } else {
-            song.setTitle(songForm.getTitle());
-            song.setAlbum(songForm.getAlbum());
-            song.setBitrate(songForm.getBitrate());
-            song.setCommentary(songForm.getCommentary());
-            song.setGenre(songForm.getGenre());
-            song.setMusician(songForm.getMusician());
-            song.setPosition(songForm.getPosition());
 
-            try {
-                songFacade.updateSong(song);
-                log.info("Successfully updated song={}", song);
-                redir.addFlashAttribute(Alert.SUCCESS, "Successfuly updated");
-            } catch (Exception ex) {
-                log.error("Unable to update song={} because: {}", song, ex);
-                redir.addFlashAttribute(Alert.ERROR, "Unable to update song (reason: " + ex.getMessage() + ")");
-            }
-        }
+		try {
+			songFacade.updateSong(songForm);
+			log.info("Successfully updated song={}", songForm);
+			redir.addFlashAttribute(Alert.SUCCESS, "Successfully updated");
+		} catch (Exception ex) {
+			log.error("Unable to update song={} because: {}", song, ex);
+			redir.addFlashAttribute(Alert.ERROR, "Unable to update song (reason: " + ex.getMessage() + ")");
+		}
+
 
         return REDIRECT_SONGS + song.getId();
     }
