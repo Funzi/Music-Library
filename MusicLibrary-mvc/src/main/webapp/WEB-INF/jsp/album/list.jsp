@@ -5,23 +5,24 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
-<my:pagetemplate title="Albums">
+<s:message code="albums" var="msg"/>
+<my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
 
         <sec:authorize access="hasAuthority('admin')">
-            <my:a href="/albums/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Add new</button></my:a>
+            <my:a href="/albums/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="album.add_new"/></button></my:a>
         </sec:authorize>
         <div class="row">
             <form:form method="GET" modelAttribute="form">
                 <div class="col-md-3">
-                    Musicians:
+                    <fmt:message key="musicians"/>
                     <s:bind path="musicians">
-                        <form:select path="musicians" name="musicians" items="${allMusicians}" class="form-control" placeholder="Musicians" multiple="true"></form:select>
+                        <s:message code="musicians" var="msg"/>
+                        <form:select path="musicians" name="musicians" items="${allMusicians}" class="form-control" placeholder="{$msg}" multiple="true"></form:select>
                     </s:bind>
                 </div>
                 <div class="col-md-3">
-                    Genres
+                     <fmt:message key="genre.genres"/>
                     <s:bind path="genres">
                         <form:select path="genres" name="genres" items="${allGenres}" class="form-control" placeholder="Genres" multiple="true"></form:select>
                     </s:bind>
@@ -29,18 +30,18 @@
 
             </div>
 
-                <p class="pull-right" style="margin-bottom: 20px"><button class="btn btn-sm btn-primary" type="submit">Apply filter</button>&nbsp;<my:a href="/albums/"><button type="button" class="btn btn-danger btn-sm">Reset filter</button></my:a></p>
+                <p class="pull-right" style="margin-bottom: 20px"><button class="btn btn-sm btn-primary" type="submit"><fmt:message key="album.apply_filter"/></button>&nbsp;<my:a href="/albums/"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="album.reset_filter"/></button></my:a></p>
         </form:form>
 
 
         <table class="table table-striped">
             <tr>
-                <th>Name</th>
-                <th>Musician</th>
-                <th>Release date</th>
-                <th width="200">Rating</th>
+                <th><fmt:message key="album.name"/></th>
+                <th> <fmt:message key="attributes.musician"/></th>
+                <th> <fmt:message key="musician.release_date"/></th>
+                <th width="200"> <fmt:message key="album.rating"/></th>
                     <sec:authorize access="hasAuthority('admin')">
-                    <th width="75" align="center">Actions</th>
+                    <th width="75" align="center"><fmt:message key="musician.actions"/></th>
                     </sec:authorize>
             </tr>
             <c:forEach items="${albums}" var="e">

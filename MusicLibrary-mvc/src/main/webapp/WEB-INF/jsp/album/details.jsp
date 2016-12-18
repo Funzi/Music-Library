@@ -21,19 +21,21 @@
                                        </c:choose>" width="230" />
                 <br>
                 <form method="POST" enctype="multipart/form-data" action="<c:url value="/albums/${album.id}/upload-cover?${_csrf.parameterName}=${_csrf.token}" />">
-                    <input type="file" name="file" /><input type="submit" value="Upload" />
+                    <s:message code="album.upload" var="msg"/>
+                    <input type="file" name="file" /><input type="submit" value="${msg}" />
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form></div>
             <div class="col-md-9">
                 <p class="pull-right">
                     <sec:authorize access="hasAuthority('admin')">
-                        <my:a href="/albums/${album.id}/edit"><button type="button" class="btn btn-primary btn-sm">Edit album</button></my:a>&nbsp;&nbsp;
-                        <my:a href="/albums/${album.id}/delete" data-confirm="Are you sure to delete this album?"><button type="button" class="btn btn-danger btn-sm">Delete album</button></my:a>
+                        <s:message code="album.delete.message" var="msg"/>
+                        <my:a href="/albums/${album.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.edit_album"/></button></my:a>&nbsp;&nbsp;
+                        <my:a href="/albums/${album.id}/delete" data-confirm="${msg}"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="album.delete_album"/></button></my:a>
                     </sec:authorize>
                 </p>
                 <table class="table">
                     <tr>
-                        <th class="col-md-2">Musicians:</th>
+                        <th class="col-md-2"><fmt:message key="album.name"/></th>
                         <td>
                             <c:forEach items="${musicians}" var="m" varStatus="loop">
                                 <my:musician musician="${m}" />
@@ -42,7 +44,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Genres:</th>
+                        <th><fmt:message key="genre.genres"/></th>
                         <td>
                             <c:forEach items="${genres}" var="g" varStatus="loop">
                                 <c:out value="${g.name}" />
@@ -51,15 +53,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <th>Release date:</th>
+                        <th><fmt:message key="musician.release_date"/></th>
                         <td><c:out value="${album.releaseDate}" /></td>
                     </tr>
                     <tr>
-                        <th>Rating:</th>
+                        <th><fmt:message key="album.rating"/></th>
                         <td><my:rating rating="${album.avgRating}" includeValue="true" /></td>
                     </tr>
                     <tr>
-                        <th>Commentary:</th>
+                        <th><fmt:message key="album.commentary"/></th>
                         <td><c:out value="${album.commentary}" /></td>
                     </tr>
                 </table>
@@ -68,17 +70,17 @@
         <div>
             <p class="pull-right">
                 <sec:authorize access="hasAuthority('admin')">
-                    <my:a href="/songs/add?album=${album.id}"><button type="button" class="btn btn-primary btn-sm">Add new</button></my:a>&nbsp;&nbsp;
+                    <my:a href="/songs/add?album=${album.id}"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.add_new"/></button></my:a>&nbsp;&nbsp;
                 </sec:authorize>
             </p>
-            <h2>Songs</h2>
+            <h2><fmt:message key="songs"/></h2>
             <table class="table table-striped">
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Musician</th>
+                    <th><fmt:message key="song.attribute.title"/></th>
+                    <th><fmt:message key="song.attribute.musician"/></th>
                         <sec:authorize access="hasAuthority('admin')">
-                        <th width="75" align="center">Actions</th>
+                        <th width="75" align="center"><fmt:message key="musician.actions"/></th>
                         </sec:authorize>
                 </tr>
                 <tbody>
@@ -88,7 +90,7 @@
                             <td><c:out value="${s.title}" /></td>
                             <td><my:musician musician="${s.musician}" /></td>
                             <sec:authorize access="hasAuthority('admin')">
-                                <td align="center"><my:a href="/songs/${s.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;<my:a href="javascript:positionDialog(${s.id});"><img src="<c:url value="/images/arrow_updown.png" />" title="Update position" alt="Update position" /></my:a>&nbsp;<my:a href="/songs/${s.id}/delete" data-confirm="Are you sure to delete this song?"><img src="<c:url value="/images/delete.png" />" title="Edit" alt="Edit" /></my:a></td>
+                                <td align="center"><my:a href="/songs/${s.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;<my:a href="javascript:positionDialog(${s.id});"><img src="<c:url value="/images/arrow_updown.png" />" title="Update position" alt="Update position" /></my:a>&nbsp;<my:a href="/songs/${s.id}/delete" data-confirm="Are you sure to delete this song?"><img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete" /></my:a></td>
                                 </sec:authorize>
                         </tr>
                     </c:forEach>
@@ -98,10 +100,10 @@
         <div>
             <sec:authorize access="isAuthenticated()">
                 <c:if test="${!hasRated}">
-                    <button id="opener-rating" type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right">Rate this album!</button>
+                    <button id="opener-rating" type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="album.rate"/></button>
                 </c:if>
             </sec:authorize>
-            <h2>Ratings</h2>
+            <h2><fmt:message key="album.ratings"/></h2>
             <c:forEach items="${ratings}" var="r">
                 <div class="alert alert-info" role="alert">
                     <div class="row">

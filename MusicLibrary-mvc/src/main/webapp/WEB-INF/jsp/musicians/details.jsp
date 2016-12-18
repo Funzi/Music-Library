@@ -24,7 +24,7 @@
                     <td><c:out value="${a.releaseDate}"/></td>
                     <td><c:out value="${a.avgRating}"/></td>
                     <sec:authorize access="hasAuthority('admin')">
-                        <td align="center"><my:a href="/albums/${a.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;&nbsp;&nbsp;<my:a href="/albums/${a.id}/delete" data-confirm="Are you sure to delete this album?"><img src="<c:url value="/images/delete.png" />" title="Edit" alt="Edit" /></my:a></td>
+                        <td align="center"><my:a href="/albums/${a.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;&nbsp;&nbsp;<my:a href="/albums/${a.id}/delete" data-confirm="Are you sure to delete this album?"><img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete" /></my:a></td>
                     </sec:authorize>
                                 
                 </tr>
