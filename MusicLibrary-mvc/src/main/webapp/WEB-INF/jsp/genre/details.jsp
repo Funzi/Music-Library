@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : details
     Created on : Dec 15, 2016, 3:54:49 PM
     Author     : Martin Kulisek
@@ -27,9 +27,9 @@
             </tr>
             <c:forEach items="${songs}" var="s">
                 <tr>
+                    <td><c:out value="${s.title}"/></td>
                     <td><c:out value="${s.musician.name}"/></td>
                     <td><c:out value="${s.album.title}"/></td>
-                    <td><c:out value="${s.genre.name}"/></td>
                 </tr>
             </c:forEach>
         </table>
