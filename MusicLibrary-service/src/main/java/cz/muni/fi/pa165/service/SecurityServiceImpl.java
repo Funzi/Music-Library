@@ -41,7 +41,16 @@ public class SecurityServiceImpl implements SecurityService {
 	@Override
 	public User getLoggedInUser() {
 		String username = getLoggedInUsername();
-		return username != null ? userService.findByUsername(username) : null;
+
+		if (username == null) {
+			return null;
+		}
+
+		try {
+			return userService.findByUsername(username);
+		} catch (Exception ex) {
+			return null;
+		}
 	}
 
 	@Override
