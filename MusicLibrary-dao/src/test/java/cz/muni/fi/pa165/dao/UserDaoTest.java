@@ -192,6 +192,7 @@ public class UserDaoTest extends AbstractTestNGSpringContextTests {
 	private User getAnotherValidUser() {
 		User user = EntityUtils.getValidUser();
 		user.setUsername("another");
+		user.setName("Another User");
         return user;
 	}
 }

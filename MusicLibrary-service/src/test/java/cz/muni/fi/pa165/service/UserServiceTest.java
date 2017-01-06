@@ -64,6 +64,7 @@ public class UserServiceTest {
 			{
 				setId(1L);
 				setUsername("user 1");
+				setName("User #1");
 				setPassword("a");
 			}
 		};
@@ -72,6 +73,7 @@ public class UserServiceTest {
 			{
 				setId(2L);
 				setUsername("user 2");
+				setName("User #2");
 				setPassword("a");
 			}
 		};
@@ -80,6 +82,7 @@ public class UserServiceTest {
 			{
 				setId(3L);
 				setUsername("user 3");
+				setName("User #3");
 				setPassword("a");
 			}
 		};

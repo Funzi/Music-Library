@@ -25,6 +25,10 @@ public class User {
 	private String username;
 
 	@NotNull
+	@Column(nullable = false, length = Constants.INT_LENGTH_MEDIUM)
+	private String name;
+
+	@NotNull
 	@Column(nullable = false, length = Constants.INT_LENGTH_LONG)
 	private String password;
 
@@ -53,6 +57,14 @@ public class User {
 
 	public void setUsername(String username) {
 		this.username = username;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {

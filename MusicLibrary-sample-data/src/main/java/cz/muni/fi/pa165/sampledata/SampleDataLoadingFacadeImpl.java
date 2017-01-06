@@ -69,8 +69,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 
 		Role admin = role("admin");
 
-		User honza = user("honza", "heslo123", admin);
-		User pepa = user("pepa", "heslo1234.");
+		User honza = user("honza", "Honza Admin", "heslo123", admin);
+		User pepa = user("pepa", "Pepa User", "heslo1234.");
 
 		Musician metallica = musician("Metallica");
 		Musician inFlames = musician("In Flames");
@@ -175,9 +175,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		return song;
 	}
 
-	private User user(String username, String password, Role... roles) {
+	private User user(String username, String name, String password, Role... roles) {
 		User user = new User();
 		user.setUsername(username);
+		user.setName(name);
 		user.setPassword(password);
 		user.setPasswordConfirm(password);
 		for(Role r : roles) {

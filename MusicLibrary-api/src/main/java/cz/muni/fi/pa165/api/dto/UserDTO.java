@@ -13,6 +13,8 @@ public class UserDTO {
 
 	private String username;
 
+	private String name;
+
 	private Set<RoleDTO> roles;
 
 	private Set<AlbumDTO> wishlist;
@@ -31,6 +33,14 @@ public class UserDTO {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Set<RoleDTO> getRoles() {

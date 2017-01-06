@@ -10,6 +10,8 @@ public class UserCreateDTO {
 
 	private String username;
 
+	private String name;
+
 	private String password;
 
 	private String passwordConfirm;
@@ -22,6 +24,14 @@ public class UserCreateDTO {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPassword() {

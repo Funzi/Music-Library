@@ -1,7 +1,6 @@
 package cz.muni.fi.pa165.util;
 
 import cz.muni.fi.pa165.entity.*;
-
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -71,6 +70,7 @@ public class EntityUtils {
 	public static User getValidUser() {
         User user = new User();
         user.setUsername("user");
+		user.setName("Valid User");
 		user.setPassword("password");
         return user;
     }

@@ -46,18 +46,21 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
 		user1 = new UserDTO() {
 			{
 				setUsername("User 1");
+				setName("User #1");
 			}
 		};
 
 		user2 = new UserDTO() {
 			{
 				setUsername("User 2");
+				setName("User #2");
 			}
 		};
 
 		cuser1 = new UserCreateDTO() {
 			{
 				setUsername("User 1");
+				setName("cUser #1");
 				setPassword("aaa");
 				setPasswordConfirm("aaa");
 			}
@@ -66,6 +69,7 @@ public class UserFacadeTest extends AbstractTestNGSpringContextTests {
 		cuser2 = new UserCreateDTO() {
 			{
 				setUsername("User 2");
+				setName("cUser #2");
 				setPassword("aaa");
 				setPasswordConfirm("aaa");
 			}

@@ -92,6 +92,13 @@ public class UserTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(expectedExceptions = PersistenceException.class)
+	public void throwIfNameIsTooLong() {
+		User user = getValidUser();
+		user.setName(TestUtils.generateString(Constants.INT_LENGTH_MEDIUM + 1));
+		TestUtils.persistObjects(emf, user);
+	}
+
+	@Test(expectedExceptions = PersistenceException.class)
 	public void throwIfPasswordIsTooLong() {
 		User user = getValidUser();
 		user.setPassword(TestUtils.generateString(Constants.INT_LENGTH_LONG + 1));
@@ -102,6 +109,13 @@ public class UserTest extends AbstractTestNGSpringContextTests {
 	public void throwIfUsernameIsNull() {
 		User user = getValidUser();
 		user.setUsername(null);
+		TestUtils.persistObjects(emf, user);
+	}
+
+	@Test(expectedExceptions = ConstraintViolationException.class)
+	public void throwIfNameIsNull() {
+		User user = getValidUser();
+		user.setName(null);
 		TestUtils.persistObjects(emf, user);
 	}
 

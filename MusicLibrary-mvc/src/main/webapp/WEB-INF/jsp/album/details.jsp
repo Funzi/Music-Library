@@ -121,7 +121,7 @@
                 <div class="alert alert-info" role="alert">
                     <div class="row">
                         <div class="col-md-11">
-                            <c:out value="${r.user.username}" />&nbsp;&nbsp;&nbsp;<my:rating rating="${r.rvalue}" includeValue="true" /></div>
+                            <c:out value="${r.user.name}" />&nbsp;&nbsp;&nbsp;<my:rating rating="${r.rvalue}" includeValue="true" /></div>
                         <div class="offset8">[ <c:out value="${r.added}" /> ]
                             <sec:authorize access="isAuthenticated() and (authentication.name == '${r.user.username}' or hasAuthority('admin'))">
                                 <br><my:a href="/album-rating/${r.id}/delete" data-confirm="Are you sure to delete this rating?"><img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete" /></my:a>
