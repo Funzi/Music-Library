@@ -1,9 +1,8 @@
 package cz.muni.fi.pa165.entity;
 
 import cz.muni.fi.pa165.utils.Constants;
-
-import javax.persistence.*;
 import java.util.Arrays;
+import javax.persistence.*;
 
 /**
  * Entity Class representing one Album Image Created by olda on 30.10.2016.

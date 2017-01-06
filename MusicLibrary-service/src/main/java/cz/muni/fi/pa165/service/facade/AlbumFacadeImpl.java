@@ -2,8 +2,10 @@ package cz.muni.fi.pa165.service.facade;
 
 import cz.muni.fi.pa165.api.AlbumFacade;
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
+import cz.muni.fi.pa165.api.dto.ArtDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.Art;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.service.AlbumService;
 import cz.muni.fi.pa165.service.ArtService;
@@ -132,6 +134,16 @@ public class AlbumFacadeImpl implements AlbumFacade {
 
 		user.removeFromWishlist(beanMappingService.mapTo(albumDTO, Album.class));
 		userService.update(user);
+	}
+
+	@Override
+	public void updateArt(Long albumId, ArtDTO artDTO) {
+		Album album = albumService.findAlbumById(albumId);
+		Art oldArt = album.getArt();
+
+		album.setArt(beanMappingService.mapTo(artDTO, Art.class));
+		albumService.updateAlbum(album);
+		artService.deleteArt(oldArt);
 	}
 
 }

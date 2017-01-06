@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.api;
 
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
+import cz.muni.fi.pa165.api.dto.ArtDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import java.time.LocalDate;
 import java.util.List;
@@ -35,4 +36,6 @@ public interface AlbumFacade {
 	boolean isInWishlist(AlbumDTO albumDTO);
 
 	void removeFromWishlist(AlbumDTO albumDTO);
+
+	void updateArt(Long albumId, ArtDTO artDTO);
 }

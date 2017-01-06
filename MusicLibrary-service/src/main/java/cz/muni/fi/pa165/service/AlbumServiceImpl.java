@@ -154,5 +154,4 @@ public class AlbumServiceImpl implements AlbumService {
     public List<Album> getAlbums(List<Long> musicians, List<Long> genres) {
         return albumDao.getAlbums(musicians, genres);
     }
-
 }
