@@ -35,6 +35,10 @@ public class User {
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
+	@ManyToMany
+	@JoinTable(name = "wishlist", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "album_id"))
+	private Set<Album> wishlist = new HashSet<>();
+
 	public Long getId() {
 		return id;
 	}
@@ -77,6 +81,18 @@ public class User {
 
 	public void removeRole(Role role) {
 		roles.remove(role);
+	}
+
+	public void addToWishlist(Album album) {
+		wishlist.add(album);
+	}
+
+	public void removeFromWishlist(Album album) {
+		wishlist.remove(album);
+	}
+
+	public Set<Album> getWishlist() {
+		return wishlist;
 	}
 
 	@Override

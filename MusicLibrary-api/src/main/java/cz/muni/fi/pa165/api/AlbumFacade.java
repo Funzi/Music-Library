@@ -29,4 +29,10 @@ public interface AlbumFacade {
     List<AlbumDTO> getAllAlbums();
 
     List<AlbumDTO> getAlbums(List<Long> musicians, List<Long> genres);
+
+	void addToWishlist(AlbumDTO albumDTO);
+
+	boolean isInWishlist(AlbumDTO albumDTO);
+
+	void removeFromWishlist(AlbumDTO albumDTO);
 }

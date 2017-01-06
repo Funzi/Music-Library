@@ -27,10 +27,15 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void create(User user) {
-		if(user != null) {
+		if (user != null) {
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		}
 		userDao.create(user);
+	}
+
+	@Override
+	public void update(User user) {
+		userDao.update(user);
 	}
 
 	@Override

@@ -4,9 +4,12 @@ import cz.muni.fi.pa165.api.AlbumFacade;
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
 import cz.muni.fi.pa165.api.dto.MusicianDTO;
 import cz.muni.fi.pa165.entity.Album;
+import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.service.AlbumService;
 import cz.muni.fi.pa165.service.ArtService;
 import cz.muni.fi.pa165.service.BeanMappingService;
+import cz.muni.fi.pa165.service.SecurityService;
+import cz.muni.fi.pa165.service.UserService;
 import java.time.LocalDate;
 import java.util.List;
 import javax.inject.Inject;
@@ -32,6 +35,12 @@ public class AlbumFacadeImpl implements AlbumFacade {
 
     @Inject
     private ArtService artService;
+
+	@Inject
+	private SecurityService securityService;
+
+	@Inject
+    private UserService userService;
 
     @Override
     public Long createAlbum(AlbumDTO albumDTO) {
@@ -93,5 +102,36 @@ public class AlbumFacadeImpl implements AlbumFacade {
     public List<AlbumDTO> getAlbums(List<Long> musicians, List<Long> genres) {
         return beanMappingService.mapTo(albumService.getAlbums(musicians, genres), AlbumDTO.class);
     }
+
+	@Override
+	public void addToWishlist(AlbumDTO albumDTO) {
+		User user = securityService.getLoggedInUser();
+
+		if(user == null) {
+			throw new IllegalStateException();
+		}
+
+		user.addToWishlist(beanMappingService.mapTo(albumDTO, Album.class));
+		userService.update(user);
+	}
+
+
+	@Override
+	public boolean isInWishlist(AlbumDTO albumDTO) {
+		User user = securityService.getLoggedInUser();
+		return user != null ? user.getWishlist().contains(beanMappingService.mapTo(albumDTO, Album.class)) : false;
+	}
+
+	@Override
+	public void removeFromWishlist(AlbumDTO albumDTO) {
+		User user = securityService.getLoggedInUser();
+
+		if(user == null) {
+			throw new IllegalStateException();
+		}
+
+		user.removeFromWishlist(beanMappingService.mapTo(albumDTO, Album.class));
+		userService.update(user);
+	}
 
 }

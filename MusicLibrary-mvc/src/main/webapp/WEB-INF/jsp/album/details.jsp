@@ -20,12 +20,29 @@
                                            </c:otherwise>
                                        </c:choose>" width="230" />
                 <br>
+                <sec:authorize access="hasAuthority('admin')">
+                    <form method="POST" enctype="multipart/form-data" action="<c:url value="/albums/${album.id}/upload-cover?${_csrf.parameterName}=${_csrf.token}" />">
+                        <s:message code="album.upload" var="msg"/>
+                        <input type="file" name="file" /><input type="submit" value="${msg}" />
+                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                    </form>
+                </sec:authorize>
             </div>
             <div class="col-md-9">
                 <p class="pull-right">
+                    <sec:authorize access="isAuthenticated()">
+                        <c:choose>
+                            <c:when test="${isInWishlist}">
+                                <my:a href="/albums/${album.id}/removeFromWishlist"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.remove_from_wishlist"/></button></my:a>
+                            </c:when>
+                            <c:otherwise>
+                                <my:a href="/albums/${album.id}/addToWishlist"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.add_to_wishlist"/></button></my:a>
+                            </c:otherwise>
+                        </c:choose>
+                    </sec:authorize>
                     <sec:authorize access="hasAuthority('admin')">
                         <s:message code="album.delete.message" var="msg"/>
-                        <my:a href="/albums/${album.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.edit_album"/></button></my:a>&nbsp;&nbsp;
+                        &nbsp;&nbsp;<my:a href="/albums/${album.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.edit_album"/></button></my:a>&nbsp;&nbsp;
                         <my:a href="/albums/${album.id}/delete" data-confirm="${msg}"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="album.delete_album"/></button></my:a>
                     </sec:authorize>
                 </p>

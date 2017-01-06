@@ -15,6 +15,8 @@ public class UserDTO {
 
 	private Set<RoleDTO> roles;
 
+	private Set<AlbumDTO> wishlist;
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -37,6 +39,14 @@ public class UserDTO {
 
 	public void setRoles(Set<RoleDTO> roles) {
 		this.roles = roles;
+	}
+
+	public Set<AlbumDTO> getWishlist() {
+		return wishlist;
+	}
+
+	public void setWishlist(Set<AlbumDTO> wishlist) {
+		this.wishlist = wishlist;
 	}
 
 	@Override

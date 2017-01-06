@@ -139,7 +139,7 @@
                                                         <p class="text-left"><strong><c:out value="${username}" /></strong></p>
                                                         <p class="text-left small">test@example.com</p>
                                                         <p class="text-left">
-                                                            <a href="#" class="btn btn-primary btn-block btn-sm"><f:message key="content.profile"/></a>
+                                                            <my:a href="/profile/wishlist" class="btn btn-primary btn-block btn-sm"><f:message key="content.wishlist"/></my:a>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -249,7 +249,7 @@
             <jsp:invoke fragment="body"/>
 
         </div>
-        <!-- footer 
+        <!-- footer
         <footer class="footer">
             <div class="container">
                 <p class="text-muted">&copy;&nbsp;<%=java.time.Year.now().toString()%>&nbsp;Masaryk University</p>

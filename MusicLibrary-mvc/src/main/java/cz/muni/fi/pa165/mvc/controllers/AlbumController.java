@@ -107,8 +107,35 @@ public class AlbumController {
         model.addAttribute("hasRated", a.getRatings().stream()
                 .map(r -> r.getUser().getUsername())
                 .anyMatch(u -> u.equals(securityFacade.getLoggedInUsername())));
+		model.addAttribute("isInWishlist", albumFacade.isInWishlist(a));
 
         return "album/details";
+    }
+
+	@RequestMapping("/{id}/addToWishlist")
+    public String addToWishlist(@PathVariable Long id, RedirectAttributes redir) {
+        AlbumDTO a = albumFacade.getAlbumById(id);
+
+		try {
+			albumFacade.addToWishlist(a);
+		} catch(IllegalStateException ex) {
+			redir.addFlashAttribute(Alert.ERROR, "You have to be logged in to add to wishlist!");
+		}
+
+        return "redirect:/albums/" + id;
+    }
+
+	@RequestMapping("/{id}/removeFromWishlist")
+    public String removeFromWishlist(@PathVariable Long id, RedirectAttributes redir) {
+        AlbumDTO a = albumFacade.getAlbumById(id);
+
+		try {
+			albumFacade.removeFromWishlist(a);
+		} catch(IllegalStateException ex) {
+			redir.addFlashAttribute(Alert.ERROR, "You have to be logged in to remove this album from wishlist!");
+		}
+
+        return "redirect:/albums/" + id;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
