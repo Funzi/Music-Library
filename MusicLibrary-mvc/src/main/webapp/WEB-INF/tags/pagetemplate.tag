@@ -113,7 +113,7 @@
                         <li><my:a href="/genres/"><f:message key="navigation.genres"/></my:a></li>
                         <li><my:a href="/musicians/"><f:message key="navigation.musicians"/></my:a></li>
                         <li><my:a href="/songs/"><f:message key="navigation.songs"/></my:a> </li>
-                        <li><my:a href="https://github.com/Funzi/Music-Library/wiki" target="_blank"><f:message key="navigation.about"/></my:a></li>
+                        <li><a href="https://github.com/Funzi/Music-Library/wiki" target="_blank"><f:message key="navigation.about"/></a></li>
                     </ul>
                         </li>
                     </ul>
