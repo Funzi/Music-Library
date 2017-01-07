@@ -16,6 +16,8 @@
 
         <form:form method="POST" modelAttribute="form" class="form-signin">
         <h2 class="form-signin-heading"><fmt:message key="genre.edit"/></h2>
+        <br/>
+        <h4><fmt:message key="attributes.name"/>:</h4>
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="attributes.name" var="msg"/>
@@ -24,7 +26,8 @@
                 <form:errors path="name"></form:errors>
             </div>
         </s:bind>
-
+        
+        <h4><fmt:message key="attributes.description"/>:</h4>
         <s:bind path="description">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="attributes.description" var="msg"/>

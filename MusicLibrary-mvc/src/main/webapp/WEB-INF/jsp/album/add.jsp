@@ -8,7 +8,7 @@
 <my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
 
-        <form:form method="POST" modelAttribute="albumForm">
+        <form:form method="POST" modelAttribute="albumForm" class="form-signin">
         <h2 class="form-signin-heading"><fmt:message key="album.add_new"/></h2>
         <br/>
         <h4><fmt:message key="album.name"/>:</h4>

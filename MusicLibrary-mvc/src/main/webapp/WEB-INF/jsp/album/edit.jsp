@@ -10,6 +10,8 @@
 
         <form:form method="POST" modelAttribute="form" class="form-signin">
         <h2 class="form-signin-heading"><fmt:message key="album.edit_album"/></h2>
+        <br/>
+        <h4><fmt:message key="album.name"/>:</h4>
         <s:bind path="title">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="album.name" var="msg"/>
@@ -19,6 +21,7 @@
             </div>
         </s:bind>
 
+        <h4><fmt:message key="musician.release_date"/>:</h4>
         <s:bind path="releaseDate">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="musician.release_date" var="msg"/>
@@ -27,7 +30,8 @@
             </div>
         </s:bind>
 
-        <s:bind path="releaseDate">
+        <h4><fmt:message key="album.commentary"/>:</h4>
+        <s:bind path="commentary">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="album.commentary" var="msg"/>
                 <form:textarea path="commentary" class="form-control" placeholder="${msg}" />

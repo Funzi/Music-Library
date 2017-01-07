@@ -8,7 +8,7 @@
 <s:message code="song.new" var="msg"/>
 <my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
-        <form:form method="POST" modelAttribute="songForm">
+        <form:form method="POST" modelAttribute="songForm" class="form-signin">
            
             <h4><fmt:message key="song.attribute.title"/>:</h4>
             <s:bind path="title">
@@ -33,8 +33,8 @@
                    <form:input type="number" path="bitrate" class="form-control" placeholder="${msg}"/>
                    <form:errors path="bitrate"/>
                </div>
-           </s:bind>
-             <h4><fmt:message key="song.attribute.commentary"/>:</h4>
+            </s:bind>
+            <h4><fmt:message key="song.attribute.commentary"/>:</h4>
             <s:bind path="commentary">
 
                <s:message code="song.attribute.commentary" var="msg"/>
@@ -44,7 +44,7 @@
                </div>
             </s:bind>
 
-          <h4><fmt:message key="attributes.album"/>:</h4>
+            <h4><fmt:message key="attributes.album"/>:</h4>
             <s:bind path="albumId">
                 <form:select path="albumId" items="${allAlbums}" itemLabel="title" itemValue="id" class="form-control"></form:select>
                 <form:errors path="albumId"></form:errors>
@@ -53,7 +53,7 @@
             <s:bind path="musicianId">
                 <form:select path="musicianId" items="${allMusicians}" itemLabel="name" itemValue="id" class="form-control"></form:select>
             </s:bind>
-             <h4><fmt:message key="attributes.genre"/>:</h4>               
+            <h4><fmt:message key="attributes.genre"/>:</h4>               
             <s:bind path="genreId">
                 <form:select path="genreId" items="${allGenres}" itemLabel="name" itemValue="id" class="form-control"></form:select>
             </s:bind>

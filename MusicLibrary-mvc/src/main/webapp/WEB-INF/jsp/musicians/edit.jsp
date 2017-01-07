@@ -11,6 +11,8 @@
 
         <form:form method="POST" modelAttribute="form" class="form-signin">
         <h2 class="form-signin-heading"><fmt:message key="musician.edit"/></h2>
+        <br/>
+        <h4><fmt:message key="musician.name"/>:</h4>
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <form:input type="text" path="name" class="form-control" placeholder="Musician name"

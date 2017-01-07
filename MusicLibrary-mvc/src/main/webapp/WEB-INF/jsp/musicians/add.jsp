@@ -8,7 +8,7 @@
 <s:message code="musicians" var="musicians_msg"/>
 <my:pagetemplate title="${musicians_msg}">
     <jsp:attribute name="body">
-    <form:form method="POST" modelAttribute="musicianForm">
+    <form:form method="POST" modelAttribute="musicianForm" class="form-signin">
         <h2 class="form-signin-heading"><fmt:message key="musician.add_new"/></h2>
         <br/>
         <h4><fmt:message key="musician.name"/>:</h4>

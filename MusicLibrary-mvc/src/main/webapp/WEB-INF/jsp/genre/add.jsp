@@ -17,7 +17,7 @@
         <h1><fmt:message key="genre.adding"/></h1>
         
         <br/>
-        <form:form method="POST" modelAttribute="genreForm">
+        <form:form method="POST" modelAttribute="genreForm" class="form-signin">
         <h4><fmt:message key="attributes.name"/>:</h4>
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
