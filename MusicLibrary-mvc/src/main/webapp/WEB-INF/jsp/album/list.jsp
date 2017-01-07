@@ -56,7 +56,8 @@
                     <td><c:out value="${e.key.releaseDate}" /></td>
                     <td><my:rating rating="${e.key.avgRating}" includeValue="true" /></td>
                     <sec:authorize access="hasAuthority('admin')">
-                        <td align="center"><my:a href="/albums/${e.key.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;&nbsp;&nbsp;<my:a href="/albums/${e.key.id}/delete" data-confirm="Are you sure to delete this album?"><img src="<c:url value="/images/delete.png" />" title="Edit" alt="Edit" /></my:a></td>
+                        <s:message code="album.delete.message" var="deleteMsg"/>
+                        <td align="center"><my:a href="/albums/${e.key.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="<fmt:message key="button.edit"/>" alt="<fmt:message key="button.edit"/>" /></my:a>&nbsp;&nbsp;&nbsp;<my:a href="/albums/${e.key.id}/delete" data-confirm="${deleteMsg}"><img src="<c:url value="/images/delete.png" />" title="<fmt:message key="button.delete"/>" alt="<fmt:message key="button.delete"/>" /></my:a></td>
                         </sec:authorize>
                 </tr>
             </c:forEach>

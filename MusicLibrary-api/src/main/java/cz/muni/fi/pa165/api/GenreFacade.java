@@ -10,13 +10,13 @@ import java.util.List;
  */
 public interface GenreFacade {
 
-    public Long createGenre(GenreDTO genre);
+    Long createGenre(GenreDTO genre);
 
-    public void deleteGenre(GenreDTO genre);
+    void deleteGenre(GenreDTO genre);
 
-    public List<GenreDTO> getAllGenres();
+    List<GenreDTO> getAllGenres();
 
-    public GenreDTO getGenreById(Long id);
+    GenreDTO getGenreById(Long id);
 
-    public void updateGenre(GenreDTO genre);
+    void updateGenre(GenreDTO genre);
 }

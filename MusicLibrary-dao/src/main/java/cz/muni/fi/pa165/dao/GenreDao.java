@@ -15,41 +15,41 @@ import java.util.List;
  */
 public interface GenreDao {
 
-    /**
-     * Finds genre by given id
-     *
-     * @param id
-     * @return genre object with given id
-     */
-    public Genre findById(Long id);
+	/**
+	 * Finds genre by given id
+	 *
+	 * @param id
+	 * @return genre object with given id
+	 */
+	Genre findById(Long id);
 
-    /**
-     * Stores given genre in database
-     *
-     * @param genre genre object to store
-     */
-    public void create(Genre genre);
+	/**
+	 * Stores given genre in database
+	 *
+	 * @param genre genre object to store
+	 */
+	void create(Genre genre);
 
-    /**
-     * Updates given genre in database
-     *
-     * @param genre genre object to update
-     * @return updated genre object
-     */
-    public Genre update(Genre genre);
+	/**
+	 * Updates given genre in database
+	 *
+	 * @param genre genre object to update
+	 * @return updated genre object
+	 */
+	Genre update(Genre genre);
 
-    /**
-     * Deletes given genre from database
-     *
-     * @param genre genre object to delete
-     */
-    public void delete(Genre genre);
+	/**
+	 * Deletes given genre from database
+	 *
+	 * @param genre genre object to delete
+	 */
+	void delete(Genre genre);
 
-    /**
-     * Finds all genres in database
-     *
-     * @return list of all genres in database
-     */
-    public List<Genre> findAll();
+	/**
+	 * Finds all genres in database
+	 *
+	 * @return list of all genres in database
+	 */
+	List<Genre> findAll();
 
 }

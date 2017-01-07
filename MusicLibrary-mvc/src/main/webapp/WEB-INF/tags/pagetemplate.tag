@@ -184,12 +184,12 @@
                                                                 <span>${message}</span>
                                                                 <input name="username" type="text" class="form-control" placeholder=<f:message key="content.username"/>
                                                                        autofocus="true"/>
-                                                                <input name="password" type="password" class="form-control" placeholder=<f:message key="content.password"/>/>
+                                                                <input name="password" type="password" class="form-control" placeholder=<f:message key="content.password"/>>
                                                                 <span>${error}</span>
                                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
                                                                 <button class="btn btn-lg btn-primary btn-block" type="submit"><f:message key="content.log_in"/></button>
-                                                                <h4 class="text-center"><a href="${contextPath}/registration"><f:message key="content.create_account"/></a></h4>
+                                                                <h4 class="text-center"><a href="javascript:alert('This would point to registration page');"><f:message key="content.create_account"/></a></h4>
                                                             </div>
 
                                                         </form>

@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface GenreService {
 
-    public List<Genre> findAll();
+	List<Genre> findAll();
 
-    public Genre findById(Long id);
+	Genre findById(Long id);
 
-    public Genre create(Genre genre);
+	Genre create(Genre genre);
 
-    public void delete(Genre genre);
+	void delete(Genre genre);
 
-    public void updateGenre(Genre mapTo);
+	void updateGenre(Genre mapTo);
 }

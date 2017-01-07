@@ -19,14 +19,14 @@ public interface AlbumDao {
 	 * @param id album id
 	 * @return album with given id
 	 */
-	public Album findById(Long id);
+	Album findById(Long id);
 
 	/**
 	 * Stores given album in database.
 	 *
 	 * @param album album to store
 	 */
-	public void create(Album album);
+	void create(Album album);
 
 	/**
 	 * Updates given album in database.
@@ -34,23 +34,23 @@ public interface AlbumDao {
 	 * @param album album to update
 	 * @return updated instance
 	 */
-	public Album update(Album album);
+	Album update(Album album);
 
 	/**
 	 * Deletes given album from database.
 	 *
 	 * @param album album to delete
 	 */
-	public void delete(Album album);
+	void delete(Album album);
 
 	/**
 	 * Returns all albums from database.
 	 *
 	 * @return list containing all albums
 	 */
-	public List<Album> findAll();
+	List<Album> findAll();
 
-	public List<Album> findAlbumByMusicianId(Long id);
+	List<Album> findAlbumByMusicianId(Long id);
 
 	List<Album> findAlbumsByReleaseDates(LocalDate from, LocalDate to);
 

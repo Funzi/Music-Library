@@ -18,21 +18,21 @@ import java.util.List;
  */
 public interface SongService {
 
-    public Song findById(Long id);
+	Song findById(Long id);
 
-    public List<Song> findAll();
+	List<Song> findAll();
 
-    void assignSongToAlbum(Long song_id, Album album);
+	void assignSongToAlbum(Long song_id, Album album);
 
-    public Song create(Song p);
+	Song create(Song p);
 
-    public void delete(Song p);
+	void delete(Song p);
 
-    List<Song> getSongsForMusician(Musician musician);
+	List<Song> getSongsForMusician(Musician musician);
 
-    void updateSongPosition(Song song, int newPosition);
+	void updateSongPosition(Song song, int newPosition);
 
-    void updateSong(Song song);
+	void updateSong(Song song);
 
-    public List<Song> getSongsForGenre(Genre genre);
+	List<Song> getSongsForGenre(Genre genre);
 }

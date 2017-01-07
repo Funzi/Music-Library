@@ -17,22 +17,22 @@ import java.util.List;
  */
 public interface SongFacade {
 
-    public Long createSong(SongCreateDTO s);
+	Long createSong(SongCreateDTO s);
 
-    public void deleteSong(Long id);
+	void deleteSong(Long id);
 
-    public void assignSongToAlbum(Long song_id, Long album_id);
+	void assignSongToAlbum(Long song_id, Long album_id);
 
-    public List<SongDTO> getAllSongs();
+	List<SongDTO> getAllSongs();
 
-    public SongDTO getSongById(Long id);
+	SongDTO getSongById(Long id);
 
-    List<SongDTO> getSongsForMusician(MusicianDTO musician);
+	List<SongDTO> getSongsForMusician(MusicianDTO musician);
 
-    void updateSongPosition(SongDTO song, int newPosition);
+	void updateSongPosition(SongDTO song, int newPosition);
 
-    void updateSong(SongCreateDTO s);
+	void updateSong(SongCreateDTO s);
 
-    public List<SongDTO> getSongsForGenre(GenreDTO genre);
+	List<SongDTO> getSongsForGenre(GenreDTO genre);
 
 }

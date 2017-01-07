@@ -11,7 +11,7 @@
 
          <table class="table table-striped">
             <tr>
-                <th><fmt:message key="musician.name"/></th>
+                <th><fmt:message key="musician.album_name"/></th>
                 <th><fmt:message key="musician.release_date"/></th>
                 <th width="200"><fmt:message key="musician.rating"/></th>
                  <sec:authorize access="hasAuthority('admin')">
@@ -26,11 +26,11 @@
                     <sec:authorize access="hasAuthority('admin')">
                         <td align="center"><my:a href="/albums/${a.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;&nbsp;&nbsp;<my:a href="/albums/${a.id}/delete" data-confirm="Are you sure to delete this album?"><img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete" /></my:a></td>
                     </sec:authorize>
-                                
+
                 </tr>
             </c:forEach>
         </table>
-   
+
 
 </jsp:attribute>
 </my:pagetemplate>
