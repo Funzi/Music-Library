@@ -42,6 +42,7 @@
                </s:bind>
                 <s:bind path="albumId">
                     <form:select path="albumId" items="${allAlbums}" itemLabel="title" itemValue="id" class="form-control"></form:select>
+                    <form:errors path="albumId"></form:errors>
                 </s:bind>
                 <s:bind path="musicianId">
                     <form:select path="musicianId" items="${allMusicians}" itemLabel="name" itemValue="id" class="form-control"></form:select>

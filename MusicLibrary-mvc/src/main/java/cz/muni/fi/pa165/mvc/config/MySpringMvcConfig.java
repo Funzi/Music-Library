@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.mvc.config;
 
 import cz.muni.fi.pa165.config.ServiceConfiguration;
 import cz.muni.fi.pa165.sampledata.SampleDataConfiguration;
+import cz.muni.fi.pa165.validator.SongPositionValidator;
 import javax.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +86,12 @@ public class MySpringMvcConfig extends WebMvcConfigurerAdapter {
 	public Validator validator() {
 		log.debug("registering JSR-303 validator");
 		return new LocalValidatorFactoryBean();
+	}
+
+	@Bean
+	public SongPositionValidator songPositionValidator() {
+		log.debug("registering song position validator");
+		return new SongPositionValidator();
 	}
 
 	@Bean
