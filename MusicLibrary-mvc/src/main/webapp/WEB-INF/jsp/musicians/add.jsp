@@ -10,6 +10,8 @@
     <jsp:attribute name="body">
     <form:form method="POST" modelAttribute="musicianForm">
         <h2 class="form-signin-heading"><fmt:message key="musician.add_new"/></h2>
+        <br/>
+        <h4><fmt:message key="musician.name"/>:</h4>
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="musician.name" var="msg"/>

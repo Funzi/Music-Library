@@ -16,7 +16,9 @@
 
         <h1><fmt:message key="genre.adding"/></h1>
         
+        <br/>
         <form:form method="POST" modelAttribute="genreForm">
+        <h4><fmt:message key="attributes.name"/>:</h4>
         <s:bind path="name">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="attributes.name" var="msg"/>
@@ -26,6 +28,7 @@
             </div>
         </s:bind>
 
+        <h4><fmt:message key="attributes.description"/>:</h4>
         <s:bind path="description">
             <div class="form-group ${status.error ? 'has-error' : ''}">
                 <s:message code="attributes.description" var="msg"/>
