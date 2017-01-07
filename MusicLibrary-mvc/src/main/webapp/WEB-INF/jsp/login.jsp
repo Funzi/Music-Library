@@ -35,7 +35,6 @@
 
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
-            <span>${error}</span>
             <form id="logoutForm" method="POST" action="<c:url value="/logout" />">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
