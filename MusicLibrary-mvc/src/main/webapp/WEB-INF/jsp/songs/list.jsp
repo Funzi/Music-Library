@@ -9,7 +9,9 @@
 <s:message code="songs" var="msg"/>
 <my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
-
+        <sec:authorize access="hasAuthority('admin')">
+           <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="button.addnew"/></button></my:a>          
+        </sec:authorize>
         <table class="table table-striped">
             <tr>
                 <th><fmt:message key="song.attribute.title"/></th>
@@ -42,8 +44,5 @@
                 </tr>
             </c:forEach>
         </table>
-       <sec:authorize access="hasAuthority('admin')">
-           <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="button.addnew"/></button></my:a>          
-        </sec:authorize>
     </jsp:attribute>
 </my:pagetemplate>

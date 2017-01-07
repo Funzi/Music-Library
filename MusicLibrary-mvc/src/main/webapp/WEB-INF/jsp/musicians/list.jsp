@@ -13,19 +13,37 @@
             <my:a href="/musicians/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="musician.add_new"/></button></my:a>
       </sec:authorize>
         
-    <c:forEach items="${musicians}" var="m">
-        <h2><c:out value="${m.name}" /></h2>
-        <p><fmt:message key="musician.avg_rating_message"/>&nbsp<fmt:formatNumber type="number" 
-            maxFractionDigits="2" value="${m.avgAlbumRating}" />&nbsp<fmt:message key="musician.stars"/></p>
-        <p class="pull-right">
+    <table class="table table-striped">
+            <tr>
+                <th><fmt:message key="musician.name"/></th>
+                <th><fmt:message key="album.rating"/></th>
+                <th><fmt:message key="albums"/></th>
+                <sec:authorize access="hasAuthority('admin')">
+                    <th width="75" align="center"><fmt:message key="form.actions"/></th>
+                </sec:authorize>
+            </tr>
+            <c:forEach items="${musicians}" var="m">
+                <tr>
+                    <td><c:out value="${m.name}"/></td>
+                    <td><p><fmt:message key="musician.avg_rating_message"/>&nbsp<fmt:formatNumber type="number" 
+                        maxFractionDigits="2" value="${m.avgAlbumRating}" />&nbsp<fmt:message key="musician.stars"/></p></td>
+                    <td>[<my:a href="/musicians/${m.id}"><fmt:message key="musician.show_albums"/></my:a>]</td>
                     <sec:authorize access="hasAuthority('admin')">
+                    <td align="center">
                         <s:message code="musician.delete.message" var="msg"/>
-                        <my:a href="/musicians/${m.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="musician.edit"/></button></my:a>&nbsp;&nbsp;
-                        <my:a href="/musicians/${m.id}/delete" data-confirm="${msg}"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="musician.delete"/></button></my:a>
+                        <my:a href="/musicians/${m.id}/delete"  data-confirm="${msg}">
+                            <s:message code="button.delete" var="msg"/>
+                            <s:message code="button.delete.alt" var="msg2"/>
+                            <img src="<c:url value="/images/delete.png" />" title="${msg}" alt="${msg2}"/>
+                        </my:a>
+                        <my:a href="/musicians/${m.id}/edit">
+                            <img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" />
+                        </my:a>
+                    </td>
                     </sec:authorize>
-                </p>
-        <p>[ <my:a href="/musicians/${m.id}"><fmt:message key="musician.show_albums"/></my:a> ]</p>
-    </c:forEach>
+                </tr>
+            </c:forEach>
+    </table>
 
 </jsp:attribute>
 </my:pagetemplate>

@@ -12,26 +12,42 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<my:pagetemplate>
+<s:message code="genre.genres" var="genres_msg"/>
+<my:pagetemplate title="${genres_msg}">
     <jsp:attribute name="body">
-
+       
         <sec:authorize access="hasAuthority('admin')">
-            <p><my:a href="/genres/add"><button type="button" class="btn btn-primary btn-sm pull-right"><fmt:message key="genre.add_new"/></button></my:a></p>
+            <p><my:a href="/genres/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="genre.add_new"/></button></my:a></p>
         </sec:authorize>
-
-        <div>
-            <h1><fmt:message key="genre.genres"/>:</h1>
-            <c:forEach items="${genres}" var="genre">
-
-                <p class="pull-right">
+        <br/>
+        <table class="table table-striped">
+            <tr>
+                <th><fmt:message key="genre.name"/></th>
+                <th><fmt:message key="attributes.description"/></th>
                 <sec:authorize access="hasAuthority('admin')">
-                    <my:a href="/genres/${genre.id}/edit"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="button.edit"/></button></my:a>&nbsp;&nbsp;
-                    <my:a href="/genres/${genre.id}/delete" data-confirm="Are you sure to delete this genre?"><button type="button" class="btn btn-danger btn-sm"><fmt:message key="button.delete"/></button></my:a>
+                    <th width="75" align="center"><fmt:message key="form.actions"/></th>
                 </sec:authorize>
-                </p><h3><my:a href="/genres/${genre.id}"><c:out value="${genre.name}" /></my:a></h3>
-                <hr>
+            </tr>
+            <c:forEach items="${genres}" var="g">
+                <tr>
+                    <td><my:a href="/genres/${g.id}"><c:out value="${g.name}" /></my:a></td>
+                    <td><c:out value="${g.description}"/></td>
+                    <sec:authorize access="hasAuthority('admin')">
+                    <td align="center">
+                        <s:message code="musician.delete.message" var="msg"/>
+                        <my:a href="/genres/${g.id}/delete"  data-confirm="${msg}">
+                            <s:message code="button.delete" var="msg"/>
+                            <s:message code="button.delete.alt" var="msg2"/>
+                            <img src="<c:url value="/images/delete.png" />" title="${msg}" alt="${msg2}"/>
+                        </my:a>
+                        <my:a href="/genres/${g.id}/edit">
+                            <img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" />
+                        </my:a>
+                    </td>
+                    </sec:authorize>
+                </tr>
             </c:forEach>
-        </div>
+    </table>
 
     </jsp:attribute>
 </my:pagetemplate>
