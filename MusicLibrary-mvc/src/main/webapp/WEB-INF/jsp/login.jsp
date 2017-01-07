@@ -10,10 +10,16 @@
 
 <my:pagetemplate title="${album.title}">
     <jsp:attribute name="body">
+    <h1 align="center">  <fmt:message key="navigation.project"/></h1> 
+    <h5> Let us introduce you the Music Library used for managing songs. 
+        Each song has a title, bitrate, its position on the album's playlist, and commentary. 
+        For the sake of simplicity, each song belongs to exactly one musician, it is part of exactly one album, and can be of exactly one genre. 
+        Each album has basic attributes such as date of release, title, commentary, musician and album art. 
+        In order to support compilation albums each album can contain songs of different genres from different musicians.</h5>
+
     <sec:authorize access="!isAuthenticated()">
     <form method="POST" action="<c:url value='/login' />" class="form-signin">
         <h2 class="form-heading"><fmt:message key="content.login"/></h2>
-
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
             <input name="username" type="text" class="form-control" placeholder=<fmt:message key="content.username"/>
