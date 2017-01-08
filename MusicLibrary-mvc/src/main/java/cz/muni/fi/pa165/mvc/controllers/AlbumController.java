@@ -118,6 +118,7 @@ public class AlbumController {
 	}
 
 	@RequestMapping("/{id}/addToWishlist")
+	@PreAuthorize("isAuthenticated()")
 	public String addToWishlist(@PathVariable Long id, RedirectAttributes redir) {
 		AlbumDTO a = albumFacade.getAlbumById(id);
 
@@ -131,7 +132,8 @@ public class AlbumController {
 	}
 
 	@RequestMapping("/{id}/removeFromWishlist")
-	public String removeFromWishlist(@PathVariable Long id, RedirectAttributes redir) {
+	@PreAuthorize("isAuthenticated()")
+	public String removeFromWishlist(@PathVariable Long id, HttpServletRequest request, RedirectAttributes redir) {
 		AlbumDTO a = albumFacade.getAlbumById(id);
 
 		try {
@@ -140,7 +142,9 @@ public class AlbumController {
 			redir.addFlashAttribute(Alert.ERROR, "You have to be logged in to remove this album from wishlist!");
 		}
 
-		return "redirect:/albums/" + id;
+
+		String referer = request.getHeader("Referer");
+		return "redirect:" + (referer == null || referer.isEmpty() ? "/albums/{id}" : referer);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.GET)

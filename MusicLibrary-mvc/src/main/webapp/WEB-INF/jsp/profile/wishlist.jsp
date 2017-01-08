@@ -17,7 +17,7 @@
             <c:forEach items="${wishlist}" var="e">
                 <tr>
                     <td><my:a href="/albums/${e.id}"><c:out value="${e.title}" /></my:a></td>
-                    <td align="center"><my:a href="/albums/${album.id}/removeFromWishlist"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.remove_from_wishlist"/></button></my:a></td>
+                    <td align="center"><my:a href="/albums/${e.id}/removeFromWishlist"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.remove_from_wishlist"/></button></my:a></td>
                 </tr>
             </c:forEach>
         </table>
