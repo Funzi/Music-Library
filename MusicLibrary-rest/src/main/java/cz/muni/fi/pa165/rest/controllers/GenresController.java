@@ -1,18 +1,18 @@
 package cz.muni.fi.pa165.rest.controllers;
 
 import cz.muni.fi.pa165.ApiUris;
+import cz.muni.fi.pa165.InvalidParameterException;
 import cz.muni.fi.pa165.ResourceNotFoundException;
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.dto.GenreDTO;
 import java.util.List;
 import javax.inject.Inject;
+
+import cz.muni.fi.pa165.entity.Genre;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
@@ -45,5 +45,48 @@ public class GenresController {
 
 		return genre;
 	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final void deleteGenre(@PathVariable("id") Long id) {
+		logger.info("REST, trying to delete genre id=#{}", id);
+		try {
+			genreFacade.deleteGenre(genreFacade.getGenreById(id));
+			logger.info("REST, genre with id=#{} has been deleted", id);
+		} catch (Exception ex) {
+			logger.error("REST, error when deleting genre with id=#{}", id);
+			throw new ResourceNotFoundException();
+		}
+	}
+
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final GenreDTO createGenre(@RequestBody GenreDTO genreDTO) {
+		logger.info("REST, trying to create genre");
+
+		try {
+			Long id = genreFacade.createGenre(genreDTO);
+			logger.info("REST, genre created with id=#{}", id);
+			return genreFacade.getGenreById(id);
+		} catch (Exception ex) {
+			logger.error("REST, fail to create genre={}", genreDTO);
+			throw new InvalidParameterException();
+		}
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public final GenreDTO editGenre(@PathVariable("id") Long id, @RequestBody GenreDTO genreDTO) {
+		logger.info("REST, trying to edit genre with id=#{}, with values genreDTO={}", id, genreDTO);
+		try {
+			genreDTO.setId(id);
+			genreFacade.updateGenre(genreDTO);
+			logger.info("REST, successfully edited genre with id=#{}", id);
+			return genreFacade.getGenreById(id);
+		} catch (Exception ex) {
+			logger.error("REST, error when editing genre id=#{}, values={}", id, genreDTO);
+			throw new InvalidParameterException();
+		}
+	}
+
+
+
 
 }
