@@ -27,12 +27,21 @@ public class GenresController {
 	@Inject
 	private GenreFacade genreFacade;
 
+	/**
+	 * curl -i -X GET http://localhost:8080/pa165/rest/genres
+	 *
+     */
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public final List<GenreDTO> getGenres() {
 		logger.info("rest getGenres()");
 		return genreFacade.getAllGenres();
 	}
 
+	/**
+	 * curl -i -X GET http://localhost:8080/pa165/rest/genres/${id}
+	 * @param id
+	 * @return
+     */
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public final GenreDTO getGenre(@PathVariable("id") Long id) {
 		logger.info("rest getGenre(" + id + ")");
@@ -46,6 +55,10 @@ public class GenresController {
 		return genre;
 	}
 
+	/**
+	 * curl -i -X DELETE http://localhost:8080/pa165/rest/genres/${id}
+	 * @param id
+     */
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public final void deleteGenre(@PathVariable("id") Long id) {
 		logger.info("REST, trying to delete genre id=#{}", id);
@@ -58,6 +71,12 @@ public class GenresController {
 		}
 	}
 
+	/**
+	 * curl -i -X POST -H "Content-Type: application/json" --data '{"name":"${name}","description":"${description}"}'
+	 * http://localhost:8080/pa165/genres/create
+	 * @param genreDTO
+	 * @return
+     */
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public final GenreDTO createGenre(@RequestBody GenreDTO genreDTO) {
 		logger.info("REST, trying to create genre");
