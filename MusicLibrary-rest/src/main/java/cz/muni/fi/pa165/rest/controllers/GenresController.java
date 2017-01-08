@@ -73,11 +73,11 @@ public class GenresController {
 
 	/**
 	 * curl -i -X POST -H "Content-Type: application/json" --data '{"name":"${name}","description":"${description}"}'
-	 * http://localhost:8080/pa165/genres/create
+	 * http://localhost:8080/pa165/rest/genres/create
 	 * @param genreDTO
 	 * @return
      */
-	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public final GenreDTO createGenre(@RequestBody GenreDTO genreDTO) {
 		logger.info("REST, trying to create genre");
 
@@ -91,6 +91,13 @@ public class GenresController {
 		}
 	}
 
+	/**
+	 * curl -i -X PUT -H "Content-Type: application/json" --data '{"name":"${name}","description":"${description}"}'
+	 * http://localhost:8080/pa165/rest/genres/${id}
+	 * @param id
+	 * @param genreDTO
+     * @return
+     */
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public final GenreDTO editGenre(@PathVariable("id") Long id, @RequestBody GenreDTO genreDTO) {
 		logger.info("REST, trying to edit genre with id=#{}, with values genreDTO={}", id, genreDTO);
