@@ -6,6 +6,8 @@
 package cz.muni.fi.pa165.api.dto;
 
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Data Transfer Object for Song
@@ -29,6 +31,10 @@ public class SongDTO implements Comparable<SongDTO> {
     private int bitrate;
 
     private String commentary;
+
+    private SortedSet<SongRatingDTO> ratings = new TreeSet<>();
+
+    private double avgRating;
 
     /**
      * Returns unique identifier of song. <strong>Warning:</strong> relevant
@@ -165,6 +171,22 @@ public class SongDTO implements Comparable<SongDTO> {
         this.musician = musician;
     }
 
+    public SortedSet<SongRatingDTO> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(SortedSet<SongRatingDTO> ratings) {
+        this.ratings = ratings;
+    }
+
+    public double getAvgRating() {
+        return avgRating;
+    }
+
+    public void setAvgRating(double avgRating) {
+        this.avgRating = avgRating;
+    }
+
     @Override
     public int hashCode() {
         int hash = 3;
@@ -221,10 +243,10 @@ public class SongDTO implements Comparable<SongDTO> {
                 + genre + ", bitrate=" + bitrate + ", commentary=" + commentary + '}';
     }
 
-	@Override
-	public int compareTo(SongDTO o) {
-		int ret = Integer.compare(position, o.position);
-		return ret != 0 ? ret : -1;
-	}
+    @Override
+    public int compareTo(SongDTO o) {
+        int ret = Integer.compare(position, o.position);
+        return ret != 0 ? ret : -1;
+    }
 
 }

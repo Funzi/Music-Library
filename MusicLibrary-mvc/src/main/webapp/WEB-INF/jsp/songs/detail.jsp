@@ -37,6 +37,10 @@
                     <th><fmt:message key="song.attribute.bitrate"/>:</th>
                     <td><c:out value="${songDTO.bitrate}"/></td>
                 </tr>
+                <tr>
+                    <th><fmt:message key="attributes.rating"/></th>
+                    <td><my:rating rating="${song.avgRating}" includeValue="true" /></td>
+                </tr>
                 <c:if test="${songDTO.commentary != null}">
                     <tr>
                         <th><fmt:message key="song.attribute.commentary"/>:</th>
@@ -46,6 +50,63 @@
             </table>
         </div>
 
+        <div>
+            <sec:authorize access="isAuthenticated()">
+                <c:if test="${!hasRated}">
+                    <button id="opener-rating" type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="song.rate"/></button>
+                </c:if>
+            </sec:authorize>
 
+            <h2><fmt:message key="attributes.rating"/></h2>
+            <c:forEach items="${ratings}" var="r">
+                <div class="alert alert-info" role="alert">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <c:out value="${r.user.name}" />&nbsp;&nbsp;&nbsp;<my:rating rating="${r.rvalue}" includeValue="true" /></div>
+                        <div class="offset8">[ <c:out value="${r.added}" /> ]
+                            <sec:authorize access="isAuthenticated() and (authentication.name == '${r.user.username}' or hasAuthority('admin'))">
+                                <br><my:a href="/song-rating/${r.id}/delete" data-confirm="Are you sure to delete this rating?"><img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete" /></my:a>
+                            </sec:authorize>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <c:out value="${r.comment}" />
+                        </div>
+                    </div>
+
+                </div>
+            </c:forEach>
+        </div>
+
+        <div id="dialog-rating" title="Rate song" hidden="hidden">
+            <c:url var="rate_action" value="/songs/${songDTO.id}/rate" />
+            <form:form action="${rate_action}" method="POST" modelAttribute="ratingForm" class="form">
+                <s:bind path="rvalue">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:select type="text" path="rvalue" items="${ratingValues}" class="form-control" placeholder="Rating"
+                                     autofocus="true"></form:select>
+                        <form:errors path="rvalue"></form:errors>
+                        </div>
+                </s:bind>
+
+                <s:bind path="comment">
+                    <div class="form-group ${status.error ? 'has-error' : ''}">
+                        <form:textarea path="comment" class="form-control" placeholder="Comment" />
+                        <form:errors path="comment"></form:errors>
+                        </div>
+                </s:bind>
+
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+            </form:form>
+        </div>
+    </jsp:attribute>
+    <jsp:attribute name="scripts">
+        prepareDialog("rating");
+
+        function positionDialog(song) {
+        $("#dialog-position").dialog({autoOpen: true});
+        $("#dialog-position input[name='song']").val(song);
+        }
     </jsp:attribute>
 </my:pagetemplate>

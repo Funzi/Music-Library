@@ -48,7 +48,7 @@
                 </p>
                 <table class="table">
                     <tr>
-                        <th class="col-md-2"><fmt:message key="album.name"/></th>
+                        <th class="col-md-2"><fmt:message key="attributes.musician"/></th>
                         <td>
                             <c:forEach items="${musicians}" var="m" varStatus="loop">
                                 <my:musician musician="${m}" />

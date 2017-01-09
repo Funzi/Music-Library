@@ -3,7 +3,9 @@ package cz.muni.fi.pa165.mvc.controllers;
 import cz.muni.fi.pa165.api.AlbumFacade;
 import cz.muni.fi.pa165.api.GenreFacade;
 import cz.muni.fi.pa165.api.MusicianFacade;
+import cz.muni.fi.pa165.api.SecurityFacade;
 import cz.muni.fi.pa165.api.SongFacade;
+import cz.muni.fi.pa165.api.SongRatingFacade;
 import cz.muni.fi.pa165.api.dto.*;
 import cz.muni.fi.pa165.mvc.Alert;
 import cz.muni.fi.pa165.validator.SongPositionValidator;
@@ -30,237 +32,307 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/songs")
 public class SongController {
 
-	final static Logger log = LoggerFactory.getLogger(SongController.class);
+    final static Logger log = LoggerFactory.getLogger(SongController.class);
 
-	public static final String REDIRECT_SONGS = "redirect:/songs/";
+    public static final String REDIRECT_SONGS = "redirect:/songs/";
 
-	@Autowired
-	private SongFacade songFacade;
+    @Autowired
+    private SongFacade songFacade;
 
-	@Autowired
-	private MusicianFacade musicianFacade;
+    @Autowired
+    private MusicianFacade musicianFacade;
 
-	@Autowired
-	private AlbumFacade albumFacade;
+    @Autowired
+    private AlbumFacade albumFacade;
 
-	@Autowired
-	private GenreFacade genreFacade;
+    @Autowired
+    private GenreFacade genreFacade;
 
-	@Autowired
-	private SongPositionValidator songPositionValidator;
+    @Autowired
+    private SongRatingFacade songRatingFacade;
 
-	@RequestMapping(value = "/update-position", method = RequestMethod.POST)
-	@PreAuthorize("hasAuthority('admin')")
-	public String doEdit(@RequestParam Long song, @RequestParam Integer position, RedirectAttributes redir, HttpServletRequest request) {
-		SongDTO songDTO = songFacade.getSongById(song);
+    @Autowired
+    private SecurityFacade securityFacade;
 
-		if (songDTO == null) {
-			redir.addFlashAttribute(Alert.ERROR, "Song with id '" + song + "' not found in the database!");
-			return AlbumController.REDIRECT_ALBUMS;
-		}
+    @Autowired
+    private SongPositionValidator songPositionValidator;
 
-		try {
-			songFacade.updateSongPosition(songDTO, position);
-			redir.addFlashAttribute(Alert.SUCCESS, "Song position successfuly updated");
-		} catch (Exception ex) {
-			//TODO: logging
-			ex.printStackTrace();
-			redir.addFlashAttribute(Alert.ERROR, "Unable to update song position (reason: " + ex.getMessage() + ")!");
-		}
+    @RequestMapping(value = "/update-position", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin')")
+    public String doEdit(@RequestParam Long song, @RequestParam Integer position, RedirectAttributes redir, HttpServletRequest request) {
+        SongDTO songDTO = songFacade.getSongById(song);
 
-		return "redirect:/albums/" + songDTO.getAlbum().getId();
-	}
+        if (songDTO == null) {
+            redir.addFlashAttribute(Alert.ERROR, "Song with id '" + song + "' not found in the database!");
+            return AlbumController.REDIRECT_ALBUMS;
+        }
 
-	@RequestMapping(value = "/")
-	public String list(@RequestParam(value = "genre", required = false) Long genreId, Model model) {
-		List<SongDTO> songDTOList;
-		if (genreId != null) {
-			log.info("Getting all songs for genreId={} for list", genreId);
-			GenreDTO genreDTO = genreFacade.getGenreById(genreId);
-			songDTOList = songFacade.getAllSongs().stream().filter(s -> s.getGenre().equals(genreDTO)).collect(Collectors.toList());
-		} else {
-			log.info("Getting all songs for list");
-			songDTOList = songFacade.getAllSongs();
-		}
-		model.addAttribute("songDTOList", songDTOList);
+        try {
+            songFacade.updateSongPosition(songDTO, position);
+            redir.addFlashAttribute(Alert.SUCCESS, "Song position successfuly updated");
+        } catch (Exception ex) {
+            //TODO: logging
+            ex.printStackTrace();
+            redir.addFlashAttribute(Alert.ERROR, "Unable to update song position (reason: " + ex.getMessage() + ")!");
+        }
 
-		return "songs/list";
-	}
+        return "redirect:/albums/" + songDTO.getAlbum().getId();
+    }
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String detail(@PathVariable Long id, Model model, RedirectAttributes redir) {
-		log.info("Getting detail for song with id={}", id);
-		SongDTO songDTO = songFacade.getSongById(id);
+    @RequestMapping(value = "/")
+    public String list(@RequestParam(value = "genre", required = false) Long genreId, Model model) {
+        List<SongDTO> songDTOList;
+        if (genreId != null) {
+            log.info("Getting all songs for genreId={} for list", genreId);
+            GenreDTO genreDTO = genreFacade.getGenreById(genreId);
+            songDTOList = songFacade.getAllSongs().stream().filter(s -> s.getGenre().equals(genreDTO)).collect(Collectors.toList());
+        } else {
+            log.info("Getting all songs for list");
+            songDTOList = songFacade.getAllSongs();
+        }
+        model.addAttribute("songDTOList", songDTOList);
 
-		if (songDTO == null) {
-			log.error("Cannot find song with id={}", id);
-			redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + id + " not found in database");
-			return REDIRECT_SONGS;
-		} else {
-			log.info("Successfully get detail for song={}", songDTO);
-			model.addAttribute("songDTO", songDTO);
-		}
+        return "songs/list";
+    }
 
-		return "songs/detail";
-	}
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String detail(@PathVariable Long id, Model model, RedirectAttributes redir) {
+        log.info("Getting detail for song with id={}", id);
+        SongDTO songDTO = songFacade.getSongById(id);
 
-	@RequestMapping(value = "/add", method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('admin')")
-	public String add(Model model) {
-		log.info("Trying to create new song");
-		model.addAttribute("songForm", new SongCreateDTO());
-		model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
-		model.addAttribute("allAlbums", albumFacade.getAllAlbums());
-		model.addAttribute("allGenres", genreFacade.getAllGenres());
-		return "songs/add";
-	}
+        model.addAttribute("ratingForm", new SongRatingDTO());
+        model.addAttribute("ratingValues", SongRatingController.allowedValues());
+        model.addAttribute("ratings", songDTO.getRatings());
+        model.addAttribute("hasRated", songDTO.getRatings().stream()
+				.map(r -> r.getUser().getUsername())
+				.anyMatch(u -> u.equals(securityFacade.getLoggedInUsername())));
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@PreAuthorize("hasAuthority('admin')")
-	public String doAdd(@Valid @ModelAttribute("songForm") SongCreateDTO songCreateDTO, BindingResult bindingResult, RedirectAttributes redirect, Model model) {
+        if (songDTO == null) {
+            log.error("Cannot find song with id={}", id);
+            redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + id + " not found in database");
+            return REDIRECT_SONGS;
+        } else {
+            log.info("Successfully get detail for song={}", songDTO);
+            model.addAttribute("songDTO", songDTO);
+        }
 
-		if (bindingResult.hasErrors()) {
-			log.error("Validation of SongCreateDTO={} didn't pass. Returning to add new song", songCreateDTO);
-			model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
-			model.addAttribute("allAlbums", albumFacade.getAllAlbums());
-			model.addAttribute("allGenres", genreFacade.getAllGenres());
-			return "songs/add";
-		}
-		log.info("Successfully validated SongCreateDTO={}", songCreateDTO);
+        return "songs/detail";
+    }
 
-		Long id = songFacade.createSong(songCreateDTO);
+    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('admin')")
+    public String add(Model model) {
+        log.info("Trying to create new song");
+        model.addAttribute("songForm", new SongCreateDTO());
+        model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+        model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+        model.addAttribute("allGenres", genreFacade.getAllGenres());
+        return "songs/add";
+    }
 
-		log.info("Successfully created song with id={}", id);
-		redirect.addFlashAttribute(Alert.SUCCESS, "Song Successfully created");
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin')")
+    public String doAdd(@Valid @ModelAttribute("songForm") SongCreateDTO songCreateDTO, BindingResult bindingResult, RedirectAttributes redirect, Model model) {
 
-		return REDIRECT_SONGS;
-	}
+        if (bindingResult.hasErrors()) {
+            log.error("Validation of SongCreateDTO={} didn't pass. Returning to add new song", songCreateDTO);
+            model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+            model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+            model.addAttribute("allGenres", genreFacade.getAllGenres());
+            return "songs/add";
+        }
+        log.info("Successfully validated SongCreateDTO={}", songCreateDTO);
 
-	@RequestMapping(value = "/list/{id}/musician", method = RequestMethod.GET)
-	public String listForMusician(@PathVariable Long id, Model model, RedirectAttributes redir) {
-		MusicianDTO musicianDTO = musicianFacade.getMusicianById(id);
-		if (musicianDTO == null) {
-			redir.addFlashAttribute(Alert.ERROR, "Musician with #id=" + id + " not found in database");
-			return REDIRECT_SONGS;
-		}
+        Long id = songFacade.createSong(songCreateDTO);
 
-		List<SongDTO> songDTOList = songFacade.getSongsForMusician(musicianDTO);
-		model.addAttribute("songDTOList", songDTOList);
-		return "songs/listForMusician";
-	}
+        log.info("Successfully created song with id={}", id);
+        redirect.addFlashAttribute(Alert.SUCCESS, "Song Successfully created");
 
-	@RequestMapping(value = "/addSongToAlbum/", method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('admin')")
-	public String addSongToAlbum(@RequestParam(value = "songId", required = false) Long songId, @RequestParam(value = "albumId") Long albumId, RedirectAttributes redir) {
-		if (songFacade.getSongById(songId) == null) {
-			redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + songId + " not found in database");
-			return REDIRECT_SONGS;
-		}
-		if (albumFacade.getAlbumById(albumId) == null) {
-			redir.addFlashAttribute(Alert.ERROR, "Album with #id=" + albumId + " not found in database");
-			return REDIRECT_SONGS;
-		}
+        return REDIRECT_SONGS;
+    }
 
-		try {
-			songFacade.assignSongToAlbum(songId, albumId);
-		} catch (Exception ex) {
-			redir.addFlashAttribute(Alert.ERROR, "Cannot assign song #id=" + songId + " to album #id=" + albumId);
-			return REDIRECT_SONGS;
-		}
-		redir.addFlashAttribute(Alert.SUCCESS, "Song with #id=" + songId + " has been assigned to album #id=" + albumId);
-		return REDIRECT_SONGS;
-	}
+    @RequestMapping(value = "/list/{id}/musician", method = RequestMethod.GET)
+    public String listForMusician(@PathVariable Long id, Model model, RedirectAttributes redir) {
+        MusicianDTO musicianDTO = musicianFacade.getMusicianById(id);
+        if (musicianDTO == null) {
+            redir.addFlashAttribute(Alert.ERROR, "Musician with #id=" + id + " not found in database");
+            return REDIRECT_SONGS;
+        }
 
-	@RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('admin')")
-	public String delete(@PathVariable Long id, RedirectAttributes redir) {
-		log.info("Trzing to delete song with id={}", id);
-		if (songFacade.getSongById(id) == null) {
-			log.error("Song with id={} not found in database", id);
-			redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + id + " not found in database");
-			return REDIRECT_SONGS;
-		}
+        List<SongDTO> songDTOList = songFacade.getSongsForMusician(musicianDTO);
+        model.addAttribute("songDTOList", songDTOList);
+        return "songs/listForMusician";
+    }
 
-		try {
-			songFacade.deleteSong(id);
-			songFacade.deleteSong(id);
-			log.info("Song with id={} successfully deleted", id);
-			redir.addFlashAttribute(Alert.SUCCESS, "Song successfully deleted");
-			return REDIRECT_SONGS;
-		} catch (Exception ex) {
-			log.error("Song with id={} cannot be deleted", id);
-			redir.addFlashAttribute(Alert.ERROR, "Cannot delete Song with #id=" + id);
-			return REDIRECT_SONGS;
-		}
-	}
+    @RequestMapping(value = "/addSongToAlbum/", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('admin')")
+    public String addSongToAlbum(@RequestParam(value = "songId", required = false) Long songId, @RequestParam(value = "albumId") Long albumId, RedirectAttributes redir) {
+        if (songFacade.getSongById(songId) == null) {
+            redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + songId + " not found in database");
+            return REDIRECT_SONGS;
+        }
+        if (albumFacade.getAlbumById(albumId) == null) {
+            redir.addFlashAttribute(Alert.ERROR, "Album with #id=" + albumId + " not found in database");
+            return REDIRECT_SONGS;
+        }
 
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
-	@PreAuthorize("hasAuthority('admin')")
-	public String edit(@PathVariable Long id, Model model, RedirectAttributes redir) {
-		log.info("Trying to get song with id={} for edit", id);
-		SongDTO song = songFacade.getSongById(id);
+        try {
+            songFacade.assignSongToAlbum(songId, albumId);
+        } catch (Exception ex) {
+            redir.addFlashAttribute(Alert.ERROR, "Cannot assign song #id=" + songId + " to album #id=" + albumId);
+            return REDIRECT_SONGS;
+        }
+        redir.addFlashAttribute(Alert.SUCCESS, "Song with #id=" + songId + " has been assigned to album #id=" + albumId);
+        return REDIRECT_SONGS;
+    }
 
-		if (song == null) {
-			log.error("Cannot find song with id={} in database", id);
-			redir.addFlashAttribute(Alert.ERROR, "Song with id '" + id + "' not found in the database!");
-			return REDIRECT_SONGS;
-		}
+    @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('admin')")
+    public String delete(@PathVariable Long id, RedirectAttributes redir) {
+        log.info("Trzing to delete song with id={}", id);
+        if (songFacade.getSongById(id) == null) {
+            log.error("Song with id={} not found in database", id);
+            redir.addFlashAttribute(Alert.ERROR, "Song with #id=" + id + " not found in database");
+            return REDIRECT_SONGS;
+        }
 
-		SongCreateDTO s = new SongCreateDTO();
-		s.setId(song.getId());
-		s.setPosition(song.getPosition());
-		s.setBitrate(song.getBitrate());
-		s.setCommentary(song.getCommentary());
-		s.setTitle(song.getTitle());
-		s.setMusicianId(song.getMusician() == null ? null : song.getMusician().getId());
-		s.setAlbumId(song.getAlbum() == null ? null : song.getAlbum().getId());
-		s.setGenreId(song.getGenre() == null ? null : song.getGenre().getId());
+        try {
+            songFacade.deleteSong(id);
+            songFacade.deleteSong(id);
+            log.info("Song with id={} successfully deleted", id);
+            redir.addFlashAttribute(Alert.SUCCESS, "Song successfully deleted");
+            return REDIRECT_SONGS;
+        } catch (Exception ex) {
+            log.error("Song with id={} cannot be deleted", id);
+            redir.addFlashAttribute(Alert.ERROR, "Cannot delete Song with #id=" + id);
+            return REDIRECT_SONGS;
+        }
+    }
 
-		model.addAttribute("form", s);
-		model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
-		model.addAttribute("allAlbums", albumFacade.getAllAlbums());
-		model.addAttribute("allGenres", genreFacade.getAllGenres());
-		log.info("Successfully got song with id={} for edit", id);
-		return "songs/edit";
-	}
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
+    @PreAuthorize("hasAuthority('admin')")
+    public String edit(@PathVariable Long id, Model model, RedirectAttributes redir) {
+        log.info("Trying to get song with id={} for edit", id);
+        SongDTO song = songFacade.getSongById(id);
 
-	@RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
-	@PreAuthorize("hasAuthority('admin')")
-	public String doEdit(@PathVariable Long id, @Valid @ModelAttribute("form") SongCreateDTO songForm, BindingResult bindingResult, RedirectAttributes redir, Model model) {
-		if (bindingResult.hasErrors()) {
-			log.error("Validation of SongCreateDTO={} didn't pass. Returning to edit song with id={}", songForm, id);
-			model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
-			model.addAttribute("allAlbums", albumFacade.getAllAlbums());
-			model.addAttribute("allGenres", genreFacade.getAllGenres());
-			return "songs/edit";
-		}
-		log.info("Successfully validated SongCreateDTO={}", songForm);
+        if (song == null) {
+            log.error("Cannot find song with id={} in database", id);
+            redir.addFlashAttribute(Alert.ERROR, "Song with id '" + id + "' not found in the database!");
+            return REDIRECT_SONGS;
+        }
 
-		log.info("Trying to update song={}", songForm);
-		SongDTO song = songFacade.getSongById(id);
+        SongCreateDTO s = new SongCreateDTO();
+        s.setId(song.getId());
+        s.setPosition(song.getPosition());
+        s.setBitrate(song.getBitrate());
+        s.setCommentary(song.getCommentary());
+        s.setTitle(song.getTitle());
+        s.setMusicianId(song.getMusician() == null ? null : song.getMusician().getId());
+        s.setAlbumId(song.getAlbum() == null ? null : song.getAlbum().getId());
+        s.setGenreId(song.getGenre() == null ? null : song.getGenre().getId());
 
-		if (song == null) {
-			log.error("Cannot find song with id={} in database", id);
-			redir.addFlashAttribute(Alert.ERROR, "Song with id '" + id + "' not found in the database!");
-			return REDIRECT_SONGS;
-		}
+        model.addAttribute("form", s);
+        model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+        model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+        model.addAttribute("allGenres", genreFacade.getAllGenres());
+        log.info("Successfully got song with id={} for edit", id);
+        return "songs/edit";
+    }
 
-		try {
-			songFacade.updateSong(songForm);
-			log.info("Successfully updated song={}", songForm);
-			redir.addFlashAttribute(Alert.SUCCESS, "Successfully updated");
-		} catch (Exception ex) {
-			log.error("Unable to update song={} because: {}", song, ex);
-			redir.addFlashAttribute(Alert.ERROR, "Unable to update song (reason: " + ex.getMessage() + ")");
-		}
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.POST)
+    @PreAuthorize("hasAuthority('admin')")
+    public String doEdit(@PathVariable Long id, @Valid @ModelAttribute("form") SongCreateDTO songForm, BindingResult bindingResult, RedirectAttributes redir, Model model) {
+        if (bindingResult.hasErrors()) {
+            log.error("Validation of SongCreateDTO={} didn't pass. Returning to edit song with id={}", songForm, id);
+            model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
+            model.addAttribute("allAlbums", albumFacade.getAllAlbums());
+            model.addAttribute("allGenres", genreFacade.getAllGenres());
+            return "songs/edit";
+        }
+        log.info("Successfully validated SongCreateDTO={}", songForm);
 
-		return REDIRECT_SONGS + song.getId();
-	}
+        log.info("Trying to update song={}", songForm);
+        SongDTO song = songFacade.getSongById(id);
 
+        if (song == null) {
+            log.error("Cannot find song with id={} in database", id);
+            redir.addFlashAttribute(Alert.ERROR, "Song with id '" + id + "' not found in the database!");
+            return REDIRECT_SONGS;
+        }
 
-	@InitBinder
-	protected void initBinder(WebDataBinder binder) {
-		binder.addValidators(songPositionValidator);
-	}
+        try {
+            songFacade.updateSong(songForm);
+            log.info("Successfully updated song={}", songForm);
+            redir.addFlashAttribute(Alert.SUCCESS, "Successfully updated");
+        } catch (Exception ex) {
+            log.error("Unable to update song={} because: {}", song, ex);
+            redir.addFlashAttribute(Alert.ERROR, "Unable to update song (reason: " + ex.getMessage() + ")");
+        }
+
+        return REDIRECT_SONGS + song.getId();
+    }
+
+    @RequestMapping(value = "/{id}/rate", method = RequestMethod.POST)
+    @PreAuthorize("isAuthenticated()")
+    public String rate(@PathVariable Long id, @ModelAttribute("ratingForm") SongRatingDTO rating, RedirectAttributes redir) {
+        log.info("Trying to rate song with id={}", id);
+        SongDTO song = songFacade.getSongById(id);
+
+        if (song == null) {
+            redir.addFlashAttribute(Alert.ERROR, "Song with id '" + id + "' does not exist!");
+        } else {
+            try {
+                rating.setId(null);
+                rating.setSong(song);
+                rating.setUser(securityFacade.getLoggedInUser());
+                songRatingFacade.create(rating);
+                redir.addFlashAttribute(Alert.SUCCESS, "Successfully rated!");
+                log.info("Successfully rated song={}", song);
+            } catch (Exception ex) {
+                log.error("Unable to rate song={} with rating={}", song, rating);
+                ex.printStackTrace();
+                redir.addFlashAttribute(Alert.ERROR, "Unable to save rating (reason: " + ex.getMessage() + ")");
+            }
+        }
+
+        return REDIRECT_SONGS + id;
+    }
+
+    @RequestMapping(value = "/{id}/unrate", method = RequestMethod.GET)
+    @PreAuthorize("isAuthenticated()")
+    public String rate(@PathVariable Long id, RedirectAttributes redir) {
+        log.info("Trying to rate song with id={}", id);
+        SongDTO song = songFacade.getSongById(id);
+        if (song == null) {
+            redir.addFlashAttribute(Alert.ERROR, "Song with id '" + id + "' does not exist!");
+        } else {
+            String username = securityFacade.getLoggedInUsername();
+            boolean success = false;
+            for (SongRatingDTO rating : song.getRatings()) {
+                if (rating.getUser().getUsername().equals(username)) {
+                    try {
+                        songRatingFacade.delete(rating);
+                        redir.addFlashAttribute(Alert.SUCCESS, "Successfuly removed!");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        redir.addFlashAttribute(Alert.ERROR, "Unable to remove rating (reason: " + ex.getMessage() + ")");
+                    }
+                    success = true;
+                    break;
+                }
+            }
+
+            if (!success) {
+                redir.addFlashAttribute(Alert.ERROR, "Rating for this song was not found in database!");
+            }
+        }
+
+        return REDIRECT_SONGS + id;
+    }
+
+    @InitBinder(value = {"form", "songForm"})
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(songPositionValidator);
+    }
 
 }
