@@ -78,8 +78,8 @@
                 </div>
             </c:forEach>
         </div>
-
-        <div id="dialog-rating" title="Rate song" hidden="hidden">
+        <s:message code="song.rate" var="msg"/>
+        <div id="dialog-rating" title="${msg}" hidden="hidden">
             <c:url var="rate_action" value="/songs/${songDTO.id}/rate" />
             <form:form action="${rate_action}" method="POST" modelAttribute="ratingForm" class="form">
                 <s:bind path="rvalue">
