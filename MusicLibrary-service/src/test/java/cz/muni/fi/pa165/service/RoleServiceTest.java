@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.RoleDao;
 import cz.muni.fi.pa165.entity.Role;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.PersistenceException;
@@ -69,9 +70,9 @@ public class RoleServiceTest {
 		when(roleDao.findByName(role1.getName())).thenReturn(role1);
 		when(roleDao.findByName(role2.getName())).thenReturn(role2);
 
-		doThrow(PersistenceException.class).when(roleDao).create(role1);
-		doThrow(IllegalArgumentException.class).when(roleDao).create(null);
-		doThrow(IllegalArgumentException.class).when(roleDao).delete(null);
+		doThrow(DataAccessException.class).when(roleDao).create(role1);
+		doThrow(DataAccessException.class).when(roleDao).create(null);
+		doThrow(DataAccessException.class).when(roleDao).delete(null);
 
 		List<Role> roles = new ArrayList<Role>() {
 			{
@@ -119,13 +120,13 @@ public class RoleServiceTest {
 		verify(roleDao, times(1)).create(role3);
 	}
 
-	@Test(expectedExceptions = PersistenceException.class)
+	@Test(expectedExceptions = DataAccessException.class)
 	public void testCreateAlreadyExisting() {
 		service.create(role1);
 		verify(roleDao, times(1)).create(role1);
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test(expectedExceptions = DataAccessException.class)
 	public void testCreateNull() {
 		service.create(null);
 	}
@@ -136,7 +137,7 @@ public class RoleServiceTest {
 		verify(roleDao, times(1)).delete(role1);
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test(expectedExceptions = DataAccessException.class)
 	public void testDeleteNull() {
 		service.delete(null);
 	}

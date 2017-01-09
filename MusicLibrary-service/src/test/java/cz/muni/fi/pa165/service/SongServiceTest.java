@@ -9,6 +9,7 @@ import cz.muni.fi.pa165.dao.SongDao;
 import cz.muni.fi.pa165.entity.Album;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Song;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.PersistenceException;
@@ -88,9 +89,9 @@ public class SongServiceTest {
                 add(song2);
             }
         });
-        doThrow(PersistenceException.class).when(songDao).create(song1);
-        doThrow(IllegalArgumentException.class).when(songDao).create(null);
-        doThrow(IllegalArgumentException.class).when(songDao).delete(null);
+        doThrow(DataAccessException.class).when(songDao).create(song1);
+        doThrow(DataAccessException.class).when(songDao).create(null);
+        doThrow(DataAccessException.class).when(songDao).delete(null);
 
         List<Song> songs = new ArrayList<Song>() {
             {
@@ -138,13 +139,13 @@ public class SongServiceTest {
         verify(songDao, times(1)).create(song3);
     }
 
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateAlreadyExisting() {
         service.create(song1);
         verify(songDao, times(1)).create(song1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateNull() {
         service.create(null);
     }
@@ -155,7 +156,7 @@ public class SongServiceTest {
         verify(songDao, times(1)).delete(song1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteNull() {
         service.delete(null);
     }

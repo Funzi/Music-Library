@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.ArtDao;
 import cz.muni.fi.pa165.entity.Art;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import org.hibernate.PersistentObjectException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -61,9 +62,9 @@ public class ArtServiceTest {
 
         when(artDao.findById(art1.getId())).thenReturn(art1);
         when(artDao.findById(art2.getId())).thenReturn(art2);
-        doThrow(PersistenceException.class).when(artDao).create(art1);
-        doThrow(IllegalArgumentException.class).when(artDao).create(null);
-        doThrow(IllegalArgumentException.class).when(artDao).delete(null);
+        doThrow(DataAccessException.class).when(artDao).create(art1);
+        doThrow(DataAccessException.class).when(artDao).create(null);
+        doThrow(DataAccessException.class).when(artDao).delete(null);
 
     }
 
@@ -94,13 +95,13 @@ public class ArtServiceTest {
         verify(artDao, times(1)).create(art3);
     }
 
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateAlreadyExisting() {
         service.createArt(art1);
         verify(artDao, times(1)).create(art1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateNull() {
         service.createArt(null);
     }
@@ -111,7 +112,7 @@ public class ArtServiceTest {
         verify(artDao, times(1)).delete(art1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteNull() {
         service.deleteArt(null);
     }

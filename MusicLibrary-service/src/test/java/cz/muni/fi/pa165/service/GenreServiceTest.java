@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.GenreDao;
 import cz.muni.fi.pa165.entity.Genre;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.PersistenceException;
@@ -75,9 +76,9 @@ public class GenreServiceTest {
         when(genreDao.findById(genreJazz.getId())).thenReturn(genreJazz);
         when(genreDao.findAll()).thenReturn(genres);
         
-        doThrow(PersistenceException.class).when(genreDao).create(genreRock);
-        doThrow(IllegalArgumentException.class).when(genreDao).create(null);
-        doThrow(IllegalArgumentException.class).when(genreDao).delete(null);
+        doThrow(DataAccessException.class).when(genreDao).create(genreRock);
+        doThrow(DataAccessException.class).when(genreDao).create(null);
+        doThrow(DataAccessException.class).when(genreDao).delete(null);
     }
     
     @Test
@@ -112,13 +113,13 @@ public class GenreServiceTest {
         verify(genreDao, times(1)).create(genreJazz);
     }
     
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateAlreadyExisting() {
         assertEquals(genreRock, service.create(genreRock));
         verify(genreDao, times(1)).create(genreRock);
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void createNull() {
         service.create(null);
     }
@@ -129,7 +130,7 @@ public class GenreServiceTest {
         verify(genreDao, times(1)).delete(genreRock);
     }
     
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteNull() {
         service.delete(null);
     }

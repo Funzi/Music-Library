@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.config.PasswordStrengthValidator;
 import cz.muni.fi.pa165.config.ValidationReport;
 import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -96,9 +97,9 @@ public class UserServiceTest {
 		when(validator.validate(password)).thenReturn(report1);
 		when(validator.validate(wrongPassword)).thenReturn(report2);
 
-		doThrow(PersistenceException.class).when(userDao).create(user1);
-		doThrow(IllegalArgumentException.class).when(userDao).create(null);
-		doThrow(IllegalArgumentException.class).when(userDao).delete(null);
+		doThrow(DataAccessException.class).when(userDao).create(user1);
+		doThrow(DataAccessException.class).when(userDao).create(null);
+		doThrow(DataAccessException.class).when(userDao).delete(null);
 
 		List<User> users = new ArrayList<User>() {
 			{
@@ -147,13 +148,13 @@ public class UserServiceTest {
 		verify(userDao, times(1)).create(user3);
 	}
 
-	@Test(expectedExceptions = PersistenceException.class)
+	@Test(expectedExceptions = DataAccessException.class)
 	public void testCreateAlreadyExisting() {
 		service.create(user1);
 		verify(userDao, times(1)).create(user1);
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test(expectedExceptions = DataAccessException.class)
 	public void testCreateNull() {
 		service.create(null);
 	}
@@ -164,7 +165,7 @@ public class UserServiceTest {
 		verify(userDao, times(1)).delete(user1);
 	}
 
-	@Test(expectedExceptions = IllegalArgumentException.class)
+	@Test(expectedExceptions = DataAccessException.class)
 	public void testDeleteNull() {
 		service.delete(null);
 	}

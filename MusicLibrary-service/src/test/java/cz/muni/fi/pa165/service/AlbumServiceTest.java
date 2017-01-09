@@ -3,6 +3,7 @@ package cz.muni.fi.pa165.service;
 import cz.muni.fi.pa165.api.dto.AlbumDTO;
 import cz.muni.fi.pa165.dao.*;
 import cz.muni.fi.pa165.entity.*;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -151,9 +152,9 @@ public class AlbumServiceTest {
         };
         when(albumDao.findAll()).thenReturn(list);
 
-        doThrow(PersistenceException.class).when(albumDao).create(album1);
-        doThrow(IllegalArgumentException.class).when(albumDao).create(null);
-        doThrow(IllegalArgumentException.class).when(albumDao).delete(null);
+        doThrow(DataAccessException.class).when(albumDao).create(album1);
+        doThrow(DataAccessException.class).when(albumDao).create(null);
+        doThrow(DataAccessException.class).when(albumDao).delete(null);
 
     }
 
@@ -194,13 +195,13 @@ public class AlbumServiceTest {
         verify(albumDao, times(1)).create(album3);
     }
 
-    @Test(expectedExceptions = PersistenceException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateAlreadyExisting() {
         service.createAlbum(album1);
         verify(albumDao, times(1)).create(album3);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testCreateNull() {
         service.createAlbum(null);
     }
@@ -211,7 +212,7 @@ public class AlbumServiceTest {
         verify(albumDao, times(1)).delete(album1);
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = DataAccessException.class)
     public void testDeleteNull() {
         service.deleteAlbum(null);
     }
