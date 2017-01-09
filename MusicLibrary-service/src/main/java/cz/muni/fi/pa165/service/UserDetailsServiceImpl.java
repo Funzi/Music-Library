@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.HashSet;
 import java.util.Set;
 import javax.inject.Inject;
@@ -26,12 +27,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(username);
+		try {
+                    User user = userDao.findByUsername(username);
+                    Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+                    user.getRoles().forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
 
-		Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-		user.getRoles().forEach(r -> grantedAuthorities.add(new SimpleGrantedAuthority(r.getName())));
-
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+                    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
 	}
-
 }

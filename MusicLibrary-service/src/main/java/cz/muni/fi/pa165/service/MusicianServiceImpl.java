@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.MusicianDao;
 import cz.muni.fi.pa165.entity.Musician;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
@@ -18,33 +19,57 @@ public class MusicianServiceImpl implements MusicianService{
 
     @Override
     public List<Musician> findAll() {
-        return musicianDao.findAll();
+        try {
+            return musicianDao.findAll();
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public Musician findById(Long id) {
-        return musicianDao.findById(id);
+        try {
+            return musicianDao.findById(id);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
-	@Override
-	public Musician findByName(String name) {
-		return musicianDao.findByName(name);
-	}
+    @Override
+    public Musician findByName(String name) {
+        try {
+            return musicianDao.findByName(name);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
+    }
 
     @Override
     public Musician create(Musician musician) {
-        musicianDao.create(musician);
-		return musician;
+        try {
+            musicianDao.create(musician);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
+	return musician;
     }
 
     @Override
     public void update(Musician musician) {
-        musicianDao.update(musician);
+        try {
+            musicianDao.update(musician);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
     
     @Override
     public void delete(Musician musician) {
-        musicianDao.delete(musician);
+        try {
+            musicianDao.delete(musician);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
 }

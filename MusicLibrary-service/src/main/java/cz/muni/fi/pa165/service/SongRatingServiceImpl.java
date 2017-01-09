@@ -8,6 +8,7 @@ package cz.muni.fi.pa165.service;
 import cz.muni.fi.pa165.dao.SongRatingDao;
 import cz.muni.fi.pa165.entity.Song;
 import cz.muni.fi.pa165.entity.SongRating;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
@@ -25,40 +26,68 @@ public class SongRatingServiceImpl implements SongRatingService {
 
     @Override
     public SongRating create(SongRating rating) {
-        songRatingDao.create(rating);
+        try {
+            songRatingDao.create(rating);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
         return rating;
     }
 
     @Override
     public void delete(SongRating rating) {
-        songRatingDao.delete(rating);
+        try {
+            songRatingDao.delete(rating);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public void updateRating(SongRating rating, double newValue) {
         rating.setRvalue(newValue);
-        songRatingDao.update(rating);
+        try {
+            songRatingDao.update(rating);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public void updateComment(SongRating rating, String comment) {
         rating.setComment(comment);
-        songRatingDao.update(rating);
+        try {
+            songRatingDao.update(rating);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public SongRating findById(Long id) {
-        return songRatingDao.findById(id);
+        try {
+            return songRatingDao.findById(id);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public Double avgForSong(Song song, Date upTo) {
-        return songRatingDao.avg(song, upTo);
+        try {
+            return songRatingDao.avg(song, upTo);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public List<SongRating> findAll() {
-        return songRatingDao.findAll();
+        try {
+            return songRatingDao.findAll();
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
 }

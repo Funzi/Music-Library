@@ -4,6 +4,7 @@ import cz.muni.fi.pa165.config.PasswordStrengthValidator;
 import cz.muni.fi.pa165.config.ValidationReport;
 import cz.muni.fi.pa165.dao.UserDao;
 import cz.muni.fi.pa165.entity.User;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -30,29 +31,48 @@ public class UserServiceImpl implements UserService {
 		if (user != null) {
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		}
-		userDao.create(user);
+                try {
+                    userDao.create(user);
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
 	}
 
 	@Override
 	public void update(User user) {
-		userDao.update(user);
+                try {
+                    userDao.update(user);
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
 	}
 
 	@Override
 	public User findById(Long id) {
-		return userDao.findById(id);
+                try {
+                    return userDao.findById(id);
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
 	}
 
 	@Override
 	public void delete(User user) {
-		userDao.delete(user);
+                try {
+                    userDao.delete(user);
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
 	}
 
 	@Override
 	public List<User> findAll() {
-		return userDao.findAll();
-	}
-
+                try {
+                    return userDao.findAll();
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
+        }
 	@Override
 	public void changePassword(User user, String newPassword) {
 		ValidationReport report = passwordStrengthValidator.validate(newPassword);
@@ -61,12 +81,20 @@ public class UserServiceImpl implements UserService {
 		}
 
 		user.setPassword(bCryptPasswordEncoder.encode(newPassword));
-		userDao.update(user);
+                try {
+                    userDao.update(user);
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
 	}
 
 	@Override
 	public User findByUsername(String username) {
-		return userDao.findByUsername(username);
+                try {
+                    return userDao.findByUsername(username);
+                }catch(Exception e) {
+                    throw new DataAccessException(e);
+                }
 	}
 
 }

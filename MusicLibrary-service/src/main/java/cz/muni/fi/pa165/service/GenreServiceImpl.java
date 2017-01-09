@@ -7,6 +7,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.GenreDao;
 import cz.muni.fi.pa165.entity.Genre;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
@@ -23,27 +24,47 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public List<Genre> findAll() {
+        try {
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
         return genreDao.findAll();
     }
 
     @Override
     public Genre findById(Long id) {
+        try {
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
         return genreDao.findById(id);
     }
 
     @Override
     public Genre create(Genre genre) {
-        genreDao.create(genre);
+        try {
+            genreDao.create(genre);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
         return genre;
     }
 
     @Override
     public void delete(Genre genre) {
-        genreDao.delete(genre);
+        try {
+            genreDao.delete(genre);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public void updateGenre(Genre genre) {
-        genreDao.update(genre);
+        try {
+            genreDao.update(genre);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 }
