@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.service;
 
 import cz.muni.fi.pa165.dao.*;
 import cz.muni.fi.pa165.entity.*;
+import cz.muni.fi.pa165.exceptions.DataAccessException;
 import java.time.LocalDate;
 import java.util.List;
 import javax.inject.Inject;
@@ -38,120 +39,180 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public List<Album> findAllAlbums() {
-        return albumDao.findAll();
+        try {
+            return albumDao.findAll();
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }	
     }
 
     @Override
     public Album createAlbum(Album album) {
-        albumDao.create(album);
+        try {
+                albumDao.create(album);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }	
         return album;
     }
 
     @Override
     public void updateAlbum(Album album) {
-        albumDao.update(album);
+        try {
+            albumDao.update(album);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }	
     }
 
     @Override
     public void deleteAlbum(Album album) {
-        albumDao.delete(album);
+        try {
+                albumDao.delete(album);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }	
     }
 
     @Override
     public void changeCommentary(Album album, String newCommentary) {
-        Album alb = albumDao.findById(album.getId());
-        alb.setCommentary(newCommentary);
-        albumDao.update(alb);
+        try {
+            Album alb = albumDao.findById(album.getId());
+            alb.setCommentary(newCommentary);
+            albumDao.update(alb);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }	
+        
     }
 
     @Override
     public List<Album> findAlbumsByMusicianId(Long musicianId) {
-        return albumDao.findAlbumByMusicianId(musicianId);
+        try {
+            return albumDao.findAlbumByMusicianId(musicianId);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public List<Album> findAlbumsByReleaseDates(LocalDate from, LocalDate to) {
-        return albumDao.findAlbumsByReleaseDates(from, to);
+        try {
+            return albumDao.findAlbumsByReleaseDates(from, to);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public List<Album> findAlbumsByPartialTitle(String partialTitle) {
-        return albumDao.findAlbumsByPartialTitle(partialTitle);
+        try {
+            return albumDao.findAlbumsByPartialTitle(partialTitle);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 
     @Override
     public Album createOrUpdateEverything(Album album) {
-        if (album.getArt() != null) {
+        try {
+            if (album.getArt() != null) {
             createOrUpdateArt(album.getArt());
-        }
+            }
 
-        if (album.getId() != null) {
-            albumDao.update(album);
-        } else {
-            albumDao.create(album);
-        }
+            if (album.getId() != null) {
+                albumDao.update(album);
+            } else {
+                albumDao.create(album);
+            }
 
-        if (album.getRatings() != null && !album.getRatings().isEmpty()) {
-            album.getRatings().forEach(this::createOrUpdateAlbumRating);
-        }
+            if (album.getRatings() != null && !album.getRatings().isEmpty()) {
+                album.getRatings().forEach(this::createOrUpdateAlbumRating);
+            }
 
-        if (album.getSongs() != null && !album.getSongs().isEmpty()) {
-            album.getSongs().forEach(this::createOrUpdateSong);
+            if (album.getSongs() != null && !album.getSongs().isEmpty()) {
+                album.getSongs().forEach(this::createOrUpdateSong);
+            }
+        }catch(Exception e) {
+            throw new DataAccessException(e);
         }
-
         return album;
     }
 
     private void createOrUpdateSong(Song song) {
-        if (song.getGenre() != null) {
+        try {
+            if (song.getGenre() != null) {
             createOrUpdateGenre(song.getGenre());
-        }
+            }
 
-        if (song.getMusician() != null) {
-            createOrUpdateMusician(song.getMusician());
-        }
+            if (song.getMusician() != null) {
+                createOrUpdateMusician(song.getMusician());
+            }
 
-        if (song.getId() != null) {
-            songDao.update(song);
-        } else {
-            songDao.create(song);
+            if (song.getId() != null) {
+                songDao.update(song);
+            } else {
+                songDao.create(song);
+            }
+        }catch(Exception e) {
+            throw new DataAccessException(e);
         }
     }
 
     private void createOrUpdateMusician(Musician musician) {
-        if (musician.getId() != null) {
+        try {
+            if (musician.getId() != null) {
             musicianDao.update(musician);
-        } else {
-            musicianDao.create(musician);
+            } else {
+                musicianDao.create(musician);
+            }
+        }catch(Exception e) {
+            throw new DataAccessException(e);
         }
     }
 
     private void createOrUpdateGenre(Genre genre) {
-        if (genre.getId() != null) {
+        try {
+            if (genre.getId() != null) {
             genreDao.update(genre);
-        } else {
-            genreDao.create(genre);
+            } else {
+                genreDao.create(genre);
+            }
+        }catch(Exception e) {
+            throw new DataAccessException(e);
         }
     }
 
     private void createOrUpdateAlbumRating(AlbumRating ar) {
-        if (ar.getId() != null) {
+        try {
+            if (ar.getId() != null) {
             albumRatingDao.update(ar);
-        } else {
-            albumRatingDao.create(ar);
+            } else {
+                albumRatingDao.create(ar);
+            }
+        }catch(Exception e) {
+            throw new DataAccessException(e);
         }
     }
 
     private void createOrUpdateArt(Art art) {
-        if (art.getId() != null) {
+        try {
+            if (art.getId() != null) {
             artDao.update(art);
-        } else {
-            artDao.create(art);
+            } else {
+                artDao.create(art);
+            }
+        }catch(Exception e) {
+            throw new DataAccessException(e);
         }
     }
 
     @Override
     public List<Album> getAlbums(List<Long> musicians, List<Long> genres) {
-        return albumDao.getAlbums(musicians, genres);
+        try {
+            return albumDao.getAlbums(musicians, genres);
+        }catch(Exception e) {
+            throw new DataAccessException(e);
+        }
     }
 }
