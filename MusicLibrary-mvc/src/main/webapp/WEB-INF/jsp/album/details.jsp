@@ -83,7 +83,7 @@
         <div>
             <p class="pull-right">
                 <sec:authorize access="hasAuthority('admin')">
-                    <my:a href="/songs/add?album=${album.id}"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="album.add_new"/></button></my:a>&nbsp;&nbsp;
+                    <my:a href="/songs/add?album=${album.id}"><button type="button" class="btn btn-primary btn-sm"><fmt:message key="song.add_new"/></button></my:a>&nbsp;&nbsp;
                 </sec:authorize>
             </p>
             <h2><fmt:message key="songs"/></h2>
@@ -92,6 +92,7 @@
                     <th>#</th>
                     <th><fmt:message key="song.attribute.title"/></th>
                     <th><fmt:message key="song.attribute.musician"/></th>
+                    <th width="200"> <fmt:message key="song.attribute.rating"/></th>
                         <sec:authorize access="hasAuthority('admin')">
                         <th width="75" align="center"><fmt:message key="musician.actions"/></th>
                         </sec:authorize>
@@ -102,6 +103,7 @@
                             <td><c:out value="${s.position}" /></td>
                             <td><c:out value="${s.title}" /></td>
                             <td><my:musician musician="${s.musician}" /></td>
+                            <td><my:rating rating="${s.avgRating}" includeValue="true" /></td>
                             <sec:authorize access="hasAuthority('admin')">
                                 <td align="center"><my:a href="/songs/${s.id}/edit"><img src="<c:url value="/images/pencil.png" />" title="Edit" alt="Edit" /></my:a>&nbsp;<my:a href="javascript:positionDialog(${s.id});"><img src="<c:url value="/images/arrow_updown.png" />" title="Update position" alt="Update position" /></my:a>&nbsp;<my:a href="/songs/${s.id}/delete" data-confirm="Are you sure to delete this song?"><img src="<c:url value="/images/delete.png" />" title="Delete" alt="Delete" /></my:a></td>
                                 </sec:authorize>

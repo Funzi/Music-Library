@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <th><fmt:message key="attributes.rating"/></th>
-                    <td><my:rating rating="${song.avgRating}" includeValue="true" /></td>
+                    <td><my:rating rating="${songDTO.avgRating}" includeValue="true" /></td>
                 </tr>
                 <c:if test="${songDTO.commentary != null}">
                     <tr>

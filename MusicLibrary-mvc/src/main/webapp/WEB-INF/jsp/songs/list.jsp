@@ -10,7 +10,7 @@
 <my:pagetemplate title="${msg}">
     <jsp:attribute name="body">
         <sec:authorize access="hasAuthority('admin')">
-           <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="button.addnew"/></button></my:a>          
+           <my:a href="/songs/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="button.addnew"/></button></my:a>
         </sec:authorize>
         <table class="table table-striped">
             <tr>
@@ -18,6 +18,7 @@
                 <th><fmt:message key="song.attribute.musician"/></th>
                 <th><fmt:message key="song.attribute.album"/></th>
                 <th><fmt:message key="song.attribute.genre"/></th>
+                <th width="200"> <fmt:message key="song.attribute.rating"/></th>
                 <sec:authorize access="hasAuthority('admin')">
                     <th width="75" align="center"><fmt:message key="form.actions"/></th>
                 </sec:authorize>
@@ -28,6 +29,7 @@
                     <td><c:out value="${s.musician.name}"/></td>
                     <td><c:out value="${s.album.title}"/></td>
                     <td><c:out value="${s.genre.name}"/></td>
+                    <td><my:rating rating="${s.avgRating}" includeValue="true" /></td>
                     <sec:authorize access="hasAuthority('admin')">
                     <td align="center">
                         <s:message code="song.delete.confirm" var="msg"/>

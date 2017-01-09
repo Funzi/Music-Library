@@ -121,9 +121,13 @@ public class SongController {
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     @PreAuthorize("hasAuthority('admin')")
-    public String add(Model model) {
-        log.info("Trying to create new song");
-        model.addAttribute("songForm", new SongCreateDTO());
+    public String add(@RequestParam(value = "album", required = false) Long albumId, Model model) {
+        log.info("Showing create new song form");
+
+		SongCreateDTO form = new SongCreateDTO();
+		form.setAlbumId(albumId);
+
+        model.addAttribute("songForm", form);
         model.addAttribute("allMusicians", musicianFacade.getAllMusicians());
         model.addAttribute("allAlbums", albumFacade.getAllAlbums());
         model.addAttribute("allGenres", genreFacade.getAllGenres());

@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.entity.Genre;
 import cz.muni.fi.pa165.entity.Musician;
 import cz.muni.fi.pa165.entity.Role;
 import cz.muni.fi.pa165.entity.Song;
+import cz.muni.fi.pa165.entity.SongRating;
 import cz.muni.fi.pa165.entity.User;
 import cz.muni.fi.pa165.service.AlbumRatingService;
 import cz.muni.fi.pa165.service.AlbumService;
@@ -14,6 +15,7 @@ import cz.muni.fi.pa165.service.ArtService;
 import cz.muni.fi.pa165.service.GenreService;
 import cz.muni.fi.pa165.service.MusicianService;
 import cz.muni.fi.pa165.service.RoleService;
+import cz.muni.fi.pa165.service.SongRatingService;
 import cz.muni.fi.pa165.service.SongService;
 import cz.muni.fi.pa165.service.UserService;
 import java.io.ByteArrayOutputStream;
@@ -58,6 +60,8 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 	@Autowired
     private SongService songService;
 	@Autowired
+    private SongRatingService songRatingService;
+	@Autowired
     private UserService userService;
 
     @Override
@@ -82,10 +86,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		Album sirenCharms = album("Siren Charms", null, LocalDate.parse("2014-09-05"), sirenCharmsArt);
 		Album myMix = album("My mix", "best mix 4ever", LocalDate.now(), null);
 
-		AlbumRating loadHonza = albumRating(load, honza, 1.3, null);
-		AlbumRating loadPepa = albumRating(load, pepa, 2.8, "One of the top albums from Metallica. Really love it!");
+		AlbumRating loadHonza = albumRating(load, honza, 1.5, null);
+		AlbumRating loadPepa = albumRating(load, pepa, 2.5, "One of the top albums from Metallica. Really love it!");
 		AlbumRating sirenCharmsHonza = albumRating(sirenCharms, honza, 3.5, "The best live performance I have ever seen");
-		AlbumRating sirenCharmsPepa = albumRating(sirenCharms, pepa, 3.8, null);
+		AlbumRating sirenCharmsPepa = albumRating(sirenCharms, pepa, 4.0, null);
 
 		Song aintMyBitch = song("Ain't My Bitch", load, metallica, 1, rock, null);
 		Song twoXFour = song("2 X 4", load, metallica, 2, rock, null);
@@ -96,6 +100,10 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		Song aintMyBitch2 = song("Ain't My Bitch", myMix, metallica, 1, rock, null);
 		Song theHouseJackBuilt2 = song("The House Jack Build", myMix, metallica, 3, rock, null);
 		Song paralyzed2 = song("Paralyzed", myMix, inFlames, 2, metal, null);
+
+		SongRating twoXFourHonza = songRating(twoXFour, honza, 4.5, "Nice song");
+		SongRating paralyzedHonza = songRating(paralyzed, honza, 1.5, "Not my favourite");
+		SongRating twoXFourPepa = songRating(twoXFour, pepa, 2.0, null);
     }
 
 	private Album album(String title, String commentary, LocalDate releaseDate, Art art) {
@@ -173,6 +181,18 @@ public class SampleDataLoadingFacadeImpl implements SampleDataLoadingFacade {
 		songService.create(song);
 
 		return song;
+	}
+
+	private SongRating songRating(Song song, User user, double rvalue, String comment) {
+		SongRating rating = new SongRating();
+		rating.setSong(song);
+		rating.setRvalue(rvalue);
+		rating.setUser(user);
+		rating.setComment(comment);
+
+		songRatingService.create(rating);
+
+		return rating;
 	}
 
 	private User user(String username, String name, String password, Role... roles) {

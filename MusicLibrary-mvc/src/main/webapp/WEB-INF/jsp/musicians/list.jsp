@@ -12,7 +12,7 @@
     <sec:authorize access="hasAuthority('admin')">
             <my:a href="/musicians/add"><button type="button" style="margin-bottom: 20px;" class="btn btn-primary btn-sm pull-right"><fmt:message key="musician.add_new"/></button></my:a>
       </sec:authorize>
-        
+
     <table class="table table-striped">
             <tr>
                 <th><fmt:message key="musician.name"/></th>
@@ -25,8 +25,7 @@
             <c:forEach items="${musicians}" var="m">
                 <tr>
                     <td><c:out value="${m.name}"/></td>
-                    <td><p><fmt:message key="musician.avg_rating_message"/>&nbsp<fmt:formatNumber type="number" 
-                        maxFractionDigits="2" value="${m.avgAlbumRating}" />&nbsp<fmt:message key="musician.stars"/></p></td>
+                    <td><my:rating rating="${m.avgAlbumRating}" includeValue="true" /></td>
                     <td>[<my:a href="/musicians/${m.id}"><fmt:message key="musician.show_albums"/></my:a>]</td>
                     <sec:authorize access="hasAuthority('admin')">
                     <td align="center">
