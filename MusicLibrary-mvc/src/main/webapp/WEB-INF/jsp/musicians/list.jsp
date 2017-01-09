@@ -16,7 +16,7 @@
     <table class="table table-striped">
             <tr>
                 <th><fmt:message key="musician.name"/></th>
-                <th><fmt:message key="album.rating"/></th>
+                <th><fmt:message key="musician.rating"/></th>
                 <th><fmt:message key="albums"/></th>
                 <sec:authorize access="hasAuthority('admin')">
                     <th width="75" align="center"><fmt:message key="form.actions"/></th>
